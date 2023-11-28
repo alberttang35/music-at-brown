@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./styles/App.css";
+import HOMEPAGE from "./homepage";
 
 // APP
   // - homepage.tsx 
@@ -12,7 +13,12 @@ import "./styles/App.css";
     // - events.tsx
 
 function App() {
-  return <div className="App">Music@Brown</div>;
+  return (
+    <div className="App">
+      <h1>Music@Brown</h1>
+      <HOMEPAGE/>
+    </div>
+  );
 
 }
 
