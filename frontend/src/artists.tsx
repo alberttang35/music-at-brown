@@ -3,18 +3,17 @@
 // - have a backend api call to fetch most RECENT entries from the database. mock for now
 
 import { Dispatch, SetStateAction } from "react";
+import { Artist } from "./types";
 
 
-export interface artists {
-  artists: String[];
-  setArtists: Dispatch<SetStateAction<String[]>>;
-
-  artistInfo: String[][];
-  setArtistInfo: Dispatch<SetStateAction<String[][]>>;
+export interface Artists {
+  artists: Artist[];
+  setArtists: Dispatch<SetStateAction<Artist[]>>;
 }
 
-export default function artists() {
+export default function Artists(artists: Artists) {
 
-  
-  return <div></div>;
+  return <div>
+
+  </div>;
 }

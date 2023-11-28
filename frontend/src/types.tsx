@@ -9,4 +9,11 @@ export type ArtistEntry = {
     command: string;
     output: ArtistContent;
 };
+
+export type Artist = {
+    name: string;
+    links: string;
+    image: string;
+    bio: string;
+}
   
