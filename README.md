@@ -1,1 +1,0 @@
-# term-project-hkmin-jelias7-nhkim-atang44-
