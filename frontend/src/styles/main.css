@@ -40,3 +40,8 @@ button {
   justify-content: center;
   font-weight: bold;
 }
+
+.user-login {
+  width: 64px;
+  height: 64px;
+}
