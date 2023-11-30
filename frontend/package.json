@@ -14,7 +14,6 @@
     "@heroicons/react": "^2.0.18",
     "@heroicons/vue": "^2.0.18",
     "@mui/material": "^5.14.17",
-    "@spotify/web-api-ts-sdk": "^1.1.2",
     "mapbox-gl": "^2.15.0",
     "playwright": "^1.39.0",
     "react": "^18.2.0",
