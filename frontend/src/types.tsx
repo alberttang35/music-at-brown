@@ -17,11 +17,10 @@ export type Artist = {
     bio: string;
 }
 
-export type Event = {
-    name: string;
-    data: string;
-    image: string;
-    location: string;
-    link: string;
+export type EventEntry = {
+    artist: string;
+    image: string; 
+    venue: string; 
+    date: string; 
 }
   
