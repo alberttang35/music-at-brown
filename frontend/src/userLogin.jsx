@@ -42,10 +42,7 @@ export default function UserLogin({ topGenres, setTopGenres }) {
       const now = new Date();
       const expiry = new Date(now.getTime() + expires_in * 1000);
       localStorage.setItem("expires", expiry);
-      console.log(currentToken);
-      setTimeout(function () {
-        getUserData().then((r) => setIconURL[0].url);
-      }, 1000);
+      getUserData().then((r) => setIconURL(r.images[0].url)); // works, but slight delay, what to do
     },
   };
 
@@ -73,7 +70,7 @@ export default function UserLogin({ topGenres, setTopGenres }) {
   var userData;
   // If we have a token, we're logged in, so fetch user data and render logged in template
   if (currentToken.access_token) {
-    console.log("this is being triggered");
+    // console.log("this is being triggered");
     getUserData().then((r) => setIconURL(r.images[0].url));
     // renderTemplate("main", "logged-in-template", userData);
     // renderTemplate("oauth", "oauth-template", currentToken);
@@ -210,19 +207,18 @@ export default function UserLogin({ topGenres, setTopGenres }) {
       logoutClick();
     } else {
       loginWithSpotifyClick();
-      console.log("hi!");
     }
   }
 
-  useEffect(() => {
-    console.log("getting here");
-    console.log(currentToken.access_token);
-    // I think it should be a useEffect, but I can't get this to work
-    if (currentToken.access_token) {
-      console.log("hi");
-      getUserData().then((r) => setIconURL(r.images[0].url));
-    }
-  }, [currentToken]);
+  // useEffect(() => {
+  //   // console.log("getting here");
+  //   // console.log(currentToken.access_token);
+  //   // I think it should be a useEffect, but I can't get this to work
+  //   if (currentToken.access_token) {
+  //     console.log("hi");
+  //     getUserData().then((r) => setIconURL(r.images[0].url));
+  //   }
+  // }, [currentToken]);
 
   // async function refreshTokenClick() {
   //   const token = await refreshToken();
