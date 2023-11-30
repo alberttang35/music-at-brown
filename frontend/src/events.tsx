@@ -4,6 +4,7 @@
 
 import { Dispatch, SetStateAction } from "react";
 import { EventEntry } from "./types";
+import NavigationButton from "./NavigationButton";
 
 export interface Events {
   events: EventEntry[];
@@ -13,6 +14,7 @@ export interface Events {
 
 export default function Events({events}: Events) {
   <div className="events">
+      <NavigationButton to= "/eventsAll"/>
       <ul className="divide-y divide-gray-200">
         {events.map((event, index) => (
           <div key={index}>

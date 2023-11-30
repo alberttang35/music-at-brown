@@ -1,12 +1,12 @@
-import {NavLink, To} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 
 export interface NavigationButton{
-    to: String;
+    to: string;
 }
 
-const NavigationButton = ({to} : string) => {
+const NavigationButton = ({to} : NavigationButton) => {
     return (
-      <NavLink to= {to}>
+      <NavLink to={to}>
         <button>
           Show all
         </button>
