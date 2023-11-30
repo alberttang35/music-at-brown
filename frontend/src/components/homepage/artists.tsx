@@ -1,15 +1,15 @@
-// top level function for event display
+// top level function for artist display
 // - should have some sort of state storing the currently uploaded profiles etc.
 // - have a backend api call to fetch most RECENT entries from the database. mock for now
 
 import { Dispatch, SetStateAction } from "react";
-import { EventEntry } from "./types";
+import { Artist } from "../types/types";
 
-export interface Events {
-  events: Event[];
-  setEvents: Dispatch<SetStateAction<Event[]>>;
+export interface Artists {
+  artists: Artist[];
+  setArtists: Dispatch<SetStateAction<Artist[]>>;
 }
 
-export default function Events() {
+export default function Artists(artists: Artists) {
   return <div></div>;
 }
