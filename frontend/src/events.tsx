@@ -11,5 +11,8 @@ export interface Events {
 }
 
 export default function Events() {
-  return <div></div>;
+  return <div>
+    <h1>Events</h1>
+    
+  </div>;
 }
