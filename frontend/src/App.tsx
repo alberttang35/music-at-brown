@@ -17,6 +17,7 @@ function App() {
   return (
     <div className="App">
       <h1>Music@Brown</h1>
+      <HOMEPAGE />
       <HOMEPAGE></HOMEPAGE>
     </div>
   );
