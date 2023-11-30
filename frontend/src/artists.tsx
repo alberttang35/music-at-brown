@@ -6,10 +6,13 @@ import { Dispatch, SetStateAction } from "react";
 import { Artist } from "./types";
 
 
+
 export interface Artists {
   artists: Artist[];
   setArtists: Dispatch<SetStateAction<Artist[]>>;
 }
+
+
 
 export default function Artists({artists}: Artists) {
   <div className="events">

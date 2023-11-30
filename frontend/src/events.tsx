@@ -10,6 +10,7 @@ export interface Events {
   setEvents: Dispatch<SetStateAction<EventEntry[]>>;
 }
 
+
 export default function Events({events}: Events) {
   <div className="events">
       <ul className="divide-y divide-gray-200">
