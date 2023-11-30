@@ -4,6 +4,7 @@
 
 import { Dispatch, SetStateAction } from "react";
 import { Artist } from "./types";
+import NavigationButton from "./NavigationButton";
 
 
 
@@ -15,7 +16,8 @@ export interface Artists {
 
 
 export default function Artists({artists}: Artists) {
-  <div className="events">
+  <div className="Artists">
+     <NavigationButton to= "/artistsAll"/>
       <ul className="divide-y divide-gray-200">
         {artists.map((event, index) => (
           <div key={index}>

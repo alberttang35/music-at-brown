@@ -1,10 +1,14 @@
-import {NavLink} from "react-router-dom";
+import {NavLink, To} from "react-router-dom";
 
-const NavigationButton = ({to, label}) => {
+export interface NavigationButton{
+    to: String;
+}
+
+const NavigationButton = ({to} : string) => {
     return (
-      <NavLink to={to} activeClassName = "active-link">
+      <NavLink to= {to}>
         <button>
-          {label}
+          Show all
         </button>
       </NavLink>
     );
