@@ -9,7 +9,7 @@ import { useState } from "react";
 //   WeeklyBreakDownHistory: EventEntry[];
 // }
 
-// function for homepage 
+// function for homepage
 export default function HOMEPAGE() {
 
     const [weeklyBreakDownHistory, setWeeklyBreakDownHistory] = useState<EventEntry[]>([]);
