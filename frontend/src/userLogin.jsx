@@ -17,6 +17,7 @@ export default function UserLogin({ topGenres, setTopGenres }) {
   const tokenEndpoint = "https://accounts.spotify.com/api/token";
   const scope = "user-top-read user-read-private user-read-email";
   const [iconURL, setIconURL] = useState("");
+  const genreMap = new Map();
 
   // Data structure that manages the current active token, caching it in localStorage
   const currentToken = {
@@ -183,11 +184,36 @@ export default function UserLogin({ topGenres, setTopGenres }) {
 
   async function userTopGenres() {
     const response = await getUserTopArtists();
+    // console.log(response);
     var usersTopGenres = [];
     response.items.forEach((item) => {
       usersTopGenres = [...usersTopGenres, ...item.genres];
     });
     setTopGenres(usersTopGenres);
+  }
+
+  function setGenreMap() {
+    topGenres.forEach((genre) => {
+      if (genreMap.has(genre)) {
+        const newVal = genreMap.get(genre) + 1;
+        genreMap.set(genre, newVal);
+      } else {
+        genreMap.set(genre, 1);
+      }
+    });
+  }
+
+  async function userRecommend() {
+    // not sure what this api call does
+    // ohhh could use this call in conjunction with get recommendations to generalize your top genres
+    const response = await fetch(
+      "https://api.spotify.com/v1/recommendations/available-genre-seeds",
+      {
+        method: "GET",
+        headers: { Authorization: "Bearer " + currentToken.access_token },
+      }
+    );
+    return await response.json();
   }
 
   // Click handlers
@@ -253,6 +279,19 @@ export default function UserLogin({ topGenres, setTopGenres }) {
       <button onClick={async () => userTopGenres()}>get top artists</button>
       <div></div>
       <button onClick={async () => console.log(topGenres)}>press me</button>
+      <div></div>
+      <button onClick={async () => userRecommend().then((r) => console.log(r))}>
+        get available genre seeds
+      </button>
+      <div></div>
+      <button
+        onClick={async () => {
+          setGenreMap();
+          console.log(genreMap);
+        }}
+      >
+        {" peep this cool map "}
+      </button>
     </div>
   );
 }
