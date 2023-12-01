@@ -3,29 +3,31 @@
 // - have a backend api call to fetch most RECENT entries from the database. mock for now
 
 import { Dispatch, SetStateAction } from "react";
-import { EventEntry } from "./types";
-import NavigationButton from "./NavigationButton";
+import { EventEntry } from "../types/types";
+import NavigationButton from "../../NavigationButton";
+import { mockEvents1 } from "../mocks/mockEvents";
 
 export interface Events {
   events: EventEntry[];
-  setEvents: Dispatch<SetStateAction<EventEntry[]>>;
+  //setEvents: Dispatch<SetStateAction<EventEntry[]>>;
 }
 
 
 export default function Events({events}: Events) {
+  return (
   <div className="events">
-      <NavigationButton to= "/eventsAll"/>
-      <ul className="divide-y divide-gray-200">
-        {events.map((event, index) => (
+      <NavigationButton to = "/eventsAll" label = "Show All"/>
+      <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-7">
+        {mockEvents1.map((event, index) => (
           <div key={index}>
             {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
-            <li key={index} className="py-4 flex">
+            <li key={index} className="h-60 w-45 shadow-xl rounded-xl">
               <img
-                className="h-10 w-10 rounded-full"
+                className="aspect-video w-45 object-cover object-center rounded-t-xl"
                 src={event.image}
                 alt=""
               />
-              <div className="ml-3">
+              <div className="ml-3 h-10 w-45">
               <p className="text-sm font-medium text-gray-900">
                   {event.artist}
                 </p>
@@ -39,5 +41,5 @@ export default function Events({events}: Events) {
         ))}
       </ul>
     </div>
-  ;
+  );
 }

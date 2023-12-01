@@ -1,20 +1,27 @@
-// App.js
+// CustomRouter.tsx
+import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import HOMEPAGE from "./components/homepage/homepage";
+import { Artist, EventEntry } from "./components/types/types";
+import EventsAll from "./eventsAll";
+import ArtistsAll from "./artistsAll";
 
-import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import eventsAll from "./eventsAll";
-import artistsAll from "./artistsAll";
-
-const App = () => {
+const CustomRouter = () => {
+  const [artistsAll, setartistsAll] = useState<
+  Artist[]
+>([]);
+const [eventsAll, seteventsAll] = useState<
+  EventEntry[]
+>([]);
   return (
     <Router>
-      <Switch>
-        <Route path="/" exact component={Home} />
-        <Route path="/eventsAll" Component={eventsAll} />
-        <Route path="/artistsAll" Component={artistsAll} />
-      </Switch>
+      <Routes>
+        <Route path="/" element={<HOMEPAGE />} />
+        <Route path="/eventsAll" element={<EventsAll events={eventsAll} />} />
+        <Route path="/artistsAll" element={<ArtistsAll artists={artistsAll} />} />
+      </Routes>
     </Router>
   );
 };
 
-export default App;
+export default CustomRouter;

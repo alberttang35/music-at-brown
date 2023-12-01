@@ -1,22 +1,25 @@
 import { Dispatch, SetStateAction } from "react";
-import { Artist } from "./types";
-
-
+import { Artist } from "./components/types/types";
+import NavigationButton from "./NavigationButton";
+import { mockArtists1 } from "./components/mocks/mockArtists";
+import { mock } from "node:test";
 
 export interface ArtistsAll {
   artists: Artist[];
-  setArtists: Dispatch<SetStateAction<Artist[]>>;
+  //setArtists: Dispatch<SetStateAction<Artist[]>>;
 }
 
 
 
 export default function ArtistsAll({artists}: ArtistsAll) {
+    return(
   <div className="ArtistsAll">
-      <ul className="divide-y divide-gray-200">
-        {artists.map((event, index) => (
+    <NavigationButton to = "/" label = "Go To Homepage"/>
+    <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-7">
+        {mockArtists1.map((event, index) => (
           <div key={index}>
             {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
-            <li key={index} className="py-4 flex">
+            <li key={index} className="h-45 w-45 shadow-xl rounded-xl">
               <img
                 className="h-10 w-10 rounded-full"
                 src={event.image}
@@ -36,5 +39,5 @@ export default function ArtistsAll({artists}: ArtistsAll) {
         ))}
       </ul>
     </div>
-  ;
+  );
 }

@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+
+// interface UserLoginProps {
+//   usersTopGenres: string[];
+//   setUsersTopGenres: Dispatch<SetStateAction<string[]>>;
+// } type of props
 
 // features:
 // 1. input box for spotify login
 // * this component should (probably) have some sort of api call to backend as well, maybe involved with database
-export default function UserLogin() {
+export default function UserLogin({ topGenres, setTopGenres }) {
   // login code from: https://github.com/Pineapples/spotify-web-api-auth-example-ts
   const clientId = "2168cb3e26e643c7b91076ee7a797081"; // your clientId
   const redirectUrl = "http://localhost:5173"; // your redirect URL - must be localhost URL and/or HTTPS
 
   const authorizationEndpoint = "https://accounts.spotify.com/authorize";
   const tokenEndpoint = "https://accounts.spotify.com/api/token";
-  const scope = "user-read-private user-read-email";
+  const scope = "user-top-read user-read-private user-read-email";
   const [iconURL, setIconURL] = useState("");
 
   // Data structure that manages the current active token, caching it in localStorage
@@ -37,6 +42,7 @@ export default function UserLogin() {
       const now = new Date();
       const expiry = new Date(now.getTime() + expires_in * 1000);
       localStorage.setItem("expires", expiry);
+      getUserData().then((r) => setIconURL(r.images[0].url)); // works, but slight delay, what to do
     },
   };
 
@@ -64,7 +70,8 @@ export default function UserLogin() {
   var userData;
   // If we have a token, we're logged in, so fetch user data and render logged in template
   if (currentToken.access_token) {
-    getUserData().then((r) => (userData = r.images[0].url));
+    // console.log("this is being triggered");
+    getUserData().then((r) => setIconURL(r.images[0].url));
     // renderTemplate("main", "logged-in-template", userData);
     // renderTemplate("oauth", "oauth-template", currentToken);
   }
@@ -171,8 +178,16 @@ export default function UserLogin() {
       method: "GET",
       headers: { Authorization: "Bearer " + currentToken.access_token },
     });
-
     return await response.json();
+  }
+
+  async function userTopGenres() {
+    const response = await getUserTopArtists();
+    var usersTopGenres = [];
+    response.items.forEach((item) => {
+      usersTopGenres = [...usersTopGenres, ...item.genres];
+    });
+    setTopGenres(usersTopGenres);
   }
 
   // Click handlers
@@ -196,8 +211,14 @@ export default function UserLogin() {
   }
 
   // useEffect(() => {
-  //   getUserData().then((r) => setIconURL(r.images[0].url));
-  // }, [currentToken.access_token]);
+  //   // console.log("getting here");
+  //   // console.log(currentToken.access_token);
+  //   // I think it should be a useEffect, but I can't get this to work
+  //   if (currentToken.access_token) {
+  //     console.log("hi");
+  //     getUserData().then((r) => setIconURL(r.images[0].url));
+  //   }
+  // }, [currentToken]);
 
   // async function refreshTokenClick() {
   //   const token = await refreshToken();
@@ -224,6 +245,14 @@ export default function UserLogin() {
       >
         set profile pic
       </button>
+      <div></div>
+      <button onClick={async () => getUserData().then((r) => console.log(r))}>
+        get user data
+      </button>
+      <div></div>
+      <button onClick={async () => userTopGenres()}>get top artists</button>
+      <div></div>
+      <button onClick={async () => console.log(topGenres)}>press me</button>
     </div>
   );
 }
