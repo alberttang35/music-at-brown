@@ -2,8 +2,8 @@
 
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import eventsAll from "./eventsAll";
-import artistsAll from "./artistsAll";
+import eventsAll from "./components/homepage/eventsAll";
+import artistsAll from "./components/homepage/artistsAll";
 
 const App = () => {
   return (

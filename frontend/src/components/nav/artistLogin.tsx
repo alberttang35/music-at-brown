@@ -13,6 +13,7 @@ export interface artistLogin {
 // 2. artist profile image, editable
 // 3. artist bio, editable
 export default function ArtistLogin(props: artistLogin) {
+  
   // TODO: some functionality for updating based on form submission
 
   return (

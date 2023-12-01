@@ -1,9 +1,5 @@
-// top level function for event display
-// - should have some sort of state storing the currently uploaded profiles etc.
-// - have a backend api call to fetch most RECENT entries from the database. mock for now
-
 import { Dispatch, SetStateAction } from "react";
-import { EventEntry } from "./types";
+import { EventEntry } from "../types/types";
 import NavigationButton from "./NavigationButton";
 
 export interface Events {
@@ -11,8 +7,12 @@ export interface Events {
   setEvents: Dispatch<SetStateAction<EventEntry[]>>;
 }
 
+// top level function for event display
+// - should have some sort of state storing the currently uploaded profiles etc.
+// - have a backend api call to fetch most RECENT entries from the database. mock for now
+
 export default function Events({ events }: Events) {
-  <div className="events">
+  return <div className="events">
     <NavigationButton to="/eventsAll" />
     <ul className="divide-y divide-gray-200">
       {events.map((event, index) => (

@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { EventEntry } from "./types";
+import { EventEntry } from "../types/types";
 
 export interface EventsAll {
   events: EventEntry[];
