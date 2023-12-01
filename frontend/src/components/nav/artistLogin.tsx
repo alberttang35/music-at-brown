@@ -15,8 +15,6 @@ export interface artistLogin {
 export default function ArtistLogin(props: artistLogin) {
   // TODO: some functionality for updating based on form submission
 
-  // ---------- MOCKED DATA: issue = the fact that maybe this isn't the best component to delegate to... ----------- //
-
   return (
     <div className="artist-login">
       <input
