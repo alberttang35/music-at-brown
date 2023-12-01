@@ -16,10 +16,6 @@ export default function ArtistLogin(props: artistLogin) {
   // TODO: some functionality for updating based on form submission
 
   // ---------- MOCKED DATA: issue = the fact that maybe this isn't the best component to delegate to... ----------- //
-  // TODO: setHistory for the mockedData...
-  // props.setWeeklyBreakDownHistory(
-  //   mockWeekly1
-  // )
 
   return (
     <div className="artist-login">

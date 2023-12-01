@@ -9,6 +9,7 @@ import React, { useState, useEffect } from "react";
 // 1. input box for spotify login
 // * this component should (probably) have some sort of api call to backend as well, maybe involved with database
 export default function UserLogin({ topGenres, setTopGenres }) {
+  
   // login code from: https://github.com/Pineapples/spotify-web-api-auth-example-ts
   const clientId = "2168cb3e26e643c7b91076ee7a797081"; // your clientId
   const redirectUrl = "http://localhost:5173"; // your redirect URL - must be localhost URL and/or HTTPS

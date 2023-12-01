@@ -1,7 +1,7 @@
 import UserLogin from "./userLogin.jsx";
 import ArtistLogin from "./artistLogin.js";
 import { EventEntry } from "../types/types.js";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { mockWeekly1 } from "../mocks/mockWeeklyBreakdown.js";
 
 export interface nav {
@@ -12,11 +12,12 @@ export interface nav {
 // should nest in searchBar, artistLogin, userLogin as child components
 // just a parent component, so should have top level components if possible
 export default function NAV(props: nav) {
-  // props.setWeeklyBreakDownHistory(mockWeekly1);
+
+  const [genres, setGenres] = useState<string[]>([]);
 
   return (
     <div className="nav">
-      {/* <UserLogin></UserLogin> */}
+      <UserLogin topGenres={genres} setTopGenres={setGenres} />
       <ArtistLogin
         weeklyBreakDownHistory={props.weeklyBreakDownHistory}
         setWeeklyBreakDownHistory={props.setWeeklyBreakDownHistory}
