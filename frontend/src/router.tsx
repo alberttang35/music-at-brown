@@ -7,6 +7,7 @@ import EventsAll from "./eventsAll";
 import ArtistsAll from "./artistsAll";
 
 const CustomRouter = () => {
+  
   const [artistsAll, setartistsAll] = useState<
   Artist[]
 >([]);

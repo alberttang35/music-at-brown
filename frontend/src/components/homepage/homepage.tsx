@@ -24,7 +24,7 @@ export default function HOMEPAGE() {
 
 
   return (
-    <div className="homepage">
+    <div className="overflow-y-auto...">
       <NAV
         weeklyBreakDownHistory={weeklyBreakDownHistory}
         setWeeklyBreakDownHistory={setWeeklyBreakDownHistory}

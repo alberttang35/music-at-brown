@@ -5,13 +5,14 @@ import NAV from "./components/nav/nav";
 
 // APP
 // - homepage.tsx
-// - nav.tsx
-// - artistLogin.tsx
-// - userLogin.tsx
-// - searchBar.tsx
-// - breakdown.tsx
-// - artists.tsx
-// - events.tsx
+  // - nav.tsx
+    // - artistLogin.tsx
+    // - userLogin.tsx
+    // - searchBar.tsx
+  // - breakdown.tsx
+  // - artists.tsx
+  // - events.tsx
+  
 import Router from "./router";
 
 const App = () => {

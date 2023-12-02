@@ -228,7 +228,7 @@ export default function UserLogin({ topGenres, setTopGenres }) {
 
   return (
     <div className="user-login">
-      <input
+      {/* <input
         height="64px"
         width="64px"
         type="image"
@@ -236,7 +236,8 @@ export default function UserLogin({ topGenres, setTopGenres }) {
         onClick={async () => handleClick()}
         align="right"
         padding-right="50px"
-      ></input>
+      ></input> */}
+      <p>User Login</p>
       <div></div>
       <button
         onClick={async () =>
