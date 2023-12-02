@@ -16,7 +16,7 @@ export default function NAV(props: nav) {
 
   return (
     <div className="nav">
-      {/* <UserLogin></UserLogin> */}
+      <UserLogin></UserLogin>
       <ArtistLogin
         weeklyBreakDownHistory={props.weeklyBreakDownHistory}
         setWeeklyBreakDownHistory={props.setWeeklyBreakDownHistory}
