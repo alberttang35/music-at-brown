@@ -154,16 +154,6 @@ export default function UserLogin({ topGenres, setTopGenres }) {
   //   return await response.json();
   // }
 
-  function setImage() {
-    fetch("https://api.spotify.com/v1/me", {
-      method: "GET",
-      headers: { Authorization: "Bearer " + currentToken.access_token },
-    }).then((r) => {
-      console.log(r.images[0].url);
-      // setIconURL(r.images[0].url);
-    });
-  }
-
   async function getUserData() {
     const response = await fetch("https://api.spotify.com/v1/me", {
       method: "GET",
@@ -202,7 +192,7 @@ export default function UserLogin({ topGenres, setTopGenres }) {
   }
 
   async function handleClick() {
-    // Design wise, prob want some sort of dropdown on click
+    // Design wise, prob want some sort of dropdown on click, especially if logging out
     if (currentToken.access_token) {
       logoutClick();
     } else {
@@ -235,7 +225,6 @@ export default function UserLogin({ topGenres, setTopGenres }) {
         src={iconURL}
         onClick={async () => handleClick()}
         align="right"
-        padding-right="50px"
       ></input>
       <div></div>
       <button
