@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, SetStateAction, Dispatch } from "react";
 
-// interface UserLoginProps {
-//   usersTopGenres: string[];
-//   setUsersTopGenres: Dispatch<SetStateAction<string[]>>;
-// } type of props
+// export interface UserLoginProps {
+//   topGenres: string[];
+//   setTopGenres: Dispatch<SetStateAction<string[]>>;
+//   iconURL:string; 
+//   setIconURL:Dispatch<SetStateAction<string>>; 
+// } // type of props
+
+
 
 // features:
 // 1. input box for spotify login
 // * this component should (probably) have some sort of api call to backend as well, maybe involved with database
-export default function UserLogin({ topGenres, setTopGenres }) {
+export default function UserLogin({ iconURL, setIconURL, topGenres, setTopGenres}) {
   // login code from: https://github.com/Pineapples/spotify-web-api-auth-example-ts
   const clientId = "2168cb3e26e643c7b91076ee7a797081"; // your clientId
   const redirectUrl = "http://localhost:5173"; // your redirect URL - must be localhost URL and/or HTTPS
@@ -16,7 +20,7 @@ export default function UserLogin({ topGenres, setTopGenres }) {
   const authorizationEndpoint = "https://accounts.spotify.com/authorize";
   const tokenEndpoint = "https://accounts.spotify.com/api/token";
   const scope = "user-top-read user-read-private user-read-email";
-  const [iconURL, setIconURL] = useState("");
+  // const [iconURL, setIconURL] = useState("");
 
   // Data structure that manages the current active token, caching it in localStorage
   const currentToken = {
@@ -228,7 +232,7 @@ export default function UserLogin({ topGenres, setTopGenres }) {
 
   return (
     <div className="user-login">
-      {/* <input
+      <input
         height="64px"
         width="64px"
         type="image"
@@ -236,24 +240,23 @@ export default function UserLogin({ topGenres, setTopGenres }) {
         onClick={async () => handleClick()}
         align="right"
         padding-right="50px"
-      ></input> */}
-      <p>User Login</p>
-      <div></div>
+      ></input>
+      {/* <div></div>
       <button
         onClick={async () =>
           getUserData().then((r) => setIconURL(r.images[0].url))
         }
       >
         set profile pic
-      </button>
-      <div></div>
-      <button onClick={async () => getUserData().then((r) => console.log(r))}>
+      </button> */}
+      {/* <div></div> */}
+      {/* <button onClick={async () => getUserData().then((r) => console.log(r))}>
         get user data
-      </button>
+      </button> */}
+      {/* <div></div> */}
+      {/* <button onClick={async () => userTopGenres()}>get top artists</button>
       <div></div>
-      <button onClick={async () => userTopGenres()}>get top artists</button>
-      <div></div>
-      <button onClick={async () => console.log(topGenres)}>press me</button>
+      <button onClick={async () => console.log(topGenres)}>press me</button> */}
     </div>
   );
 }

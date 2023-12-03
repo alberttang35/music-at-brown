@@ -18,7 +18,7 @@ export default function Artists({artists}: Artists) {
   return (
   <div className="Artists">
     <NavigationButton to = "/artistsAll" label = "Show All"/>
-      <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-7">
+      <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-6">
         {mockArtists1.map((event, index) => (
           <div key={index}>
             {/* Create a profile image, corresponding description. Just make key the index for convenience*/}

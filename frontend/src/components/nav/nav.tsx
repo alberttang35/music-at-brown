@@ -12,17 +12,22 @@ export interface nav {
 
 export default function NAV(props: nav) {
 
+  const [iconURL, setIconURL] = useState(
+    "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
+  );
   const [topUserGenres, setTopUserGenres] = useState<string[]>([]); 
 
   return (
     <div className="grid gap-2 grid-cols-3">
-      <UserLogin
-        topUserGenres={topUserGenres}
-        setTopUserGenres={setTopUserGenres}
-      />
       <ArtistLogin
         weeklyBreakDownHistory={props.weeklyBreakDownHistory}
         setWeeklyBreakDownHistory={props.setWeeklyBreakDownHistory}
+      />
+      <UserLogin
+        iconURL={iconURL}
+        setIconURL={setIconURL}
+        topUserGenres={topUserGenres}
+        setTopUserGenres={setTopUserGenres}
       />
     </div>
   );

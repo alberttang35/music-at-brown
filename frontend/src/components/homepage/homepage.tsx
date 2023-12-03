@@ -24,7 +24,8 @@ export default function HOMEPAGE() {
 
 
   return (
-    <div className="overflow-y-auto...">
+    // want to set dynamic sizing for the grid 
+    <div className="max-h-screen overflow-scroll">
       <NAV
         weeklyBreakDownHistory={weeklyBreakDownHistory}
         setWeeklyBreakDownHistory={setWeeklyBreakDownHistory}
