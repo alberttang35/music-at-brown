@@ -21,7 +21,7 @@ export const mockArtists1: Artist[] = [
     links: "Link to Spotify",
     image:
       "https://i.guim.co.uk/img/media/77d56571e0e02c5da16ee6c15dc9926103df8717/0_0_6720_4032/master/6720.jpg?width=465&dpr=1&s=none",
-    bio: "I am a rapper",
+    bio: "rap",
   },
   {
     name: "Taylor Swift",

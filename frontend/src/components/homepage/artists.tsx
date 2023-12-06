@@ -4,20 +4,19 @@
 
 import { Dispatch, SetStateAction } from "react";
 import { Artist } from "../types/types";
-import NavigationButton  from "../../NavigationButton";
-import {mockArtists1}  from "../mocks/mockArtists";
+import NavigationButton from "../../NavigationButton";
+import { mockArtists1 } from "../mocks/mockArtists";
+import { orderArtists } from "../algorithm";
 
 export interface Artists {
   artists: Artist[];
   //setArtists: Dispatch<SetStateAction<Artist[]>>;
 }
 
-
-
-export default function Artists({artists}: Artists) {
+export default function Artists({ artists }: Artists) {
   return (
-  <div className="Artists">
-    <NavigationButton to = "/artistsAll" label = "Show All"/>
+    <div className="Artists">
+      <NavigationButton to="/artistsAll" label="Show All" />
       <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-6">
         {mockArtists1.map((event, index) => (
           <div key={index}>
@@ -41,6 +40,11 @@ export default function Artists({artists}: Artists) {
           </div>
         ))}
       </ul>
+      <button
+        onClick={async () => orderArtists(mockArtists1, ["rap", "rap", "pop"])} // the second argument here is a mock of a user's topGenres. Change it if u want to test smth in particular
+      >
+        this button console logs scores for artists
+      </button>
     </div>
   );
 }
