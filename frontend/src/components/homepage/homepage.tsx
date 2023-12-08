@@ -5,6 +5,7 @@ import { Artist, EventEntry } from "../types/types";
 import { SetStateAction, useEffect, useState } from "react";
 import NAV from "../nav/nav";
 import { mockArtists1 } from "../mocks/mockArtists";
+import { orderArtists } from "../algorithm";
 
 // do not need this homepage
 // export interface HOMEPAGE {
@@ -18,6 +19,13 @@ export default function HOMEPAGE() {
   >([]);
   const [artists, setArtists] = useState<Artist[]>(mockArtists1);
   const [events, setEvents] = useState<EventEntry[]>([]);
+  const [userTopGenres, setUserTopGenres] = useState<string[]>([]);
+
+  useEffect(() => {
+    console.log("running algorithms");
+    console.log(userTopGenres);
+    orderArtists(artists, setArtists, userTopGenres);
+  }, [userTopGenres]);
 
   return (
     // want to set dynamic sizing for the grid
@@ -25,6 +33,8 @@ export default function HOMEPAGE() {
       <NAV
         weeklyBreakDownHistory={weeklyBreakDownHistory}
         setWeeklyBreakDownHistory={setWeeklyBreakDownHistory}
+        userTopGenres={userTopGenres}
+        setUserTopGenres={setUserTopGenres}
       />
       <WeeklyBreakdown weeklyBreakDownHistory={weeklyBreakDownHistory} />
       <div>

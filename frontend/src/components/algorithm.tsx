@@ -42,7 +42,6 @@ function calculateArtistScore(artistGenres: string[], topGenres: string[]) {
   // Calculate the score based on the user's top genres and artist's genres
   const genreSet = new Set(topGenres);
   let similar = 0;
-  console.log(genreSet);
   artistGenres.forEach((genre) => {
     if (genreSet.has(genre)) {
       similar++;
@@ -50,6 +49,8 @@ function calculateArtistScore(artistGenres: string[], topGenres: string[]) {
   });
 
   const total = topGenres.length;
+  console.log(similar / total);
+
   return total > 0 ? similar / total : 0;
 }
 

@@ -16,7 +16,7 @@ export const mockArtists1: Artist[] = [
     image:
       "https://www.billboard.com/wp-content/uploads/media/jay-park-performance-2016-billboard-650.jpg?w=650",
     bio: "I am also a singer",
-    genres: ["rap"],
+    genres: ["rap", "indonesion r&b", "indie r&b"],
   },
   {
     name: "Post Malone",
@@ -24,7 +24,7 @@ export const mockArtists1: Artist[] = [
     image:
       "https://i.guim.co.uk/img/media/77d56571e0e02c5da16ee6c15dc9926103df8717/0_0_6720_4032/master/6720.jpg?width=465&dpr=1&s=none",
     bio: "rap",
-    genres: ["rap", "uk"],
+    genres: ["rap", "indie hip hop"],
   },
   {
     name: "Taylor Swift",

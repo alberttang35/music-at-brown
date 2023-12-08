@@ -9,10 +9,12 @@ import { doAlgorithm, orderArtists } from "../algorithm.js";
 export interface nav {
   weeklyBreakDownHistory: EventEntry[];
   setWeeklyBreakDownHistory: Dispatch<SetStateAction<EventEntry[]>>;
+  userTopGenres: string[];
+  setUserTopGenres: Dispatch<SetStateAction<string[]>>;
 }
 
 export default function NAV(props: nav) {
-  const [topUserGenres, setTopUserGenres] = useState<string[]>([]);
+  // const [topUserGenres, setTopUserGenres] = useState<string[]>([]);
 
   return (
     <div className="grid gap-2 grid-cols-3">
@@ -21,8 +23,8 @@ export default function NAV(props: nav) {
         setWeeklyBreakDownHistory={props.setWeeklyBreakDownHistory}
       />
       <UserLogin
-        topUserGenres={topUserGenres}
-        setTopUserGenres={setTopUserGenres}
+        userTopGenres={props.userTopGenres}
+        setUserTopGenres={props.setUserTopGenres}
       />
       {/* <button
         onClick={async () =>

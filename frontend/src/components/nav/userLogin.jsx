@@ -19,7 +19,7 @@ import "./userLogin.css";
 // features:
 // 1. input box for spotify login
 // * this component should (probably) have some sort of api call to backend as well, maybe involved with database
-export default function UserLogin({ topUserGenres, setTopUserGenres }) {
+export default function UserLogin({ userTopGenres, setUserTopGenres }) {
   // login code from: https://github.com/Pineapples/spotify-web-api-auth-example-ts
   const clientId = "2168cb3e26e643c7b91076ee7a797081"; // your clientId
   const redirectUrl = "http://localhost:5173"; // your redirect URL - must be localhost URL and/or HTTPS
@@ -191,7 +191,8 @@ export default function UserLogin({ topUserGenres, setTopUserGenres }) {
     response.items.forEach((item) => {
       usersTopGenres = [...usersTopGenres, ...item.genres];
     });
-    setTopUserGenres(usersTopGenres);
+    console.log("setting user's top genres");
+    setUserTopGenres(usersTopGenres);
   }
 
   // Click handlers
