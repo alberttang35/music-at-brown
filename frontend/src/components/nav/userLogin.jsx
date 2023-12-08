@@ -268,20 +268,38 @@ export default function UserLogin({ topUserGenres, setTopUserGenres }) {
       >
         <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
-            <Menu.Item>
-              {({ active }) => (
-                <button
-                  type="submit"
-                  onClick={async () => handleClick()}
-                  className={classNames(
-                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                    "block w-full px-4 py-2 text-left text-sm"
-                  )}
-                >
-                  Log In
-                </button>
-              )}
-            </Menu.Item>
+            {currentToken.access_token ? (
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    type="submit"
+                    onClick={async () => handleClick()}
+                    className={classNames(
+                      active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                      "block w-full px-4 py-2 text-left text-sm"
+                    )}
+                  >
+                    Log Out
+                  </button>
+                )}
+              </Menu.Item>
+            ) : (
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    type="submit"
+                    onClick={async () => handleClick()}
+                    className={classNames(
+                      active ? "bg-gray-100 text-gray-900" : "text-gray-700",
+                      "block w-full px-4 py-2 text-left text-sm"
+                    )}
+                  >
+                    Log In
+                  </button>
+                )}
+              </Menu.Item>
+            )}
+
             {/* </form> */}
           </div>
         </Menu.Items>
@@ -393,4 +411,6 @@ export default function Example() {
                 </a>
               )}
             </Menu.Item> */
-            {/* <form method="POST" action="#"> */}
+{
+  /* <form method="POST" action="#"> */
+}
