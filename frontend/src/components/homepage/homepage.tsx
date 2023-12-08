@@ -5,7 +5,9 @@ import { Artist, EventEntry } from "../types/types";
 import { SetStateAction, useEffect, useState } from "react";
 import NAV from "../nav/nav";
 import { mockArtists1 } from "../mocks/mockArtists";
-import { orderArtists } from "../algorithm";
+import { doAlgorithm, orderArtists } from "../algorithm";
+import { mockEvents1 } from "../mocks/mockEvents";
+import { mockWeekly1 } from "../mocks/mockWeeklyBreakdown";
 
 // do not need this homepage
 // export interface HOMEPAGE {
@@ -14,17 +16,22 @@ import { orderArtists } from "../algorithm";
 
 // function for homepage
 export default function HOMEPAGE() {
-  const [weeklyBreakDownHistory, setWeeklyBreakDownHistory] = useState<
-    EventEntry[]
-  >([]);
+  const [weeklyBreakDownHistory, setWeeklyBreakDownHistory] =
+    useState<EventEntry[]>(mockWeekly1);
   const [artists, setArtists] = useState<Artist[]>(mockArtists1);
-  const [events, setEvents] = useState<EventEntry[]>([]);
+  const [events, setEvents] = useState<EventEntry[]>(mockEvents1);
   const [userTopGenres, setUserTopGenres] = useState<string[]>([]);
 
   useEffect(() => {
     console.log("running algorithms");
     console.log(userTopGenres);
     orderArtists(artists, setArtists, userTopGenres);
+
+    doAlgorithm(
+      weeklyBreakDownHistory,
+      setWeeklyBreakDownHistory,
+      userTopGenres
+    );
   }, [userTopGenres]);
 
   return (
@@ -38,7 +45,7 @@ export default function HOMEPAGE() {
       />
       <WeeklyBreakdown weeklyBreakDownHistory={weeklyBreakDownHistory} />
       <div>
-        <Artists artists={artists} setArtists={setArtists} />
+        <Artists artists={artists} />
       </div>
       <div>
         <Events events={events} />

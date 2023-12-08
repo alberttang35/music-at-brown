@@ -12,13 +12,12 @@ export interface Events {
   //setEvents: Dispatch<SetStateAction<EventEntry[]>>;
 }
 
-
-export default function Events({events}: Events) {
+export default function Events({ events }: Events) {
   return (
-  <div className="events">
-      <NavigationButton to = "/eventsAll" label = "Show All"/>
+    <div className="events">
+      <NavigationButton to="/eventsAll" label="Show All" />
       <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-6">
-        {mockEvents1.map((event, index) => (
+        {events.map((event, index) => (
           <div key={index}>
             {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
             <li key={index} className="h-60 w-45 shadow-xl rounded-xl">
@@ -28,7 +27,7 @@ export default function Events({events}: Events) {
                 alt=""
               />
               <div className="ml-3 h-10 w-45">
-              <p className="text-sm font-medium text-gray-900">
+                <p className="text-sm font-medium text-gray-900">
                   {event.artist.name}
                 </p>
                 <p className="text-sm font-medium text-gray-900">

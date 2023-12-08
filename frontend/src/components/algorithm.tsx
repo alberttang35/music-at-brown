@@ -22,6 +22,7 @@ export function doAlgorithm(
   setEvents: Dispatch<SetStateAction<EventEntry[]>>,
   topGenres: string[]
 ) {
+  console.log(events);
   // Assign a score to each event based on genre similarity
   const scoredEvents = events.map((event) => ({
     ...event,
@@ -30,11 +31,10 @@ export function doAlgorithm(
 
   // Sort events by score in descending order for recommendations
   scoredEvents.sort((a, b) => b.score - a.score);
-
+  console.log(scoredEvents);
   // Update the state with the sorted events
   setEvents(scoredEvents);
-
-  return scoredEvents;
+  console.log(events);
 }
 
 // Separated artist scoring logic into a separate function
@@ -69,5 +69,4 @@ export function orderArtists(
   scoredArtists.sort((a, b) => b.score - a.score);
 
   setArtists(scoredArtists);
-  // return scoredArtists;
 }
