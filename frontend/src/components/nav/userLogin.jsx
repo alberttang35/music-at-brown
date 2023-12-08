@@ -1,18 +1,17 @@
 import React, { useState, useEffect, SetStateAction, Dispatch } from "react";
+import "./userLogin.css";
 
 // export interface UserLoginProps {
 //   topGenres: string[];
 //   setTopGenres: Dispatch<SetStateAction<string[]>>;
-//   iconURL:string; 
-//   setIconURL:Dispatch<SetStateAction<string>>; 
+//   iconURL:string;
+//   setIconURL:Dispatch<SetStateAction<string>>;
 // } // type of props
-
-
 
 // features:
 // 1. input box for spotify login
 // * this component should (probably) have some sort of api call to backend as well, maybe involved with database
-export default function UserLogin({ iconURL, setIconURL, topGenres, setTopGenres}) {
+export default function UserLogin({ topUserGenres, setTopUserGenres }) {
   // login code from: https://github.com/Pineapples/spotify-web-api-auth-example-ts
   const clientId = "2168cb3e26e643c7b91076ee7a797081"; // your clientId
   const redirectUrl = "http://localhost:5173"; // your redirect URL - must be localhost URL and/or HTTPS
@@ -20,7 +19,9 @@ export default function UserLogin({ iconURL, setIconURL, topGenres, setTopGenres
   const authorizationEndpoint = "https://accounts.spotify.com/authorize";
   const tokenEndpoint = "https://accounts.spotify.com/api/token";
   const scope = "user-top-read user-read-private user-read-email";
-  // const [iconURL, setIconURL] = useState("");
+  const [iconURL, setIconURL] = useState(
+    "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
+  );
 
   // Data structure that manages the current active token, caching it in localStorage
   const currentToken = {
@@ -47,6 +48,7 @@ export default function UserLogin({ iconURL, setIconURL, topGenres, setTopGenres
       const expiry = new Date(now.getTime() + expires_in * 1000);
       localStorage.setItem("expires", expiry);
       getUserData().then((r) => setIconURL(r.images[0].url)); // works, but slight delay, what to do
+      userTopGenres();
     },
   };
 
@@ -158,16 +160,6 @@ export default function UserLogin({ iconURL, setIconURL, topGenres, setTopGenres
   //   return await response.json();
   // }
 
-  function setImage() {
-    fetch("https://api.spotify.com/v1/me", {
-      method: "GET",
-      headers: { Authorization: "Bearer " + currentToken.access_token },
-    }).then((r) => {
-      console.log(r.images[0].url);
-      // setIconURL(r.images[0].url);
-    });
-  }
-
   async function getUserData() {
     const response = await fetch("https://api.spotify.com/v1/me", {
       method: "GET",
@@ -191,7 +183,7 @@ export default function UserLogin({ iconURL, setIconURL, topGenres, setTopGenres
     response.items.forEach((item) => {
       usersTopGenres = [...usersTopGenres, ...item.genres];
     });
-    setTopGenres(usersTopGenres);
+    setTopUserGenres(usersTopGenres);
   }
 
   // Click handlers
@@ -220,7 +212,6 @@ export default function UserLogin({ iconURL, setIconURL, topGenres, setTopGenres
   //   // I think it should be a useEffect, but I can't get this to work
   //   if (currentToken.access_token) {
   //     console.log("hi");
-  //     getUserData().then((r) => setIconURL(r.images[0].url));
   //   }
   // }, [currentToken]);
 
@@ -241,22 +232,6 @@ export default function UserLogin({ iconURL, setIconURL, topGenres, setTopGenres
         align="right"
         padding-right="50px"
       ></input>
-      {/* <div></div>
-      <button
-        onClick={async () =>
-          getUserData().then((r) => setIconURL(r.images[0].url))
-        }
-      >
-        set profile pic
-      </button> */}
-      {/* <div></div> */}
-      {/* <button onClick={async () => getUserData().then((r) => console.log(r))}>
-        get user data
-      </button> */}
-      {/* <div></div> */}
-      {/* <button onClick={async () => userTopGenres()}>get top artists</button>
-      <div></div>
-      <button onClick={async () => console.log(topGenres)}>press me</button> */}
     </div>
   );
 }
