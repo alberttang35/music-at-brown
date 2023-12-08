@@ -4,7 +4,7 @@
 
 import { Dispatch, SetStateAction } from "react";
 import { EventEntry } from "../types/types";
-import NavigationButton from "../../NavigationButton";
+import {NavigationButton} from "../../NavigationButton";
 import { mockEvents1 } from "../mocks/mockEvents";
 
 export interface Events {

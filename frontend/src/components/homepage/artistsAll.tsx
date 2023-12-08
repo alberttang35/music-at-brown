@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
-import { Artist } from "./components/types/types";
-import NavigationButton from "./NavigationButton";
-import { mockArtists1 } from "./components/mocks/mockArtists";
+import { Artist } from "../types/types";
+import {NavigationButton} from "../../NavigationButton";
+import { mockArtists1 } from "../mocks/mockArtists";
 import { mock } from "node:test";
 
 export interface ArtistsAll {
@@ -9,13 +9,11 @@ export interface ArtistsAll {
   //setArtists: Dispatch<SetStateAction<Artist[]>>;
 }
 
-
-
-export default function ArtistsAll({artists}: ArtistsAll) {
-    return(
-  <div className="ArtistsAll">
-    <NavigationButton to = "/" label = "Go To Homepage"/>
-    <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-7">
+export default function ArtistsAll({ artists }: ArtistsAll) {
+  return (
+    <div className="ArtistsAll">
+      <NavigationButton to="/" label="Go To Homepage" />
+      <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-7">
         {mockArtists1.map((event, index) => (
           <div key={index}>
             {/* Create a profile image, corresponding description. Just make key the index for convenience*/}

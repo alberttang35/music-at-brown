@@ -4,14 +4,13 @@
 
 import { Dispatch, SetStateAction } from "react";
 import { Artist } from "../types/types";
-import NavigationButton  from "../../NavigationButton";
+import {NavigationButton}  from "../../NavigationButton";
 import {mockArtists1}  from "../mocks/mockArtists";
 
 export interface Artists {
   artists: Artist[];
   //setArtists: Dispatch<SetStateAction<Artist[]>>;
 }
-
 
 
 export default function Artists({artists}: Artists) {
