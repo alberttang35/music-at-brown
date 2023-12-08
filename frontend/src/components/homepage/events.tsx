@@ -17,7 +17,7 @@ export default function Events({events}: Events) {
   return (
   <div className="events">
       <NavigationButton to = "/eventsAll" label = "Show All"/>
-      <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-7">
+      <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-6">
         {mockEvents1.map((event, index) => (
           <div key={index}>
             {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
