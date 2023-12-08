@@ -10,15 +10,15 @@ import { orderArtists } from "../algorithm";
 
 export interface Artists {
   artists: Artist[];
-  //setArtists: Dispatch<SetStateAction<Artist[]>>;
+  setArtists: Dispatch<SetStateAction<Artist[]>>;
 }
 
-export default function Artists({ artists }: Artists) {
+export default function Artists({ artists, setArtists }: Artists) {
   return (
     <div className="Artists">
       <NavigationButton to="/artistsAll" label="Show All" />
       <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-6">
-        {mockArtists1.map((event, index) => (
+        {artists.map((event, index) => (
           <div key={index}>
             {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
             <li key={index} className="h-45 w-45 shadow-xl rounded-xl">
@@ -41,7 +41,9 @@ export default function Artists({ artists }: Artists) {
         ))}
       </ul>
       <button
-        onClick={async () => orderArtists(mockArtists1, ["rap", "rap", "pop"])} // the second argument here is a mock of a user's topGenres. Change it if u want to test smth in particular
+        onClick={async () =>
+          orderArtists(mockArtists1, setArtists, ["rap", "uk"])
+        } // the second argument here is a mock of a user's topGenres. Change it if u want to test smth in particular
       >
         this button console logs scores for artists
       </button>

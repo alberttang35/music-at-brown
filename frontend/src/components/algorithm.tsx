@@ -55,6 +55,7 @@ function calculateArtistScore(artistGenres: string[], topGenres: string[]) {
 
 export function orderArtists(
   artists: Artist[],
+  setArtists: Dispatch<SetStateAction<Artist[]>>,
   topGenres: string[]
 ) {
   //Assign a score to each artist based on genre similarity
@@ -66,5 +67,6 @@ export function orderArtists(
   // Sort artists by score in descending order for recommendations
   scoredArtists.sort((a, b) => b.score - a.score);
 
-  return scoredArtists;
+  setArtists(scoredArtists);
+  // return scoredArtists;
 }
