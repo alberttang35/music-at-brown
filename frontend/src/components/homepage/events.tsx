@@ -29,7 +29,7 @@ export default function Events({events}: Events) {
               />
               <div className="ml-3 h-10 w-45">
               <p className="text-sm font-medium text-gray-900">
-                  {event.artist}
+                  {event.artist.name}
                 </p>
                 <p className="text-sm font-medium text-gray-900">
                   {event.venue}

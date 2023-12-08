@@ -15,10 +15,11 @@ export type Artist = {
     links: string;
     image: string;
     bio: string;
+    genres: string[];
 }
 
 export type EventEntry = {
-    artist: string;
+    artist: Artist;
     image: string; 
     venue: string; 
     date: string; 
