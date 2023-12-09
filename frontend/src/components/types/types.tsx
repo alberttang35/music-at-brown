@@ -15,6 +15,7 @@ export type Artist = {
     links: string;
     image: string;
     bio: string;
+    spotifyId: string;
 }
 
 export type EventEntry = {
@@ -22,5 +23,6 @@ export type EventEntry = {
     image: string; 
     venue: string; 
     date: string; 
+    spotifyId: string;
 }
   

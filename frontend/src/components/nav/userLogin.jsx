@@ -9,17 +9,9 @@ import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import "./userLogin.css";
 
-// export interface UserLoginProps {
-//   topGenres: string[];
-//   setTopGenres: Dispatch<SetStateAction<string[]>>;
-//   iconURL:string;
-//   setIconURL:Dispatch<SetStateAction<string>>;
-// } // type of props
 
-// features:
-// 1. input box for spotify login
-// * this component should (probably) have some sort of api call to backend as well, maybe involved with database
-export default function UserLogin({ topUserGenres, setTopUserGenres }) {
+export default function UserLogin({ userTopGenres, setUserTopGenres }) {
+
   // login code from: https://github.com/Pineapples/spotify-web-api-auth-example-ts
   const clientId = "2168cb3e26e643c7b91076ee7a797081"; // your clientId
   const redirectUrl = "http://localhost:5173"; // your redirect URL - must be localhost URL and/or HTTPS
@@ -55,8 +47,10 @@ export default function UserLogin({ topUserGenres, setTopUserGenres }) {
       const now = new Date();
       const expiry = new Date(now.getTime() + expires_in * 1000);
       localStorage.setItem("expires", expiry);
-      getUserData().then((r) => setIconURL(r.images[0].url)); // works, but slight delay, what to do
-      userTopGenres();
+
+      getUserData().then((r) => console.log(r)); // works, but slight delay, what to do
+      // setIconURL(r.images[0].url);
+      // userTopGenres();
     },
   };
 
@@ -82,13 +76,19 @@ export default function UserLogin({ topUserGenres, setTopUserGenres }) {
   }
 
   var userData;
+
   // If we have a token, we're logged in, so fetch user data and render logged in template
   if (currentToken.access_token) {
-    // console.log("this is being triggered");
-    getUserData().then((r) => setIconURL(r.images[0].url));
+    console.log("this is being triggered");
+    console.log()
+    getUserData().then((r) =>
+      console.log(r)
+    );
     // renderTemplate("main", "logged-in-template", userData);
     // renderTemplate("oauth", "oauth-template", currentToken);
   }
+
+  console.log(iconURL)
 
   // // Otherwise we're not logged in, so render the login template
   // if (!currentToken.access_token) {
@@ -169,20 +169,20 @@ export default function UserLogin({ topUserGenres, setTopUserGenres }) {
   // }
 
   async function getUserData() {
-    const response = await fetch("https://api.spotify.com/v1/me", {
-      method: "GET",
-      headers: { Authorization: "Bearer " + currentToken.access_token },
-    });
+    // const response = await fetch("https://api.spotify.com/v1/me", {
+    //   method: "GET",
+    //   headers: { Authorization: "Bearer " + currentToken.access_token },
+    // });
 
-    return await response.json();
+    // return await response.json();
   }
 
   async function getUserTopArtists() {
-    const response = await fetch("https://api.spotify.com/v1/me/top/artists", {
-      method: "GET",
-      headers: { Authorization: "Bearer " + currentToken.access_token },
-    });
-    return await response.json();
+    // const response = await fetch("https://api.spotify.com/v1/me/top/artists", {
+    //   method: "GET",
+    //   headers: { Authorization: "Bearer " + currentToken.access_token },
+    // });
+    // return await response.json();
   }
 
   async function userTopGenres() {
@@ -191,7 +191,8 @@ export default function UserLogin({ topUserGenres, setTopUserGenres }) {
     response.items.forEach((item) => {
       usersTopGenres = [...usersTopGenres, ...item.genres];
     });
-    setTopUserGenres(usersTopGenres);
+    console.log("setting user's top genres");
+    setUserTopGenres(usersTopGenres);
   }
 
   // Click handlers

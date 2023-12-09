@@ -2,10 +2,11 @@
 // - should have some sort of state storing the currently uploaded profiles etc.
 // - have a backend api call to fetch most RECENT entries from the database. mock for now
 
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Artist } from "../types/types";
 import {NavigationButton}  from "../../NavigationButton";
 import {mockArtists1}  from "../mocks/mockArtists";
+import {artistsBackend} from "../../../../backend/artistsBackend"
 
 export interface Artists {
   artists: Artist[];
@@ -13,12 +14,16 @@ export interface Artists {
 }
 
 
+
+
 export default function Artists({artists}: Artists) {
+
+  const artistsData = artistsBackend()
   return (
   <div className="Artists">
     <NavigationButton to = "/artistsAll" label = "Show All"/>
       <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-6">
-        {mockArtists1.map((event, index) => (
+        {artistsData.map((event, index) => (
           <div key={index}>
             {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
             <li key={index} className="h-45 w-45 shadow-xl rounded-xl">
