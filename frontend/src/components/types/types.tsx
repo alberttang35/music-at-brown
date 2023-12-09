@@ -3,7 +3,7 @@
 //     message?: string;
 //     data?: string [][];
 // }
-  
+
 //   // Type denoying the inputs for the history as a command or output content
 // export type ArtistEntry = {
 //     command: string;
@@ -11,17 +11,21 @@
 // };
 
 export type Artist = {
-    name: string;
-    links: string;
-    image: string;
-    bio: string;
-    genres: string[];
-}
+  name: string;
+  links: string;
+  image: string;
+  bio: string;
+  genres: string[];
+};
 
 export type EventEntry = {
-    artist: Artist;
-    image: string; 
-    venue: string; 
-    date: string; 
-}
-  
+  artist: Artist;
+  image: string;
+  venue: string;
+  date: string;
+};
+
+export type Location = {
+  lat: number;
+  lon: number;
+};

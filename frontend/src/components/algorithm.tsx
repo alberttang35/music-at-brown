@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { EventEntry, Artist } from "./types/types.js";
+import { EventEntry, Artist, GeoLoc } from "./types/types.js";
 
 //Separated event scoring logic into a separate function
 function calculateEventScore(artistGenres: string[], topGenres: string[]) {
@@ -17,24 +17,57 @@ function calculateEventScore(artistGenres: string[], topGenres: string[]) {
   return total > 0 ? similar / total : 0;
 }
 
-export function doAlgorithm(
+export function orderEvents(
   events: EventEntry[],
   setEvents: Dispatch<SetStateAction<EventEntry[]>>,
-  topGenres: string[]
+  topGenres: string[],
+  userPos: GeoLoc | undefined
 ) {
-  console.log(events);
+  // console.log(events);
   // Assign a score to each event based on genre similarity
   const scoredEvents = events.map((event) => ({
     ...event,
     score: calculateEventScore(event.artist.genres, topGenres),
   }));
 
+  // check if userPos is undefined
+  // if defined, add a multiplier to the event scores depending on user's distance from the venue
+  if (typeof userPos != "undefined") {
+    events.map((event) => ({
+      ...event,
+      score: score + getDistance(userPos, event.eventPos),
+    }));
+  }
+
   // Sort events by score in descending order for recommendations
   scoredEvents.sort((a, b) => b.score - a.score);
-  console.log(scoredEvents);
   // Update the state with the sorted events
   setEvents(scoredEvents);
-  console.log(events);
+}
+
+function getDistance(point1: GeoLoc, point2: GeoLoc) {
+  // how can we get the latlong of the event? Could use mapbox
+  const lat1 = point1.lat;
+  const lon1 = point1.lon;
+  const lat2 = point2.lat;
+  const lon2 = point2.lon;
+
+  var R = 6371; // Radius of the earth in km
+  var dLat = toRad(lat2 - lat1); // Javascript functions in radians
+  var dLon = toRad(lon2 - lon1);
+  var a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) *
+      Math.cos(toRad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+  var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  var d = R * c; // Distance in km
+  return d;
+}
+
+function toRad(x: number) {
+  return (x * Math.PI) / 180;
 }
 
 // Separated artist scoring logic into a separate function
