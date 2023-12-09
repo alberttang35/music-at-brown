@@ -12,6 +12,7 @@ import NAV from "../nav/nav";
 
 // function for homepage
 export default function HOMEPAGE() {
+  
   const [weeklyBreakDownHistory, setWeeklyBreakDownHistory] = useState<
     EventEntry[]
   >([]);

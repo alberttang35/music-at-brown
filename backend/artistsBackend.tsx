@@ -14,7 +14,7 @@ export function artistsBackend(): Artist[] {
             try {
             const data = await getDocs(artistCollectionRef);
             const filteredData = data.docs.map((doc) => {
-                const artistData = doc.data() as Artist;
+                const artistData = doc.data() as Artist; 
                 return artistData;
               });
             setArtists(filteredData);

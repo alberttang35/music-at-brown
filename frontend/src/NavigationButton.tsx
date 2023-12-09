@@ -1,3 +1,4 @@
+import { Menu } from "@headlessui/react";
 import {NavLink} from "react-router-dom";
 
 export interface NavigationButton{
@@ -5,7 +6,12 @@ export interface NavigationButton{
     label: string;
 }
 
-const NavigationButton = ({to, label} : NavigationButton) => {
+export interface EditEventButton {
+  to: string;
+  label: string;
+}
+
+export const NavigationButton = ({to, label} : NavigationButton) => {
     return (
       <NavLink to={to}>
         <button>
@@ -16,4 +22,16 @@ const NavigationButton = ({to, label} : NavigationButton) => {
   
   };
   
-  export default NavigationButton
+
+
+
+// Edit event button from the artist login
+export const EditEventButton = ({to, label}: EditEventButton) => {
+  return (
+    <NavLink to={to}>
+      <button>
+        {label}
+      </button>
+    </NavLink>
+  );
+}

@@ -4,7 +4,7 @@
 
 import { Dispatch, SetStateAction, useState } from "react";
 import { Artist } from "../types/types";
-import NavigationButton  from "../../NavigationButton";
+import {NavigationButton}  from "../../NavigationButton";
 import {mockArtists1}  from "../mocks/mockArtists";
 import {artistsBackend} from "../../../../backend/artistsBackend"
 

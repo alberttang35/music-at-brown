@@ -1,9 +1,9 @@
 import { Dispatch, SetStateAction } from "react";
-import { Artist } from "./components/types/types";
-import NavigationButton from "./NavigationButton";
-import { mockArtists1 } from "./components/mocks/mockArtists";
-import { mock } from "node:test";
-import { artistsBackend } from "../../backend/artistsBackend";
+import { Artist } from "../types/types";
+import {NavigationButton} from "../../NavigationButton";
+import { mockArtists1 } from "../mocks/mockArtists";
+import {artistsBackend} from "../../../../backend/artistsBackend"
+
 
 export interface ArtistsAll {
   artists: Artist[];
@@ -13,7 +13,7 @@ export interface ArtistsAll {
 
 
 export default function ArtistsAll({artists}: ArtistsAll) {
-  const artistsData = artistsBackend();
+  const artistsData = artistsBackend()
     return(
   <div className="ArtistsAll">
     <NavigationButton to = "/" label = "Go To Homepage"/>

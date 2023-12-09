@@ -1,8 +1,8 @@
 import { Dispatch, SetStateAction } from "react";
-import { EventEntry } from "./components/types/types";
-import NavigationButton from "./NavigationButton";
-import { mockEvents1 } from "./components/mocks/mockEvents";
-import { eventsBackend } from "../../backend/eventsBackend";
+import { EventEntry } from "../types/types";
+import {NavigationButton} from "../../NavigationButton";
+import { mockEvents1 } from "../mocks/mockEvents";
+import {eventsBackend} from "../../../../backend/eventsBackend"
 
 export interface EventsAll {
   events: EventEntry[];
@@ -11,7 +11,7 @@ export interface EventsAll {
 
 
 export default function EventsAll({events}: EventsAll) {
-  const eventsData = eventsBackend();
+  const eventsData = eventsBackend().events
     return (
   <div className="EventsAll">
     <NavigationButton to = "/" label = "Go To Homepage"/>
