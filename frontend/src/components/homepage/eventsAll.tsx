@@ -8,6 +8,7 @@ export interface EventsAll {
   //setEvents: Dispatch<SetStateAction<EventEntry[]>>;
 }
 
+
 export default function EventsAll({ events }: EventsAll) {
   return (
     <div className="EventsAll">

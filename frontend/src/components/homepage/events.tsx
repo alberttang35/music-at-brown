@@ -9,7 +9,6 @@ import { mockEvents1 } from "../mocks/mockEvents";
 
 export interface Events {
   events: EventEntry[];
-  //setEvents: Dispatch<SetStateAction<EventEntry[]>>;
 }
 
 
