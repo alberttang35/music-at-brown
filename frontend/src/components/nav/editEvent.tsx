@@ -1,13 +1,16 @@
+import { useState } from "react";
 import { EditEventButton } from "../../NavigationButton";
 import { mockArtists1 } from "../mocks/mockArtists";
-
+import { WrappedMap } from "./WrappedMap";
+import { GeoLoc } from "../types/types";
 
 export default function EditEvent() {
+  const [eventLocation, setEventLocation] = useState<GeoLoc>();
 
-   // barebones formatting for event submission. 
-   // TODO: make the UI nice for this! 
+  // barebones formatting for event submission.
+  // TODO: make the UI nice for this!
   return (
-    <div className="EditEvent">
+    <div className="max-h-screen overflow-scroll">
       <EditEventButton to="/" label="Go To Homepage" />
       <div className="mt-10">
         <p> What is your artist name? </p>
@@ -24,12 +27,22 @@ export default function EditEvent() {
         />
       </div>
       <div className="mt-7">
-        <p> What is the name of the venue you're performing at? </p>
+        <p> Where are you performing? </p>
         <input
-          placeholder={"Provide a venue name here"}
+          placeholder={"Provide additional location details here"}
           className="border rounded-md p-2 focus:outline-none focus:border-blue-500"
         />
       </div>
+      <div
+        style={{
+          alignItems: "center",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <WrappedMap setCurrentLocation={setEventLocation}></WrappedMap>
+      </div>
+
       <div className="mt-7">
         <p> What is the date of your event? </p>
         <input
