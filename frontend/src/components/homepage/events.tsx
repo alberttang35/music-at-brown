@@ -6,6 +6,7 @@ import { Dispatch, SetStateAction } from "react";
 import { EventEntry } from "../types/types";
 import {NavigationButton} from "../../NavigationButton";
 import { mockEvents1 } from "../mocks/mockEvents";
+import {eventsBackend} from "../../../../backend/eventsBackend"
 
 export interface Events {
   events: EventEntry[];
@@ -13,11 +14,12 @@ export interface Events {
 
 
 export default function Events({events}: Events) {
+  const eventsData = eventsBackend()
   return (
   <div className="events">
       <NavigationButton to = "/eventsAll" label = "Show All"/>
       <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-6">
-        {mockEvents1.map((event, index) => (
+        {eventsData.map((event, index) => (
           <div key={index}>
             {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
             <li key={index} className="h-60 w-45 shadow-xl rounded-xl">
