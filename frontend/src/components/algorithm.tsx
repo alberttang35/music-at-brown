@@ -23,30 +23,27 @@ export function orderEvents(
   topGenres: string[],
   userPos: GeoLoc | undefined
 ) {
-  // console.log(events);
   // Assign a score to each event based on genre similarity
-  const scoredEvents = events.map((event) => ({
-    ...event,
-    score: calculateEventScore(event.artist.genres, topGenres),
-  }));
-
-  // check if userPos is undefined
-  // if defined, add a multiplier to the event scores depending on user's distance from the venue
-  if (typeof userPos != "undefined") {
-    events.map((event) => ({
+  const scoredEvents = events.map((event) => {
+    const genreScore = calculateEventScore(event.artist.genres, topGenres);
+    const locationScore =
+      typeof userPos != "undefined"
+        ? genreScore * Math.min(1, 1 / getDistance(userPos, event.eventPos)) // subject to change, but this is the multiplier we are using for location
+        : genreScore; //
+    return {
       ...event,
-      score: score + getDistance(userPos, event.eventPos),
-    }));
-  }
+      score: calculateEventScore(event.artist.genres, topGenres),
+    };
+  });
 
   // Sort events by score in descending order for recommendations
   scoredEvents.sort((a, b) => b.score - a.score);
   // Update the state with the sorted events
+  console.log(scoredEvents);
   setEvents(scoredEvents);
 }
 
 function getDistance(point1: GeoLoc, point2: GeoLoc) {
-  // how can we get the latlong of the event? Could use mapbox
   const lat1 = point1.lat;
   const lon1 = point1.lon;
   const lat2 = point2.lat;

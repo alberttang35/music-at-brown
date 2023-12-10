@@ -23,9 +23,10 @@ export type EventEntry = {
   image: string;
   venue: string;
   date: string;
+  eventPos: GeoLoc;
 };
 
-export type Location = {
+export type GeoLoc = {
   lat: number;
   lon: number;
 };
