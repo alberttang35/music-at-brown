@@ -1,39 +1,44 @@
-import { getDocs, collection } from "firebase/firestore";
-import {useEffect, useState} from "react";
-import{db} from "./firebase";
-import{Artist} from "../frontend/src/components/types/types";
+import { getDocs, collection, addDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { db } from "./firebase";
+import { Artist } from "../frontend/src/components/types/types";
 
-export function artistsBackend(): Artist[] {
-    const [artists, setArtists] = useState<Artist[]>([]);
-    const [ids, setIds] = useState<string[]>([]);
+export function artistsBackend() {
+  const [artists, setArtists] = useState<Artist[]>([]);
+  const [ids, setIds] = useState<string[]>([]);
 
-    const artistCollectionRef = collection(db, "Artists");
+  const artistCollectionRef = collection(db, "Artists");
 
-    useEffect(() => {
-        const getArtists = async () => {
-            try {
-            const data = await getDocs(artistCollectionRef);
-            const filteredData = data.docs.map((doc) => {
-                const artistData = doc.data() as Artist; 
-                return artistData;
-              });
-            setArtists(filteredData);
-            console.log(filteredData);
-            const idData = data.docs.map((doc) => ({
-                ...doc.data().spotifyId
-            }));
-            console.log(idData);
-            setIds(idData);
-              
-            } catch (err) {
-                console.error(err);
-            };
-        }
+  async function onSubmitArtist(artist: string, genres: string[]) {
+    try {
+      await addDoc(artistCollectionRef, { artist: artist, genres: genres });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
-        getArtists();
-    }, []);
+  useEffect(() => {
+    const getArtists = async () => {
+      try {
+        const data = await getDocs(artistCollectionRef);
+        const filteredData = data.docs.map((doc) => {
+          const artistData = doc.data() as Artist;
+          return artistData;
+        });
+        setArtists(filteredData);
+        console.log(filteredData);
+        const idData = data.docs.map((doc) => ({
+          ...doc.data().spotifyId,
+        }));
+        console.log(idData);
+        setIds(idData);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-    return artists;
+    getArtists();
+  }, []);
 
+  return { artists, onSubmitArtist };
 }
-

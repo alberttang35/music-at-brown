@@ -19,7 +19,7 @@ export default function Artists({ artists }: Artists) {
     <div className="Artists">
       <NavigationButton to="/artistsAll" label="Show All" />
       <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-6">
-        {artistsData.map((event, index) => (
+        {artistsData.artists.map((event, index) => (
           <div key={index}>
             {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
             <li key={index} className="h-45 w-45 shadow-xl rounded-xl">

@@ -15,7 +15,6 @@ export interface nav {
 }
 
 export default function NAV(props: nav) {
-
   return (
     <div className="flex mr-20 flex-row-reverse ">
       <ArtistLogin />

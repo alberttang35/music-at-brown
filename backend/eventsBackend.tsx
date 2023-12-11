@@ -40,7 +40,19 @@ export function eventsBackend() {
     }
   }
 
-  // Updates the events list to just whatever's in the database 
+  // Should be able to delete items from the database 
+  async function deleteEvent(indexToRemoveAt:number) {
+    try {
+      const data = await getDocs(eventCollectionRef); 
+      const idOfEventToRemove = data.docs[indexToRemoveAt].id; 
+      const eventDoc = doc(db, "Events", idOfEventToRemove);
+      await deleteDoc(eventDoc);
+    } catch(err) {
+      console.log(err); 
+    }
+  }
+
+  // Updates the events list to just whatever's in the database
   useEffect(() => {
     const getAllDatabaseEvents = async () => {
       try {
@@ -68,8 +80,6 @@ export function eventsBackend() {
 
   return { allEvents, events, onSubmitEvent, deleteEvent };
 }
-
-
 
 //   const getEventsById = async(id:string) => {
 //     // retrieve the events collection
