@@ -44,7 +44,7 @@ export function eventsBackend() {
   async function deleteEvent(indexToRemoveAt:number) {
     try {
       const data = await getDocs(eventCollectionRef); 
-      const idOfEventToRemove = data.docs[indexToRemoveAt].id; 
+      const idOfEventToRemove = data.docs[indexToRemoveAt].id; // This actually does not delete correctly, need the filter condition for all the fields for this to work actually...
       const eventDoc = doc(db, "Events", idOfEventToRemove);
       await deleteDoc(eventDoc);
     } catch(err) {
