@@ -132,9 +132,6 @@ export default function EditEvent() {
       {/* This is the map component. TODO FOR JOHNNY: fill this in. */}
       <div>
         <WrappedMap
-          setCurrentLocation={function (value: any): void {
-            throw new Error("Function not implemented.");
-          }}
         ></WrappedMap>
       </div>
     </div>
