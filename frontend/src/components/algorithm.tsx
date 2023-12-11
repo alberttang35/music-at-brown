@@ -1,15 +1,12 @@
 import { Dispatch, SetStateAction } from "react";
 import { EventEntry, Artist, GeoLoc } from "./types/types.js";
 
-//Separated event scoring logic into a separate function
-function calculateEventScore(artistGenres: string[], topGenres: string[]) {
-  // Calculate the score based on the user's top genres and artist's genres
-  const genreSet = new Set(topGenres);
+function calculateEventScore(artistGenres: string[], topGenres: string[], genreMap: Map<string, number>) {
   let similar = 0;
 
   artistGenres.forEach((genre) => {
-    if (genreSet.has(genre)) {
-      similar++;
+    if (genreMap.has(genre)) {
+      similar += genreMap.get(genre)!;
     }
   });
 
@@ -23,23 +20,30 @@ export function orderEvents(
   topGenres: string[],
   userPos: GeoLoc | undefined
 ) {
+  // Create a hashmap to store the occurrences of each genre in topGenres
+  const genreMap = new Map<string, number>();
+  topGenres.forEach((genre) => {
+    genreMap.set(genre, (genreMap.get(genre) || 0) + 1);
+  });
+
   // Assign a score to each event based on genre similarity
   const scoredEvents = events.map((event) => {
-    const genreScore = calculateEventScore(event.artist.genres, topGenres);
+    //get top genres of artist
+    const genreScore = calculateEventScore(event.artist.genres, topGenres, genreMap);
     const locationScore =
-      typeof userPos != "undefined"
-        ? genreScore * Math.min(1, 1 / getDistance(userPos, event.eventPos)) // subject to change, but this is the multiplier we are using for location
-        : genreScore; //
+      typeof userPos !== "undefined"
+        ? genreScore * Math.min(1, 1 / getDistance(userPos, event.eventPos))
+        : genreScore;
     return {
       ...event,
-      score: calculateEventScore(event.artist.genres, topGenres),
+      score: locationScore, // Use the location score here if needed
     };
   });
 
   // Sort events by score in descending order for recommendations
   scoredEvents.sort((a, b) => b.score - a.score);
+
   // Update the state with the sorted events
-  console.log(scoredEvents);
   setEvents(scoredEvents);
 }
 

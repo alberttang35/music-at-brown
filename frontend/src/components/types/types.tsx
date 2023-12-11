@@ -19,7 +19,7 @@ export type Artist = {
 };
 
 export type EventEntry = {
-  artist: Artist;
+  artist: string;
   image: string;
   venue: string;
   date: string;
