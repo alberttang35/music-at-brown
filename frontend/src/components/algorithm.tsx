@@ -35,17 +35,7 @@ export async function orderEvents(
     let artistName = event.artist;
     let artistId = db.collection("artists").doc(artistName).id;
 
-    async function getArtistGenres(artistId: string) {
-      const response = await fetch(`https://api.spotify.com/v1/artists/${artistId}`, {
-        method: "GET",
-        headers: { Authorization: "Bearer " + currentToken.access_token},
-      });
-
-      return await response.json();
-    }
-
-    const artistData = await getArtistGenres(artistId);
-    const artistGenres = artistData.genres || []; // Extract genres from the response
+    let artistGenres = db.collection("artists").doc(artistName).genres;
 
     const genreScore = calculateEventScore(artistGenres, topGenres, genreMap);
     const locationScore =
