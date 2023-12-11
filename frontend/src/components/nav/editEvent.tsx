@@ -11,6 +11,7 @@ import { AddEvent, EditableEventHistory } from "./sideBarComponents";
 import { EventEntry } from "../types/types";
 
 export default function EditEvent() {
+  // const [eventLocation, setEventLocation] = useState<GeoLoc>();
 
   // init params
   const [artist, setArtist] = useState("");

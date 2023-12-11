@@ -1,5 +1,10 @@
 import { Login } from "../utilities/NavigationButton";
 
+// FOR ALBERT:
+  // add the input box here
+  // take the value -> send to backend 
+
+
 // Function that logs in the artist. Should just be a component that can tab back to the homepage and also has an input box for the spotify id
 export default function LoginArtist() {
   return (
