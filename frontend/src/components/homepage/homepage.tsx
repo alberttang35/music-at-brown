@@ -29,8 +29,6 @@ export default function HOMEPAGE() {
     orderArtists(artists, setArtists, userTopGenres);
 
     window.navigator.geolocation.getCurrentPosition(function (pos) {
-      // as far as i can tell, this code should be run on load to get the user's location
-      // console.log(pos);
       var lat = pos.coords.latitude;
       var lon = pos.coords.longitude;
       const location = {
@@ -39,12 +37,7 @@ export default function HOMEPAGE() {
       };
       setUserLoc(location);
     });
-    orderEvents(
-      weeklyBreakDownHistory,
-      setWeeklyBreakDownHistory,
-      userTopGenres,
-      userLoc
-    );
+    orderEvents(events, setEvents, userTopGenres, userLoc);
   }, [userTopGenres]);
 
   return (

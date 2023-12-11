@@ -4,7 +4,6 @@ import { EventEntry } from "../types/types.js";
 import { Artist } from "../types/types.js";
 import { Dispatch, SetStateAction, useState } from "react";
 import { mockWeekly1 } from "../mocks/mockWeeklyBreakdown.js";
-import { doAlgorithm, orderArtists } from "../algorithm.js";
 
 export interface nav {
   weeklyBreakDownHistory: EventEntry[];
@@ -26,17 +25,6 @@ export default function NAV(props: nav) {
         userTopGenres={props.userTopGenres}
         setUserTopGenres={props.setUserTopGenres}
       />
-      {/* <button
-        onClick={async () =>
-          doAlgorithm(
-            props.weeklyBreakDownHistory,
-            props.setWeeklyBreakDownHistory,
-            topUserGenres
-          )
-        }
-      >
-        test test
-      </button> */}
     </div>
   );
 }
