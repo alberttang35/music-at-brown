@@ -10,6 +10,8 @@ export interface nav {
   setWeeklyBreakDownHistory: Dispatch<SetStateAction<EventEntry[]>>;
   userTopGenres: string[];
   setUserTopGenres: Dispatch<SetStateAction<string[]>>;
+  // allEvents: EventEntry[];
+  // setAllEvents: Dispatch<SetStateAction<EventEntry[]>>;
 }
 
 export default function NAV(props: nav) {

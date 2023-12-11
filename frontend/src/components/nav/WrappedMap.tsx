@@ -43,18 +43,16 @@ export function WrappedMap(props: WrappedMapProps) {
   }
   // need to put the map in a box or something
   return (
-    <div>
-      <Map
-        mapboxAccessToken={ACCESS_TOKEN}
-        {...viewState}
-        onMove={(ev: ViewStateChangeEvent) => setViewState(ev.viewState)}
-        style={{
-          height: "50vh",
-          width: "50vw",
-        }} //{ width: window.innerWidth, height: window.innerHeight }
-        mapStyle={"mapbox://styles/mapbox/streets-v12"}
-        onClick={onMapClick}
-      ></Map>
-    </div>
+    <Map
+      mapboxAccessToken={ACCESS_TOKEN}
+      {...viewState}
+      onMove={(ev: ViewStateChangeEvent) => setViewState(ev.viewState)}
+      style={{
+        height: "75vh",
+        width: "30vw",
+      }} //{ width: window.innerWidth, height: window.innerHeight }
+      mapStyle={"mapbox://styles/mapbox/streets-v12"}
+      onClick={onMapClick}
+    ></Map>
   );
 }

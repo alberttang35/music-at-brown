@@ -1,4 +1,4 @@
-import { getDocs, collection, addDoc, doc } from "firebase/firestore";
+import { getDocs, collection, addDoc, doc, deleteDoc } from "firebase/firestore";
 import {useEffect, useState} from "react";
 import {db} from "./firebase";
 import { EventEntry } from "../frontend/src/components/types/types";
@@ -28,6 +28,18 @@ export function eventsBackend() {
     }
   }
 
+  // Should be able to delete items from the database 
+  async function deleteEvent(indexToRemoveAt:number) {
+    try {
+      const data = await getDocs(eventCollectionRef); 
+      const idOfEventToRemove = data.docs[indexToRemoveAt].id; 
+      const eventDoc = doc(db, "Events", idOfEventToRemove);
+      await deleteDoc(eventDoc);
+    } catch(err) {
+      console.log(err); 
+    }
+  }
+
   // Updates the events list to just whatever's in the database 
   useEffect(() => {
     const getAllDatabaseEvents = async () => {
@@ -54,7 +66,7 @@ export function eventsBackend() {
   // Combine the mockEvents and the eventsData to display into the browser
   const allEvents: EventEntry[] = [...events, ...mockEvents1];
 
-  return { allEvents, events, onSubmitEvent };
+  return { allEvents, events, onSubmitEvent, deleteEvent };
 }
 
 

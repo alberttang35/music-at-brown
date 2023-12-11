@@ -4,6 +4,7 @@ import Events from "./events";
 import { Artist, EventEntry } from "../types/types";
 import { SetStateAction, useEffect, useState } from "react";
 import NAV from "../nav/nav";
+import { eventsBackend } from "../../../../backend/eventsBackend";
 
 // do not need this homepage
 // export interface HOMEPAGE {
@@ -24,6 +25,8 @@ export default function HOMEPAGE() {
     EventEntry[]
   >([]);
 
+  // const [allEvents, setAllEvents] = useState(eventsBackend().allEvents); // higher level component, used for correspondence between editEvent and EventsList
+
   return (
     // want to set dynamic sizing for the grid 
     <div className="max-h-screen overflow-scroll">
@@ -38,7 +41,7 @@ export default function HOMEPAGE() {
         <Artists artists={artists} />
       </div>
       <div>
-        <Events events={events} />
+        <Events events={events}/>
       </div>
     </div>
   );

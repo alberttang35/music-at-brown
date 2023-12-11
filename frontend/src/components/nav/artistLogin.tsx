@@ -8,6 +8,8 @@ import { EditEventButton, Login } from "../utilities/NavigationButton";
 export interface artistLogin {
   weeklyBreakDownHistory: EventEntry[];
   setWeeklyBreakDownHistory: Dispatch<SetStateAction<EventEntry[]>>;
+  allEvents: EventEntry[];
+  setAllEvents: Dispatch<SetStateAction<EventEntry[]>>;
 }
 
 // features:

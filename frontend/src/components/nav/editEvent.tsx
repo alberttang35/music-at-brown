@@ -1,16 +1,12 @@
 import { Fragment, useState } from "react";
 import { EditEventButton } from "../utilities/NavigationButton";
-import { mockArtists1 } from "../mocks/mockArtists";
-import { ControlledInput } from "../utilities/controlledInput";
-import { db } from "../../../../backend/firebase";
-import { addDoc, collection, getDoc } from "firebase/firestore";
 import { eventsBackend } from "../../../../backend/eventsBackend";
-import { Menu, Tab } from "@headlessui/react";
-import { TabGroup } from "@headlessui/vue";
 import { AddEvent, EditableEventHistory } from "./sideBarComponents";
 import { EventEntry } from "../types/types";
+import { WrappedMap } from "./WrappedMap";
 
 export default function EditEvent() {
+
   // const [eventLocation, setEventLocation] = useState<GeoLoc>();
 
   // init params
@@ -33,7 +29,7 @@ export default function EditEvent() {
   // function for ADDING events to the database
   function handleAddEvent() {
     if (artist !== "" && image !== "" && venue !== "" && date !== "") {
-      onSubmitEvent(artist, image, venue, date); // log to the database
+      onSubmitEvent(artist, image, venue, date); // submit event to the database
       setEventList([
         ...eventList,
         {
@@ -67,8 +63,8 @@ export default function EditEvent() {
 
   // partial inspiration for the menu styling credited to: https://tailwindcomponents.com/component/sidebar-by-material-tailwind
   return (
-    <div className="flex flex-row">
-      <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
+    <div className="grid grid-cols-[400px_minmax(200px,_1fr)_600px] gap-5 ">
+      <div className="relative flex flex-col bg-clip-border rounded-xl bg-slate-300 text-gray-700 h-100px w-3/8 max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
         <div className="mb-2 p-4">
           <h5 className="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-gray-900">
             Event Editor
@@ -98,7 +94,7 @@ export default function EditEvent() {
           </div>
         </nav>
       </div>
-      <div className="mx-auto">
+      <div className="max-h-screen overflow-scroll">
         {selectedOption == "addEvent" && (
           <AddEvent
             artist={artist}
@@ -132,6 +128,14 @@ export default function EditEvent() {
           />
         )}
         {selectedOption == ""}
+      </div>
+      {/* This is the map component. TODO FOR JOHNNY: fill this in. */}
+      <div>
+        <WrappedMap
+          setCurrentLocation={function (value: any): void {
+            throw new Error("Function not implemented.");
+          }}
+        ></WrappedMap>
       </div>
     </div>
   );
