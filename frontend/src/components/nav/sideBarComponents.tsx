@@ -104,8 +104,8 @@ export function EditableEventHistory({ eventList, spotifyId, filteredEventList}:
   console.log("these are filtered events by id", eventsToDisplay);
 
   // delete the item
-  const deleteItem = (index: number) => {
-    deleteEvent(index); // call to the backend 
+  const deleteItem = (index:number, eventImage: string, eventArtist:string, eventVenue:string) => {
+    deleteEvent(eventImage, eventArtist, eventVenue); // call to the backend 
     // update for display on the frontend
     const updatedList = [
       ...eventsToDisplay.slice(0, index),
@@ -116,7 +116,7 @@ export function EditableEventHistory({ eventList, spotifyId, filteredEventList}:
 
   // map through the list of events added, then display them in REPL format in a side window.
   return (
-    <div className="max-h-screen overflow-y-scroll">
+    <div className="">
       <ul className="divide-x divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-3 max-h-96">
         {eventsToDisplay.map((event, index) => (
           <div key={index}>
@@ -139,7 +139,7 @@ export function EditableEventHistory({ eventList, spotifyId, filteredEventList}:
                   className={
                     "grid place-items-center mr-3 w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
                   }
-                  onClick={() => deleteItem(index)}
+                  onClick={() => deleteItem(index, event.image, event.artist, event.venue)}
                 >
                   Delete Event
                 </button>

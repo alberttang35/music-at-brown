@@ -29,24 +29,17 @@ export function eventsBackend() {
   }
 
   // Should be able to delete items from the database 
-  async function deleteEvent(indexToRemoveAt:number) {
+  async function deleteEvent(eventImage:string, eventArtist:string, eventVenue:string) {
     try {
       const data = await getDocs(eventCollectionRef); 
-      const idOfEventToRemove = data.docs[indexToRemoveAt].id; 
-      const eventDoc = doc(db, "Events", idOfEventToRemove);
-      await deleteDoc(eventDoc);
-    } catch(err) {
-      console.log(err); 
-    }
-  }
-
-  // Should be able to delete items from the database 
-  async function deleteEvent(indexToRemoveAt:number) {
-    try {
-      const data = await getDocs(eventCollectionRef); 
-      const idOfEventToRemove = data.docs[indexToRemoveAt].id; // This actually does not delete correctly, need the filter condition for all the fields for this to work actually...
-      const eventDoc = doc(db, "Events", idOfEventToRemove);
-      await deleteDoc(eventDoc);
+      const idData = data.docs.filter(doc => doc.data().venue === eventVenue && doc.data().image === eventImage && doc.data().artist === eventArtist); 
+      console.log(eventImage, eventArtist, eventVenue)
+      console.log('id data...', idData)
+      if (idData.length == 1) {
+        console.log('deleting event...')
+        const eventDoc = doc(db, "Events", idData[0].id);
+        await deleteDoc(eventDoc);
+      }
     } catch(err) {
       console.log(err); 
     }
