@@ -1,6 +1,6 @@
 import { getDocs, collection, addDoc, doc } from "firebase/firestore";
-import {useEffect, useState} from "react";
-import {db} from "./firebase";
+import { useEffect, useState } from "react";
+import { db } from "./firebase";
 import { EventEntry } from "../frontend/src/components/types/types";
 import { mockEvents1 } from "../frontend/src/components/mocks/mockEvents";
 
@@ -28,7 +28,7 @@ export function eventsBackend() {
     }
   }
 
-  // Updates the events list to just whatever's in the database 
+  // Updates the events list to just whatever's in the database
   useEffect(() => {
     const getAllDatabaseEvents = async () => {
       try {
@@ -56,8 +56,6 @@ export function eventsBackend() {
 
   return { allEvents, events, onSubmitEvent };
 }
-
-
 
 //   const getEventsById = async(id:string) => {
 //     // retrieve the events collection

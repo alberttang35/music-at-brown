@@ -5,10 +5,10 @@ import { Menu, Transition } from "@headlessui/react";
 import { NavLink } from "react-router-dom";
 import { EditEventButton, Login } from "../utilities/NavigationButton";
 
-export interface artistLogin {
-  weeklyBreakDownHistory: EventEntry[];
-  setWeeklyBreakDownHistory: Dispatch<SetStateAction<EventEntry[]>>;
-}
+// export interface artistLogin {
+//   artistId: string;
+//   setArtistId: Dispatch<SetStateAction<string>>;
+// }
 
 // features:
 // - other nested components:

@@ -9,9 +9,9 @@ import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 // import "./userLogin.css";
 
+export const accessToken = localStorage;
 
 export default function UserLogin({ userTopGenres, setUserTopGenres }) {
-  
   // login code from: https://github.com/Pineapples/spotify-web-api-auth-example-ts
   const clientId = "2168cb3e26e643c7b91076ee7a797081"; // your clientId
   const redirectUrl = "http://localhost:5173"; // your redirect URL - must be localhost URL and/or HTTPS
@@ -73,7 +73,6 @@ export default function UserLogin({ userTopGenres, setUserTopGenres }) {
     window.history.replaceState({}, document.title, updatedUrl);
   }
 
-  var userData;
   // If we have a token, we're logged in, so fetch user data and render logged in template
   if (currentToken.access_token) {
     // console.log("this is being triggered");
@@ -185,6 +184,14 @@ export default function UserLogin({ userTopGenres, setUserTopGenres }) {
     });
     console.log("setting user's top genres");
     setUserTopGenres(usersTopGenres);
+  }
+
+  async function getArtistGenres(id) {
+    const response = await fetch("https://api.spotify.com/v1/artists/" + id, {
+      method: "GET",
+      headers: { Authorization: "Bearer " + currentToken.access_token },
+    });
+    return await response.json();
   }
 
   // Click handlers
