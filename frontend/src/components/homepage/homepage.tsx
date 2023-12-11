@@ -16,6 +16,7 @@ export default function HOMEPAGE() {
   const [weeklyBreakDownHistory, setWeeklyBreakDownHistory] = useState<
     EventEntry[]
   >([]);
+  const [userTopGenres, setUserTopGenres] = useState<string[]>([]);
   const [artists, setArtists] = useState<
     Artist[]
   >([]);
@@ -23,13 +24,14 @@ export default function HOMEPAGE() {
     EventEntry[]
   >([]);
 
-
   return (
     // want to set dynamic sizing for the grid 
     <div className="max-h-screen overflow-scroll">
       <NAV
         weeklyBreakDownHistory={weeklyBreakDownHistory}
         setWeeklyBreakDownHistory={setWeeklyBreakDownHistory}
+        userTopGenres={userTopGenres}
+        setUserTopGenres={setUserTopGenres}
       />
       <WeeklyBreakdown weeklyBreakDownHistory={weeklyBreakDownHistory} />
       <div>

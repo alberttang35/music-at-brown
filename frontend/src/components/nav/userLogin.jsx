@@ -7,11 +7,11 @@ import React, {
 } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import "./userLogin.css";
+// import "./userLogin.css";
 
 
 export default function UserLogin({ userTopGenres, setUserTopGenres }) {
-
+  
   // login code from: https://github.com/Pineapples/spotify-web-api-auth-example-ts
   const clientId = "2168cb3e26e643c7b91076ee7a797081"; // your clientId
   const redirectUrl = "http://localhost:5173"; // your redirect URL - must be localhost URL and/or HTTPS
@@ -47,10 +47,8 @@ export default function UserLogin({ userTopGenres, setUserTopGenres }) {
       const now = new Date();
       const expiry = new Date(now.getTime() + expires_in * 1000);
       localStorage.setItem("expires", expiry);
-
-      getUserData().then((r) => console.log(r)); // works, but slight delay, what to do
-      // setIconURL(r.images[0].url);
-      // userTopGenres();
+      getUserData().then((r) => setIconURL(r.images[0].url)); // works, but slight delay, what to do
+      userTopGenres();
     },
   };
 
@@ -76,19 +74,13 @@ export default function UserLogin({ userTopGenres, setUserTopGenres }) {
   }
 
   var userData;
-
   // If we have a token, we're logged in, so fetch user data and render logged in template
   if (currentToken.access_token) {
-    console.log("this is being triggered");
-    console.log()
-    getUserData().then((r) =>
-      console.log(r)
-    );
+    // console.log("this is being triggered");
+    getUserData().then((r) => setIconURL(r.images[0].url));
     // renderTemplate("main", "logged-in-template", userData);
     // renderTemplate("oauth", "oauth-template", currentToken);
   }
-
-  console.log(iconURL)
 
   // // Otherwise we're not logged in, so render the login template
   // if (!currentToken.access_token) {
@@ -169,20 +161,20 @@ export default function UserLogin({ userTopGenres, setUserTopGenres }) {
   // }
 
   async function getUserData() {
-    // const response = await fetch("https://api.spotify.com/v1/me", {
-    //   method: "GET",
-    //   headers: { Authorization: "Bearer " + currentToken.access_token },
-    // });
+    const response = await fetch("https://api.spotify.com/v1/me", {
+      method: "GET",
+      headers: { Authorization: "Bearer " + currentToken.access_token },
+    });
 
-    // return await response.json();
+    return await response.json();
   }
 
   async function getUserTopArtists() {
-    // const response = await fetch("https://api.spotify.com/v1/me/top/artists", {
-    //   method: "GET",
-    //   headers: { Authorization: "Bearer " + currentToken.access_token },
-    // });
-    // return await response.json();
+    const response = await fetch("https://api.spotify.com/v1/me/top/artists", {
+      method: "GET",
+      headers: { Authorization: "Bearer " + currentToken.access_token },
+    });
+    return await response.json();
   }
 
   async function userTopGenres() {
@@ -233,7 +225,6 @@ export default function UserLogin({ userTopGenres, setUserTopGenres }) {
   //   currentToken.save(token);
   //   renderTemplate("oauth", "oauth-template", currentToken);
   // }
-
   return (
     // <div className="user-login">
     //   <input
@@ -253,8 +244,7 @@ export default function UserLogin({ userTopGenres, setUserTopGenres }) {
           width="64px"
           type="image"
           src={iconURL}
-          // onClick={async () => handleClick()}
-          // className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+          className="rounded-full"
         ></Menu.Button>
       </div>
 
@@ -275,12 +265,11 @@ export default function UserLogin({ userTopGenres, setUserTopGenres }) {
                   <button
                     type="submit"
                     onClick={async () => handleClick()}
-                    className={classNames(
-                      active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      "block w-full px-4 py-2 text-left text-sm"
-                    )}
+                    className={
+                      "flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
+                    }
                   >
-                    Log Out
+                    User Logout
                   </button>
                 )}
               </Menu.Item>
@@ -290,18 +279,15 @@ export default function UserLogin({ userTopGenres, setUserTopGenres }) {
                   <button
                     type="submit"
                     onClick={async () => handleClick()}
-                    className={classNames(
-                      active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                      "block w-full px-4 py-2 text-left text-sm"
-                    )}
+                    className={
+                      "flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
+                    }
                   >
-                    Log In
+                    User Login
                   </button>
                 )}
               </Menu.Item>
             )}
-
-            {/* </form> */}
           </div>
         </Menu.Items>
       </Transition>

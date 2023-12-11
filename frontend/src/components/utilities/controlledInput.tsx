@@ -9,26 +9,18 @@ interface ControlledInputProps {
   className: string; 
   placeholder: string;
   text: string;
-  onSubmit: () => void;
+  // onSubmit: () => void;
 }
 
+// This is a component that handles all input submissions for really anything. 
 export function ControlledInput({
   value,
   setValue,
   ariaLabel,
-  onSubmit,
   className, 
   placeholder,
   text 
 }: ControlledInputProps) {
-
-  // Event handler for what should happen when the enter key is pressed 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      onSubmit();
-    }
-  };
 
   return (
     <input
@@ -38,7 +30,14 @@ export function ControlledInput({
       placeholder={placeholder}
       onChange={(ev) => setValue(ev.target.value)}
       aria-label={ariaLabel}
-      onKeyDown={handleKeyDown}
     ></input>
   );
 }
+
+  // Event handler for what should happen when the enter key is pressed 
+  // const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  //   if (e.key === "Enter") {
+  //     e.preventDefault();
+  //     onSubmit();
+  //   }
+  // };

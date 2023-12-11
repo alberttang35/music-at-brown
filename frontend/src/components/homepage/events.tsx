@@ -4,20 +4,19 @@
 
 import { Dispatch, SetStateAction } from "react";
 import { EventEntry } from "../types/types";
-import {NavigationButton} from "../../NavigationButton";
+import { NavigationButton } from "../utilities/NavigationButton";
 import { mockEvents1 } from "../mocks/mockEvents";
-import {eventsBackend} from "../../../../backend/eventsBackend"
+import { eventsBackend } from "../../../../backend/eventsBackend";
 
 export interface Events {
   events: EventEntry[];
 }
 
-
-export default function Events({events}: Events) {
-  const eventsData = eventsBackend()
+export default function Events({ events }: Events) {
+  const eventsData = eventsBackend().events;
   return (
-  <div className="events">
-      <NavigationButton to = "/eventsAll" label = "Show All"/>
+    <div className="events">
+      <NavigationButton to="/eventsAll" label="Show All" />
       <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-6">
         {eventsData.map((event, index) => (
           <div key={index}>
@@ -29,7 +28,7 @@ export default function Events({events}: Events) {
                 alt=""
               />
               <div className="ml-3 h-10 w-45">
-              <p className="text-sm font-medium text-gray-900">
+                <p className="text-sm font-medium text-gray-900">
                   {event.artist}
                 </p>
                 <p className="text-sm font-medium text-gray-900">

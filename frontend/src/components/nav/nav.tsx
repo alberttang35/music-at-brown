@@ -8,20 +8,18 @@ import { mockWeekly1 } from "../mocks/mockWeeklyBreakdown.js";
 export interface nav {
   weeklyBreakDownHistory: EventEntry[];
   setWeeklyBreakDownHistory: Dispatch<SetStateAction<EventEntry[]>>;
+  userTopGenres: string[];
+  setUserTopGenres: Dispatch<SetStateAction<string[]>>;
 }
 
 export default function NAV(props: nav) {
-  const [topUserGenres, setTopUserGenres] = useState<string[]>([]);
 
   return (
-    <div className="grid gap-2 grid-cols-3">
-      <ArtistLogin
-        weeklyBreakDownHistory={props.weeklyBreakDownHistory}
-        setWeeklyBreakDownHistory={props.setWeeklyBreakDownHistory}
-      />
+    <div className="flex mr-20 flex-row-reverse ">
+      <ArtistLogin />
       <UserLogin
-        topUserGenres={topUserGenres}
-        setTopUserGenres={setTopUserGenres}
+        userTopGenres={props.userTopGenres}
+        setUserTopGenres={props.setUserTopGenres}
       />
     </div>
   );

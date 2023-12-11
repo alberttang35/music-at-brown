@@ -1,6 +1,6 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { EventEntry } from "../types/types";
-import { NavigationButton } from "../../NavigationButton";
+import { NavigationButton } from "../utilities/NavigationButton";
 import { mockEvents1 } from "../mocks/mockEvents";
 import { eventsBackend } from "../../../../backend/eventsBackend";
 
@@ -9,14 +9,16 @@ export interface EventsAll {
   //setEvents: Dispatch<SetStateAction<EventEntry[]>>;
 }
 
+export default function EventsAll({ events }: EventsAll) {
+  
+  // Custom events data from the backend
+  const allEvents = eventsBackend().allEvents;
 
-export default function EventsAll({events}: EventsAll) {
-  const eventsData = eventsBackend();
-    return (
-  <div className="EventsAll">
-    <NavigationButton to = "/" label = "Go To Homepage"/>
-    <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-7">
-        {eventsData.map((event, index) => (
+  return (
+    <div className="EventsAll">
+      <NavigationButton to="/" label="Go To Homepage" />
+      <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-7">
+        {allEvents.map((event, index) => (
           <div key={index}>
             {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
             <li key={index} className="h-60 w-45 shadow-xl rounded-xl">

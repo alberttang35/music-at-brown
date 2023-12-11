@@ -4,24 +4,20 @@
 
 import { Dispatch, SetStateAction, useState } from "react";
 import { Artist } from "../types/types";
-import {NavigationButton}  from "../../NavigationButton";
-import {mockArtists1}  from "../mocks/mockArtists";
-import {artistsBackend} from "../../../../backend/artistsBackend"
+import { NavigationButton } from "../utilities/NavigationButton";
+import { mockArtists1 } from "../mocks/mockArtists";
+import { artistsBackend } from "../../../../backend/artistsBackend";
 
 export interface Artists {
   artists: Artist[];
   //setArtists: Dispatch<SetStateAction<Artist[]>>;
 }
 
-
-
-
-export default function Artists({artists}: Artists) {
-
-  const artistsData = artistsBackend()
+export default function Artists({ artists }: Artists) {
+  const artistsData = artistsBackend();
   return (
-  <div className="Artists">
-    <NavigationButton to = "/artistsAll" label = "Show All"/>
+    <div className="Artists">
+      <NavigationButton to="/artistsAll" label="Show All" />
       <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-6">
         {artistsData.map((event, index) => (
           <div key={index}>

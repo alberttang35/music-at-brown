@@ -1,9 +1,9 @@
-import { Dispatch, Fragment, SetStateAction } from "react";
+import { Dispatch, Fragment, SetStateAction, useState } from "react";
 import { mockWeekly1 } from "../mocks/mockWeeklyBreakdown";
 import { EventEntry } from "../types/types";
 import { Menu, Transition } from "@headlessui/react";
-import {NavLink} from "react-router-dom";
-import { EditEventButton } from "../../NavigationButton";
+import { NavLink } from "react-router-dom";
+import { EditEventButton, Login } from "../utilities/NavigationButton";
 
 export interface artistLogin {
   weeklyBreakDownHistory: EventEntry[];
@@ -16,10 +16,7 @@ export interface artistLogin {
 // 2. artist profile image, editable
 // 3. artist bio, editable
 
-export default function ArtistLogin(props: artistLogin) {
-
-  // TODO: some functionality for updating based on form submission
-
+export default function ArtistLogin() {
   return (
     <Menu as="div" className="relative inline-block text-left">
       <div>
@@ -44,9 +41,27 @@ export default function ArtistLogin(props: artistLogin) {
       >
         <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
+            {/* Button that redirects to editing events page */}
             <Menu.Item>
               {({ active }) => (
-                <EditEventButton to={"/editEvent"} label={"EditEvent"} />
+                <EditEventButton
+                  to={"/editEvent"}
+                  label={"Edit Events"}
+                  className={
+                    "flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-blue-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
+                  }
+                />
+              )}
+            </Menu.Item>
+            <Menu.Item>
+              {({ active }) => (
+                <Login
+                  to={"/loginArtist"}
+                  label={"Artist Login"}
+                  className={
+                    "flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-blue-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
+                  }
+                />
               )}
             </Menu.Item>
           </div>

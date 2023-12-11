@@ -1,104 +1,137 @@
-import { useState } from "react";
-import { EditEventButton } from "../../NavigationButton";
+import { Fragment, useState } from "react";
+import { EditEventButton } from "../utilities/NavigationButton";
 import { mockArtists1 } from "../mocks/mockArtists";
-import { ControlledInput } from "./controlledInput";
-
+import { ControlledInput } from "../utilities/controlledInput";
+import { db } from "../../../../backend/firebase";
+import { addDoc, collection, getDoc } from "firebase/firestore";
+import { eventsBackend } from "../../../../backend/eventsBackend";
+import { Menu, Tab } from "@headlessui/react";
+import { TabGroup } from "@headlessui/vue";
+import { AddEvent, EditableEventHistory } from "./sideBarComponents";
+import { EventEntry } from "../types/types";
 
 export default function EditEvent() {
 
-  const [artistNameValue, setArtistNameValue] = useState("");
-  const [artist, setArtist] = useState(""); 
-  const [eventValue, setEventValue] = useState("");
-  const [event, setEvent] = useState(""); 
-  const [venueValue, setVenueValue] = useState("");
-  const [venue, setVenue] = useState(""); 
-  const [dateValue, setDateValue] = useState(""); 
+  // init params
+  const [artist, setArtist] = useState("");
+  const [image, setImage] = useState("");
+  const [venue, setVenue] = useState("");
   const [date, setDate] = useState("");
+  const { onSubmitEvent } = eventsBackend(); // imported function for submitting events to backend, on backend
+  const [selectedOption, setSelectedOption] = useState("");
+  const [spotifyId, setSpotifyId] = useState("nickelodekim"); // <- state for storing the spotify ID 
 
-  // handleSubmit function for artist 
-  function handleSubmitArtist(input: string) {
-    setArtist(input);
-    console.log('This is the artist: ', input);     
-    setArtistNameValue(''); 
+  // set spotify Id to what is passed in from the login page (i don't really know how to connect the classes together yet)
+
+  // event lists
+  const [eventList, setEventList] = useState<EventEntry[]>([]);
+  const filteredEvents = eventsBackend().allEvents.filter(event => event.spotifyId == spotifyId)
+  console.log('these are filtered events:', filteredEvents)
+  console.log('this is eventList', eventList)
+
+  // function for ADDING events to the database
+  function handleAddEvent() {
+    if (artist !== "" && image !== "" && venue !== "" && date !== "") {
+      onSubmitEvent(artist, image, venue, date); // log to the database
+      setEventList([
+        ...eventList,
+        {
+          artist: artist,
+          image: image,
+          venue: venue,
+          date: date,
+          spotifyId: spotifyId,
+        },
+      ]); // add to the artist's event list with the new event
+      console.log(artist, image, venue, date); // check from console
+      // reset fields
+      setArtist("");
+      setImage("");
+      setVenue("");
+      setDate("");
+    } else {
+      // there is some field that's unfilled, don't update the database
+      console.log("a field is unfilled!");
+    }
   }
 
-  // handleSubmit function for events 
-  function handleSubmitEvent(input: string) {
-    setEvent(input); 
-    console.log("This is the event: ", input);
-    setEventValue("");
+  // change state to selected option. changes what is displayed in the sidebar window
+  function handleClick(selectedOption: string) {
+    setSelectedOption(selectedOption);
   }
 
-  function handleSubmitVenue(input: string) {
-    setVenue(input); 
-    console.log("This is the venue: ", input); 
-    setVenueValue(""); 
-  }
+  // TODO: function for DELETING events from the database
 
-   function handleSubmitDate(input: string) {
-    setDate(input);
-    console.log(input); 
-    setDateValue("");
-   }    
+  // TODO: function for EDITING the fields in an event CURRENTLY IN the database
 
+  // partial inspiration for the menu styling credited to: https://tailwindcomponents.com/component/sidebar-by-material-tailwind
   return (
-    <div className="EditEvent">
-      <EditEventButton to="/" label="Go To Homepage" />
-      <div className="mt-10">
-        <p> What is your artist name? </p>
-        <ControlledInput
-          value={artistNameValue}
-          setValue={setArtistNameValue}
-          placeholder={"Input artist name here"}
-          ariaLabel={"Command input"}
-          onSubmit={() => handleSubmitArtist(artistNameValue)}
-          className="border rounded-md p-2 focus:outline-none focus:border-blue-500"
-          text={"text"}
-        />
+    <div className="flex flex-row">
+      <div className="relative flex flex-col bg-clip-border rounded-xl bg-white text-gray-700 h-[calc(100vh-2rem)] w-full max-w-[20rem] p-4 shadow-xl shadow-blue-gray-900/5">
+        <div className="mb-2 p-4">
+          <h5 className="block antialiased tracking-normal font-sans text-xl font-semibold leading-snug text-gray-900">
+            Event Editor
+          </h5>
+        </div>
+        <nav className="flex flex-col gap-1 min-w-[240px] p-2 font-sans text-base font-normal text-gray-700">
+          <div
+            role="button"
+            className="grid place-items-center mr-3 w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
+            onClick={() => handleClick("addEvent")}
+          >
+            <div className="grid place-items-center mr-4">Add Event</div>
+          </div>
+          <div
+            role="button"
+            className="grid place-items-center mr-3 w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
+            onClick={() => handleClick("modifyEvent")}
+          >
+            <div className="grid place-items-center mr-4">Modify Event</div>
+          </div>
+          <div>
+            <EditEventButton
+              to="/"
+              label="Homepage"
+              className="grid place-items-center mr-3 w-full p-5 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-blue-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
+            />
+          </div>
+        </nav>
       </div>
-      <div className="mt-7">
-        <p> Optionally provide an image for your event for public display </p>
-        <ControlledInput
-          value={eventValue}
-          setValue={setEventValue}
-          placeholder={"Input event name here"}
-          ariaLabel={"Command input"}
-          onSubmit={() => handleSubmitEvent(eventValue)}
-          className="border rounded-md p-2 focus:outline-none focus:border-blue-500"
-          text={"text"}
-        />
-      </div>
-      <div className="mt-7">
-        <p> What is the name of the venue you're performing at? </p>
-        <ControlledInput
-          value={venueValue}
-          setValue={setVenueValue}
-          placeholder={"Input venue name here"}
-          ariaLabel={"Command input"}
-          onSubmit={() => handleSubmitVenue(eventValue)}
-          className="border rounded-md p-2 focus:outline-none focus:border-blue-500"
-          text={"text"}
-        />
-      </div>
-      <div className="mt-7">
-        <p> What is the date of your event? </p>
-        <ControlledInput
-          value={dateValue}
-          setValue={setDateValue}
-          placeholder={"Input date name here"}
-          ariaLabel={"Command input"}
-          onSubmit={() => handleSubmitDate(eventValue)}
-          className="border rounded-md p-2 focus:outline-none focus:border-blue-500"
-          text={"date"}
-        />
+      <div className="mx-auto">
+        {selectedOption == "addEvent" && (
+          <AddEvent
+            artist={artist}
+            setArtist={setArtist}
+            image={image}
+            setImage={setImage}
+            venue={venue}
+            setVenue={setVenue}
+            date={date}
+            setDate={setDate}
+            handleAddEvent={handleAddEvent}
+            eventList={eventList}
+            filteredEventList={filteredEvents}
+            spotifyId={spotifyId}
+          />
+        )}
+        {selectedOption == "modifyEvent" && (
+          <EditableEventHistory
+            artist={artist}
+            setArtist={setArtist}
+            image={image}
+            setImage={setImage}
+            venue={venue}
+            setVenue={setVenue}
+            date={date}
+            setDate={setDate}
+            handleAddEvent={handleAddEvent}
+            eventList={eventList}
+            filteredEventList={filteredEvents}
+            spotifyId={spotifyId}
+          />
+        )}
+        {selectedOption == ""}
       </div>
     </div>
   );
 }
-
-// barebones formatting for event submission. 
-//    const handleSubmit = (e) => {
-//      e.preventDefault(); // Prevents the default form submission behavior
-//      setArtistName(e.value)
-//      console.log(artistName)
-//    };

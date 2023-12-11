@@ -5,15 +5,15 @@ import NAV from "./components/nav/nav";
 
 // APP
 // - homepage.tsx
-  // - nav.tsx
-    // - artistLogin.tsx
-    // - userLogin.tsx
-    // - searchBar.tsx
-  // - breakdown.tsx
-  // - artists.tsx
-  // - events.tsx
-  
-import Router from "./router";
+// - nav.tsx
+// - artistLogin.tsx
+// - userLogin.tsx
+// - searchBar.tsx
+// - breakdown.tsx
+// - artists.tsx
+// - events.tsx
+
+import Router from "./components/utilities/router";
 
 const App = () => {
   return (
@@ -25,4 +25,3 @@ const App = () => {
 };
 
 export default App;
-
