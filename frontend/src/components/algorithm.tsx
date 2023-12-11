@@ -1,5 +1,9 @@
 import { Dispatch, SetStateAction } from "react";
 import { EventEntry, Artist, GeoLoc } from "./types/types.js";
+import{db} from "./firebase";
+import { currentToken } from "nav/userLogin";
+import { getDocs, collection } from "firebase/firestore";
+
 
 function calculateEventScore(artistGenres: string[], topGenres: string[], genreMap: Map<string, number>) {
   let similar = 0;
@@ -14,31 +18,45 @@ function calculateEventScore(artistGenres: string[], topGenres: string[], genreM
   return total > 0 ? similar / total : 0;
 }
 
-export function orderEvents(
+export async function orderEvents(
   events: EventEntry[],
   setEvents: Dispatch<SetStateAction<EventEntry[]>>,
   topGenres: string[],
   userPos: GeoLoc | undefined
 ) {
-  // Create a hashmap to store the occurrences of each genre in topGenres
+  
   const genreMap = new Map<string, number>();
   topGenres.forEach((genre) => {
     genreMap.set(genre, (genreMap.get(genre) || 0) + 1);
   });
 
-  // Assign a score to each event based on genre similarity
-  const scoredEvents = events.map((event) => {
-    //get top genres of artist
-    const genreScore = calculateEventScore(event.artist.genres, topGenres, genreMap);
+  const scoredEvents = await Promise.all(events.map(async (event) => {
+    // get top genres of artist
+    let artistName = event.artist;
+    let artistId = db.collection("artists").doc(artistName).id;
+
+    async function getArtistGenres(artistId: string) {
+      const response = await fetch(`https://api.spotify.com/v1/artists/${artistId}`, {
+        method: "GET",
+        headers: { Authorization: "Bearer " + currentToken.access_token},
+      });
+
+      return await response.json();
+    }
+
+    const artistData = await getArtistGenres(artistId);
+    const artistGenres = artistData.genres || []; // Extract genres from the response
+
+    const genreScore = calculateEventScore(artistGenres, topGenres, genreMap);
     const locationScore =
       typeof userPos !== "undefined"
         ? genreScore * Math.min(1, 1 / getDistance(userPos, event.eventPos))
         : genreScore;
     return {
       ...event,
-      score: locationScore, // Use the location score here if needed
+      score: locationScore,
     };
-  });
+  }));
 
   // Sort events by score in descending order for recommendations
   scoredEvents.sort((a, b) => b.score - a.score);

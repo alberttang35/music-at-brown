@@ -19,6 +19,8 @@ import "./userLogin.css";
 // features:
 // 1. input box for spotify login
 // * this component should (probably) have some sort of api call to backend as well, maybe involved with database
+export const accessToken = currentToken.access_token;
+
 export default function UserLogin({ userTopGenres, setUserTopGenres }) {
   // login code from: https://github.com/Pineapples/spotify-web-api-auth-example-ts
   const clientId = "2168cb3e26e643c7b91076ee7a797081"; // your clientId
@@ -59,6 +61,8 @@ export default function UserLogin({ userTopGenres, setUserTopGenres }) {
       userTopGenres();
     },
   };
+
+
 
   // On page load, try to fetch auth code from current browser search URL
   const args = new URLSearchParams(window.location.search);
