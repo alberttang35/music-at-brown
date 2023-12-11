@@ -7,7 +7,6 @@ import EventsAll from "../homepage/eventsAll";
 import ArtistsAll from "../homepage/artistsAll";
 import EditEvent from "../nav/editEvent";
 import LoginArtist from "../nav/loginArtist";
-import EventHistory from "../nav/editableEventHistory";
 
 const CustomRouter = () => {
   const [artistsAll, setartistsAll] = useState<Artist[]>([]);
@@ -25,7 +24,6 @@ const CustomRouter = () => {
         />
         <Route path="/editEvent" element={<EditEvent />} />
         <Route path="/loginArtist" element={<LoginArtist />} />
-        <Route path="/editEventDisplay" element={<EventHistory />} />
       </Routes>
     </Router>
   );
