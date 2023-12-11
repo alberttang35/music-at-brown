@@ -21,13 +21,13 @@ export default function EventsAll({ events }: EventsAll) {
         {allEvents.map((event, index) => (
           <div key={index}>
             {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
-            <li key={index} className="h-60 w-45 shadow-xl rounded-xl">
+            <li key={index} className="h-fit w-45 shadow-xl rounded-xl">
               <img
                 className="aspect-video w-45 object-cover object-center rounded-t-xl"
                 src={event.image}
                 alt=""
               />
-              <div className="ml-3 h-10 w-45">
+              <div className="ml-3 h-fit w-45">
                 <p className="text-sm font-medium text-gray-900">
                   {event.artist}
                 </p>

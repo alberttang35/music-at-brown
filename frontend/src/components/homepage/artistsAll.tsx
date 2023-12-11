@@ -10,7 +10,9 @@ export interface ArtistsAll {
 }
 
 export default function ArtistsAll({ artists }: ArtistsAll) {
+  
   const artistsData = artistsBackend();
+
   return (
     <div className="ArtistsAll">
       <NavigationButton to="/" label="Go To Homepage" />

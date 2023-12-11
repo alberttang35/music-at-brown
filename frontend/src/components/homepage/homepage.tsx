@@ -28,21 +28,17 @@ export default function HOMEPAGE() {
   // const [allEvents, setAllEvents] = useState(eventsBackend().allEvents); // higher level component, used for correspondence between editEvent and EventsList
 
   return (
-    // want to set dynamic sizing for the grid 
-    <div className="max-h-screen overflow-scroll">
+    // want to set dynamic sizing for the grid
+    <div className="max-h-screen overflow-visible overscroll-auto">
       <NAV
         weeklyBreakDownHistory={weeklyBreakDownHistory}
         setWeeklyBreakDownHistory={setWeeklyBreakDownHistory}
         userTopGenres={userTopGenres}
         setUserTopGenres={setUserTopGenres}
       />
-      <WeeklyBreakdown weeklyBreakDownHistory={weeklyBreakDownHistory} />
-      <div>
-        <Artists artists={artists} />
-      </div>
-      <div>
-        <Events events={events}/>
-      </div>
+      {/* <WeeklyBreakdown weeklyBreakDownHistory={weeklyBreakDownHistory} /> */}
+      <Events events={events} />
+      <Artists artists={artists} />
     </div>
   );
 }

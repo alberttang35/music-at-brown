@@ -20,6 +20,7 @@ import { Box } from "@mui/material";
 import { GeoLoc } from "../types/types.js";
 import "mapbox-gl/dist/mapbox-gl.css";
 import mapboxgl from "mapbox-gl";
+
 //Interface for the WrappedMap class
 interface WrappedMapProps {
   // setCurrentLocation: Dispatch<SetStateAction<GeoLoc | undefined>>;
@@ -27,6 +28,7 @@ interface WrappedMapProps {
 
 //Returns the map to be displayed in REPL
 export function WrappedMap(props: WrappedMapProps) {
+
   //Initializing the constants that are needed throughout
   const initialZoom = 16;
   const ProvidenceLatLong = {
@@ -49,6 +51,7 @@ export function WrappedMap(props: WrappedMapProps) {
   const mapRef = useRef<MapRef>(null)
 
   function onMapClick(e: MapLayerMouseEvent) {
+
     setPopupInfo({
       latitude: e.lngLat.lat,
       longitude: e.lngLat.lng,
@@ -58,6 +61,7 @@ export function WrappedMap(props: WrappedMapProps) {
     console.log(e.lngLat);
 
   }
+  
   // need to put the map in a box or something
   return (
     <Map

@@ -17,7 +17,6 @@ export default function Artists({ artists }: Artists) {
   const artistsData = artistsBackend();
   return (
     <div className="Artists">
-      <NavigationButton to="/artistsAll" label="Show All" />
       <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-6">
         {artistsData.artists.map((event, index) => (
           <div key={index}>
@@ -41,6 +40,7 @@ export default function Artists({ artists }: Artists) {
           </div>
         ))}
       </ul>
+      <NavigationButton to="/artistsAll" label="Show All" />
     </div>
   );
 }

@@ -105,6 +105,7 @@ export function EditableEventHistory({ eventList, spotifyId, filteredEventList}:
 
   // delete the item
   const deleteItem = (index:number, eventImage: string, eventArtist:string, eventVenue:string) => {
+    console.log('im deleting an event right now...')
     deleteEvent(eventImage, eventArtist, eventVenue); // call to the backend 
     // update for display on the frontend
     const updatedList = [
@@ -120,7 +121,7 @@ export function EditableEventHistory({ eventList, spotifyId, filteredEventList}:
       <ul className="divide-x divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-3 max-h-96">
         {eventsToDisplay.map((event, index) => (
           <div key={index}>
-            {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
+            {/* Crate a profile image, corresponding description. Just make key the index for convenience*/}
             <li key={index} className="h-56 w-45 shadow-xl rounded-xl">
               <img
                 className="aspect-video w-45 object-cover object-center rounded-t-xl"
