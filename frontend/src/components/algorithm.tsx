@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { EventEntry, Artist, GeoLoc } from "./types/types.js";
 import{db} from "./firebase";
-import { currentToken } from "nav/userLogin";
 import { getDocs, collection } from "firebase/firestore";
 
 
@@ -17,14 +16,15 @@ function calculateEventScore(artistGenres: string[], topGenres: string[], genreM
   const total = topGenres.length;
   return total > 0 ? similar / total : 0;
 }
-
 export async function orderEvents(
   events: EventEntry[],
   setEvents: Dispatch<SetStateAction<EventEntry[]>>,
   topGenres: string[],
   userPos: GeoLoc | undefined
 ) {
-  
+  const genreWeight = 0.8; // Higher weight for genre score
+  const locationWeight = 0.2; // Lower weight for location score
+
   const genreMap = new Map<string, number>();
   topGenres.forEach((genre) => {
     genreMap.set(genre, (genreMap.get(genre) || 0) + 1);
@@ -34,17 +34,21 @@ export async function orderEvents(
     // get top genres of artist
     let artistName = event.artist;
     let artistId = db.collection("artists").doc(artistName).id;
-
     let artistGenres = db.collection("artists").doc(artistName).genres;
 
     const genreScore = calculateEventScore(artistGenres, topGenres, genreMap);
-    const locationScore =
-      typeof userPos !== "undefined"
-        ? genreScore * Math.min(1, 1 / getDistance(userPos, event.eventPos))
-        : genreScore;
+    
+    let locationScore = 0;
+    if (userPos) {
+      const distance = getDistance(userPos, event.eventPos);
+      locationScore = 1 / (1 + distance); // Normalize distance score
+    }
+
+    const combinedScore = genreScore * genreWeight + locationScore * locationWeight;
+    
     return {
       ...event,
-      score: locationScore,
+      score: combinedScore,
     };
   }));
 
@@ -72,6 +76,7 @@ function getDistance(point1: GeoLoc, point2: GeoLoc) {
       Math.sin(dLon / 2);
   var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   var d = R * c; // Distance in km
+  console.log(d);
   return d;
 }
 
