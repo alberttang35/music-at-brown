@@ -14,11 +14,12 @@ export interface Artists {
 }
 
 export default function Artists({ artists }: Artists) {
-  const artistsData = artistsBackend();
+  const artistsData = artistsBackend().artists;
+
   return (
     <div className="Artists">
       <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-6">
-        {artistsData.artists.map((event, index) => (
+        {artistsData.map((event, index) => (
           <div key={index}>
             {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
             <li key={index} className="h-45 w-45 shadow-xl rounded-xl">
