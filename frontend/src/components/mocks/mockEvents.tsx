@@ -8,7 +8,7 @@ export const mockEvents1: EventEntry[] = [
     image:
       "https://assets.teenvogue.com/photos/64f0a106a683b28e919ea05c/16:9/w_4649,h_2615,c_limit/GettyImages-1604947670.jpg",
     date: "10/1/2023",
-    spotifyId: "",
+    spotifyId: "7n2Ycct7Beij7Dj7meI4X0?si=MITfKnp0SLGMGDg740rK2w",
   },
   {
     artist: "Jay Park",
@@ -32,7 +32,7 @@ export const mockEvents1: EventEntry[] = [
     image:
       "https://assets.teenvogue.com/photos/64f0a106a683b28e919ea05c/16:9/w_4649,h_2615,c_limit/GettyImages-1604947670.jpg",
     date: "10/1/2023",
-    spotifyId: "",
+    spotifyId: "7n2Ycct7Beij7Dj7meI4X0?si=MITfKnp0SLGMGDg740rK2w",
   },
   {
     artist: "Jay Park",
@@ -64,7 +64,7 @@ export const mockEvents1: EventEntry[] = [
     image:
       "https://assets.teenvogue.com/photos/64f0a106a683b28e919ea05c/16:9/w_4649,h_2615,c_limit/GettyImages-1604947670.jpg",
     date: "10/1/2023",
-    spotifyId: "",
+    spotifyId: "7n2Ycct7Beij7Dj7meI4X0?si=MITfKnp0SLGMGDg740rK2w",
   },
   {
     artist: "Jay Park",
@@ -88,7 +88,7 @@ export const mockEvents1: EventEntry[] = [
     image:
       "https://assets.teenvogue.com/photos/64f0a106a683b28e919ea05c/16:9/w_4649,h_2615,c_limit/GettyImages-1604947670.jpg",
     date: "10/1/2023",
-    spotifyId: "",
+    spotifyId: "7n2Ycct7Beij7Dj7meI4X0?si=MITfKnp0SLGMGDg740rK2w",
   },
   {
     artist: "Jay Park",

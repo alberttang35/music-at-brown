@@ -11,7 +11,7 @@ export interface ArtistsAll {
 
 export default function ArtistsAll({ artists }: ArtistsAll) {
   
-  const artistsData = artistsBackend();
+  const artistsData = artistsBackend().artists;
 
   return (
     <div className="ArtistsAll">

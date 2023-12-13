@@ -14,9 +14,11 @@ export default function EditEvent() {
   const [image, setImage] = useState("");
   const [venue, setVenue] = useState("");
   const [date, setDate] = useState("");
+  const [fieldToChange, setFieldToChange] = useState("");
+  const [fieldValue, setFieldValue] = useState("");
   const { onSubmitEvent } = eventsBackend(); // imported function for submitting events to backend, on backend
   const [selectedOption, setSelectedOption] = useState("");
-  const [spotifyId, setSpotifyId] = useState("nickelodekim"); // <- state for storing the spotify ID 
+  const [spotifyId, setSpotifyId] = useState("7n2Ycct7Beij7Dj7meI4X0?si=MITfKnp0SLGMGDg740rK2w"); // <- state for storing the spotify ID 
 
   // set spotify Id to what is passed in from the login page (i don't really know how to connect the classes together yet)
 
@@ -27,9 +29,9 @@ export default function EditEvent() {
   console.log('this is eventList', eventList)
 
   // function for ADDING events to the database
-  function handleAddEvent() {
+  async function handleAddEvent() {
     if (artist !== "" && image !== "" && venue !== "" && date !== "") {
-      onSubmitEvent(artist, image, venue, date); // submit event to the database
+      setSpotifyId(await onSubmitEvent(artist, image, venue, date)); // submit event to the database
       setEventList([
         ...eventList,
         {
@@ -40,12 +42,13 @@ export default function EditEvent() {
           spotifyId: spotifyId,
         },
       ]); // add to the artist's event list with the new event
-      console.log(artist, image, venue, date); // check from console
+      console.log(artist, image, venue, date, spotifyId); // check from console
       // reset fields
       setArtist("");
       setImage("");
       setVenue("");
       setDate("");
+      setSpotifyId("");
     } else {
       // there is some field that's unfilled, don't update the database
       console.log("a field is unfilled!");
@@ -105,10 +108,15 @@ export default function EditEvent() {
             setVenue={setVenue}
             date={date}
             setDate={setDate}
+            fieldToChange= {fieldToChange}
+            setFieldToChange={setFieldToChange}
+            fieldValue= {fieldValue}
+            setFieldValue={setFieldValue}
             handleAddEvent={handleAddEvent}
             eventList={eventList}
             filteredEventList={filteredEvents}
             spotifyId={spotifyId}
+            setSpotifyId={setSpotifyId}
           />
         )}
         {selectedOption == "modifyEvent" && (
@@ -121,10 +129,15 @@ export default function EditEvent() {
             setVenue={setVenue}
             date={date}
             setDate={setDate}
+            fieldToChange= {fieldToChange}
+            setFieldToChange={setFieldToChange}
+            fieldValue= {fieldValue}
+            setFieldValue={setFieldValue}
             handleAddEvent={handleAddEvent}
             eventList={eventList}
             filteredEventList={filteredEvents}
             spotifyId={spotifyId}
+            setSpotifyId={setSpotifyId}
           />
         )}
         {selectedOption == ""}
