@@ -8,16 +8,18 @@ import { ControlledInput } from "../utilities/controlledInput";
 export default function LoginArtist() {
   const [artistID, setArtistID] = useState<string>("");
   const [name, setName] = useState<string>("");
-  const [genres, setGenres] = useState<string[]>([]); 
+  const [genres, setGenres] = useState<string[]>([]);
   const { onSubmitArtist } = artistsBackend(); // imported function for submitting artists to backend, on backend
-  const [links, setLinks] = useState<string>(""); 
-  const [image, setImage] = useState<string>(""); 
-  const [bio, setBio] = useState<string>(""); 
+  const [image, setImage] = useState<string>("");
+  const [bio, setBio] = useState<string>("");
 
-  const updateFromSpotifyAPICall = (nameFromAPI:string, genresFromAPI:string[]) => {
-    setName(nameFromAPI); 
-    setGenres(genresFromAPI); 
-  }
+  const updateFromSpotifyAPICall = (
+    nameFromAPI: string,
+    genresFromAPI: string[]
+  ) => {
+    setName(nameFromAPI);
+    setGenres(genresFromAPI);
+  };
 
   // function that gets the artist genres from the inputted artist spotify ID, then submits a call to the backend with all the other necessary states
   async function getArtistGenres(id: string) {
@@ -31,15 +33,14 @@ export default function LoginArtist() {
   }
 
   function handleAddArtist() {
-    if (artistID !== "" && image !== "" && links !== "" && bio !== "") {
-      getArtistGenres(artistID)
-      console.log('this is the artists name and genres', name, genres)
-      onSubmitArtist(name, genres, links, image, bio, artistID); // submit artist to the database
-      // NOTE: just reset fields here, afterwards everything should in theory be logged in the database 
-      setArtistID(""); 
+    if (artistID !== "" && image !== "" && bio !== "") {
+      getArtistGenres(artistID);
+      console.log("this is the artists name and genres", name, genres);
+      onSubmitArtist(name, genres, image, bio, artistID); // submit artist to the database
+      // NOTE: just reset fields here, afterwards everything should in theory be logged in the database
+      setArtistID("");
       setBio("");
-      setImage("");  
-      setLinks(""); 
+      setImage("");
     } else {
       // there is some field that's unfilled, don't update the database
       console.log("a field is unfilled!");
@@ -57,11 +58,11 @@ export default function LoginArtist() {
           className="mt-4 grid place-items-center mr-3 w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
         />
         <div className="mt-7">
-          <p> Provide a link to your Spotify profile </p>
+          <p> Provide your Spotify ID </p>
           <ControlledInput
             value={artistID}
             setValue={setArtistID}
-            placeholder={"Input id here"}
+            placeholder={"Input ID here"}
             ariaLabel={"Command input"}
             className="border rounded-md p-2 focus:outline-none focus:border-blue-500"
             text={"text"}
@@ -84,17 +85,6 @@ export default function LoginArtist() {
             value={bio}
             setValue={setBio}
             placeholder={"Input bio here"}
-            ariaLabel={"Command input"}
-            className="border rounded-md p-2 focus:outline-none focus:border-blue-500"
-            text={"text"}
-          />
-        </div>
-        <div className="mt-7">
-          <p> Provide a link to your Spotify profile </p>
-          <ControlledInput
-            value={links}
-            setValue={setLinks}
-            placeholder={"Input link here"}
             ariaLabel={"Command input"}
             className="border rounded-md p-2 focus:outline-none focus:border-blue-500"
             text={"text"}
