@@ -10,7 +10,7 @@ import { artistsBackend } from "../../../../backend/artistsBackend";
 
 export interface Artists {
   artists: Artist[];
-  //setArtists: Dispatch<SetStateAction<Artist[]>>;
+  // setArtists: Dispatch<SetStateAction<Artist[]>>;
 }
 
 export default function Artists({ artists }: Artists) {

@@ -1,4 +1,5 @@
 import { EventEntry } from "../types/types";
+import { mockArtists1 } from "./mockArtists";
 
 // create several mocks for testing display
 export const mockEvents1: EventEntry[] = [
