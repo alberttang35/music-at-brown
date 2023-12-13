@@ -13,14 +13,15 @@ import NAV from "./components/nav/nav";
 // - artists.tsx
 // - events.tsx
 
-function App() {
+import Router from "./components/utilities/router";
+
+const App = () => {
   return (
     <div className="App">
       <h1>Music@Brown</h1>
-      <HOMEPAGE />
-      <HOMEPAGE></HOMEPAGE>
+      <Router />
     </div>
   );
-}
+};
 
 export default App;

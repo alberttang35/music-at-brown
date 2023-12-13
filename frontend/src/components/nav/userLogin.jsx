@@ -1,14 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  SetStateAction,
+  Dispatch,
+  Fragment,
+} from "react";
+import { Menu, Transition } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
+// import "./userLogin.css";
 
-// interface UserLoginProps {
-//   usersTopGenres: string[];
-//   setUsersTopGenres: Dispatch<SetStateAction<string[]>>;
-// } type of props
+export const accessToken = localStorage;
 
-// features:
-// 1. input box for spotify login
-// * this component should (probably) have some sort of api call to backend as well, maybe involved with database
-export default function UserLogin({ topGenres, setTopGenres }) {
+export default function UserLogin({ userTopGenres, setUserTopGenres }) {
   // login code from: https://github.com/Pineapples/spotify-web-api-auth-example-ts
   const clientId = "2168cb3e26e643c7b91076ee7a797081"; // your clientId
   const redirectUrl = "http://localhost:5173"; // your redirect URL - must be localhost URL and/or HTTPS
@@ -16,7 +19,9 @@ export default function UserLogin({ topGenres, setTopGenres }) {
   const authorizationEndpoint = "https://accounts.spotify.com/authorize";
   const tokenEndpoint = "https://accounts.spotify.com/api/token";
   const scope = "user-top-read user-read-private user-read-email";
-  const [iconURL, setIconURL] = useState("");
+  const [iconURL, setIconURL] = useState(
+    "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
+  );
 
   // Data structure that manages the current active token, caching it in localStorage
   const currentToken = {
@@ -43,6 +48,7 @@ export default function UserLogin({ topGenres, setTopGenres }) {
       const expiry = new Date(now.getTime() + expires_in * 1000);
       localStorage.setItem("expires", expiry);
       getUserData().then((r) => setIconURL(r.images[0].url)); // works, but slight delay, what to do
+      userTopGenres();
     },
   };
 
@@ -67,7 +73,6 @@ export default function UserLogin({ topGenres, setTopGenres }) {
     window.history.replaceState({}, document.title, updatedUrl);
   }
 
-  var userData;
   // If we have a token, we're logged in, so fetch user data and render logged in template
   if (currentToken.access_token) {
     // console.log("this is being triggered");
@@ -177,7 +182,16 @@ export default function UserLogin({ topGenres, setTopGenres }) {
     response.items.forEach((item) => {
       usersTopGenres = [...usersTopGenres, ...item.genres];
     });
-    setTopGenres(usersTopGenres);
+    console.log("setting user's top genres");
+    setUserTopGenres(usersTopGenres);
+  }
+
+  async function getArtistGenres(id) {
+    const response = await fetch("https://api.spotify.com/v1/artists/" + id, {
+      method: "GET",
+      headers: { Authorization: "Bearer " + currentToken.access_token },
+    });
+    return await response.json();
   }
 
   // Click handlers
@@ -192,12 +206,15 @@ export default function UserLogin({ topGenres, setTopGenres }) {
   }
 
   async function handleClick() {
-    // Design wise, prob want some sort of dropdown on click, especially if logging out
     if (currentToken.access_token) {
       logoutClick();
     } else {
       loginWithSpotifyClick();
     }
+  }
+
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
   }
 
   // useEffect(() => {
@@ -206,7 +223,6 @@ export default function UserLogin({ topGenres, setTopGenres }) {
   //   // I think it should be a useEffect, but I can't get this to work
   //   if (currentToken.access_token) {
   //     console.log("hi");
-  //     getUserData().then((r) => setIconURL(r.images[0].url));
   //   }
   // }, [currentToken]);
 
@@ -215,33 +231,63 @@ export default function UserLogin({ topGenres, setTopGenres }) {
   //   currentToken.save(token);
   //   renderTemplate("oauth", "oauth-template", currentToken);
   // }
-
   return (
-    <div className="user-login">
-      <input
-        height="64px"
-        width="64px"
-        type="image"
-        src={iconURL}
-        onClick={async () => handleClick()}
-        align="right"
-      ></input>
-      <div></div>
-      <button
-        onClick={async () =>
-          getUserData().then((r) => setIconURL(r.images[0].url))
-        }
+    <Menu as="div" className="relative inline-block text-left">
+      <div>
+        <Menu.Button
+          as="input"
+          height="64px"
+          width="64px"
+          type="image"
+          src={iconURL}
+          className="rounded-full"
+        ></Menu.Button>
+      </div>
+
+      <Transition
+        as={Fragment}
+        enter="transition ease-out duration-100"
+        enterFrom="transform opacity-0 scale-95"
+        enterTo="transform opacity-100 scale-100"
+        leave="transition ease-in duration-75"
+        leaveFrom="transform opacity-100 scale-100"
+        leaveTo="transform opacity-0 scale-95"
       >
-        set profile pic
-      </button>
-      <div></div>
-      <button onClick={async () => getUserData().then((r) => console.log(r))}>
-        get user data
-      </button>
-      <div></div>
-      <button onClick={async () => userTopGenres()}>get top artists</button>
-      <div></div>
-      <button onClick={async () => console.log(topGenres)}>press me</button>
-    </div>
+        <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+          <div className="py-1">
+            {currentToken.access_token ? (
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    type="submit"
+                    onClick={async () => handleClick()}
+                    className={
+                      "flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
+                    }
+                  >
+                    User Logout
+                  </button>
+                )}
+              </Menu.Item>
+            ) : (
+              <Menu.Item>
+                {({ active }) => (
+                  <button
+                    type="submit"
+                    onClick={async () => handleClick()}
+                    className={
+                      "flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
+                    }
+                  >
+                    User Login
+                  </button>
+                )}
+              </Menu.Item>
+            )}
+          </div>
+        </Menu.Items>
+      </Transition>
+    </Menu>
+    // </div>
   );
 }
