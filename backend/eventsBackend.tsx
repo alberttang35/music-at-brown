@@ -14,14 +14,17 @@ export function eventsBackend() {
     artist1: string,
     event1: string,
     venue1: string,
-    date1: string
+    date1: string,
+    locArray: number[] 
   ) {
     try {
+      console.log('adding event to database' + locArray)
       await addDoc(eventCollectionRef, {
         artist: artist1,
         event: event1,
         venue: venue1,
         date: date1,
+        location: locArray,
       });
     } catch (err) {
       console.log(err);

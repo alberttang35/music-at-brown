@@ -1,7 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { EventEntry, Artist, GeoLoc } from "./types/types.js";
 import { db } from "../../../backend/firebase";
-import { getDocs, collection } from "firebase/firestore";
+import { getDoc, collection, doc } from "firebase/firestore";
 
 function calculateEventScore(
   artistGenres: string[],
@@ -36,15 +36,25 @@ export async function orderEvents(
   const scoredEvents = await Promise.all(
     events.map(async (event) => {
       // get top genres of artist
+      
       let artistName = event.artist;
-      let artistId = db.collection("artists").doc(artistName).id;
-      let artistGenres = db.collection("artists").doc(artistName).genres;
+      
+      // Reference to a collection
+      const artistsCollectionRef = collection(db, "Artists");
+
+      // Reference to a document
+      const artistDocRef = doc(artistsCollectionRef, artistName);
+
+      // Fetching document data
+      const artistSnap = await getDoc(artistDocRef);
+
+      let artistGenres = artistSnap.data()!.genres;
 
       const genreScore = calculateEventScore(artistGenres, topGenres, genreMap);
-
+      console.log(genreScore);
       let locationScore = 0;
       if (userPos) {
-        const distance = getDistance(userPos, event.eventPos);
+        const distance = getDistance(userPos, event.location);
         locationScore = 1 / (1 + distance); // Normalize distance score
       }
 
@@ -65,11 +75,11 @@ export async function orderEvents(
   setEvents(scoredEvents);
 }
 
-function getDistance(point1: GeoLoc, point2: GeoLoc) {
+function getDistance(point1: GeoLoc, point2: number[]) {
   const lat1 = point1.lat;
   const lon1 = point1.lon;
-  const lat2 = point2.lat;
-  const lon2 = point2.lon;
+  const lat2 = point2[0];
+  const lon2 = point2[1];
 
   var R = 6371; // Radius of the earth in km
   var dLat = toRad(lat2 - lat1); // Javascript functions in radians

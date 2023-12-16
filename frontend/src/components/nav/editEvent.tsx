@@ -17,6 +17,7 @@ export default function EditEvent() {
   const { onSubmitEvent } = eventsBackend(); // imported function for submitting events to backend, on backend
   const [selectedOption, setSelectedOption] = useState("");
   const [spotifyId, setSpotifyId] = useState("nickelodekim"); // <- state for storing the spotify ID 
+  const [location, setLocation] = useState<number[]>([0,0]); // <- state for storing the location [latitude, longitude
 
   // set spotify Id to what is passed in from the login page (i don't really know how to connect the classes together yet)
 
@@ -26,10 +27,14 @@ export default function EditEvent() {
   console.log('these are filtered events:', filteredEvents)
   console.log('this is eventList', eventList)
 
+  function updateLocation(latitude: number, longitude: number) {
+    setLocation([latitude, longitude])
+  }
+
   // function for ADDING events to the database
   function handleAddEvent() {
     if (artist !== "" && image !== "" && venue !== "" && date !== "") {
-      onSubmitEvent(artist, image, venue, date); // submit event to the database
+      onSubmitEvent(artist, image, venue, date, location); // submit event to the database
       setEventList([
         ...eventList,
         {
@@ -38,6 +43,7 @@ export default function EditEvent() {
           venue: venue,
           date: date,
           spotifyId: spotifyId,
+          location: location,
         },
       ]); // add to the artist's event list with the new event
       console.log(artist, image, venue, date); // check from console
@@ -132,7 +138,10 @@ export default function EditEvent() {
       {/* This is the map component. TODO FOR JOHNNY: fill this in. */}
       <div>
         <WrappedMap
-        ></WrappedMap>
+          handleLocation = {(la,lo) => updateLocation(la,lo)} 
+        >
+          
+        </WrappedMap>
       </div>
     </div>
   );

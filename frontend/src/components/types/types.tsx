@@ -13,6 +13,7 @@ export type EventEntry = {
   venue: string;
   date: string;
   spotifyId: string;
+  location: number[];
 };
 
 // // Type denoting the types of output as a message or data
