@@ -16,6 +16,7 @@ export function eventsBackend() {
     event1: string,
     venue1: string,
     date1: string,
+<<<<<<< HEAD
   ): Promise<string> {
     try {
       // Query the Artists collection to get the spotifyId for the given artist1
@@ -32,11 +33,22 @@ export function eventsBackend() {
   
       // Add the event to the Events collection with the obtained spotifyId
       await addDoc(collection(db, "Events"), {
+=======
+    locArray: number[] 
+  ) {
+    try {
+      console.log('adding event to database' + locArray)
+      await addDoc(eventCollectionRef, {
+>>>>>>> d2d3224973eaedcaea768da290f287da72a5601d
         artist: artist1,
         event: event1,
         venue: venue1,
         date: date1,
+<<<<<<< HEAD
         spotifyId: spotifyId,
+=======
+        location: locArray,
+>>>>>>> d2d3224973eaedcaea768da290f287da72a5601d
       });
   
       // Return the spotifyId

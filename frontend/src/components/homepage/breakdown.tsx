@@ -15,7 +15,7 @@ export default function WeeklyBreakdown({
     // create an unordered list of the events for the weekly breakdown
     // weekly breakdown so grid of 7 entries
     <ul className="divide-y divide-gray-200 mx-auto grid gap-2 grid-cols-6 overflow-auto p-10">
-      {mockWeekly1.map((event, index) => (
+      {weeklyBreakDownHistory.map((event, index) => (
         // card
         <div key={index} className="h-45 w-45 shadow-xl rounded-xl">
           <img

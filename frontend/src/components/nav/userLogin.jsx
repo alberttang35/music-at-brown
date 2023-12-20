@@ -206,7 +206,6 @@ export default function UserLogin({ userTopGenres, setUserTopGenres }) {
   }
 
   async function handleClick() {
-    // Design wise, prob want some sort of dropdown on click, only on logout though
     if (currentToken.access_token) {
       logoutClick();
     } else {
@@ -233,16 +232,6 @@ export default function UserLogin({ userTopGenres, setUserTopGenres }) {
   //   renderTemplate("oauth", "oauth-template", currentToken);
   // }
   return (
-    // <div className="user-login">
-    //   <input
-    //     height="64px"
-    //     width="64px"
-    //     type="image"
-    //     src={iconURL}
-    //     onClick={async () => handleClick()}
-    //     align="right"
-    //     padding-right="50px"
-    //   ></input>
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <Menu.Button
@@ -392,19 +381,4 @@ export default function Example() {
   )
 }
 
-  {/* <Menu.Item>
-              {({ active }) => (
-                <a
-                  href="#"
-                  className={classNames(
-                    active ? "bg-gray-100 text-gray-900" : "text-gray-700",
-                    "block px-4 py-2 text-sm"
-                  )}
-                >
-                  Support
-                </a>
-              )}
-            </Menu.Item> */
-{
-  /* <form method="POST" action="#"> */
-}
+*/

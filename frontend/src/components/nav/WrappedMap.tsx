@@ -24,10 +24,16 @@ import mapboxgl from "mapbox-gl";
 //Interface for the WrappedMap class
 interface WrappedMapProps {
   // setCurrentLocation: Dispatch<SetStateAction<GeoLoc | undefined>>;
+  handleLocation: (num1: number, num2: number) => void;
 }
 
+
+ 
 //Returns the map to be displayed in REPL
 export function WrappedMap(props: WrappedMapProps) {
+
+  const [latitude, setLatitude] = useState<number>(0);
+  const [longitude, setLongitude] = useState<number>(0);
 
   //Initializing the constants that are needed throughout
   const initialZoom = 16;
@@ -51,13 +57,16 @@ export function WrappedMap(props: WrappedMapProps) {
   const mapRef = useRef<MapRef>(null)
 
   function onMapClick(e: MapLayerMouseEvent) {
-
+    setLatitude(e.lngLat.lat);
+    setLongitude(e.lngLat.lng);
+    
     setPopupInfo({
       latitude: e.lngLat.lat,
       longitude: e.lngLat.lng,
       isVisible: true
     });
-
+    props.handleLocation(e.lngLat.lat, e.lngLat.lng);
+    
     console.log(e.lngLat);
 
   }

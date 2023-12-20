@@ -12,13 +12,18 @@ export function artistsBackend() {
   async function onSubmitArtist(
     name: string,
     genres: string[],
-    links: string,
-    image: string, 
-    bio: string, 
-    spotifyId: string, 
+    image: string,
+    bio: string,
+    spotifyId: string
   ) {
     try {
-      await addDoc(artistCollectionRef, { name: name, links: links, image: image, bio: bio, spotifyId: spotifyId, genres: genres });
+      await addDoc(artistCollectionRef, {
+        name: name,
+        image: image,
+        bio: bio,
+        spotifyId: spotifyId,
+        genres: genres,
+      });
     } catch (err) {
       console.log(err);
     }
