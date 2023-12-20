@@ -6,7 +6,6 @@ import { EventEntry } from "../types/types";
 import { WrappedMap } from "./WrappedMap";
 
 export default function EditEvent() {
-
   // const [eventLocation, setEventLocation] = useState<GeoLoc>();
 
   // init params
@@ -18,15 +17,19 @@ export default function EditEvent() {
   const [fieldValue, setFieldValue] = useState("");
   const { onSubmitEvent } = eventsBackend(); // imported function for submitting events to backend, on backend
   const [selectedOption, setSelectedOption] = useState("");
-  const [spotifyId, setSpotifyId] = useState("7n2Ycct7Beij7Dj7meI4X0?si=MITfKnp0SLGMGDg740rK2w"); // <- state for storing the spotify ID 
+  const [spotifyId, setSpotifyId] = useState(
+    "7n2Ycct7Beij7Dj7meI4X0?si=MITfKnp0SLGMGDg740rK2w"
+  ); // <- state for storing the spotify ID
 
   // set spotify Id to what is passed in from the login page (i don't really know how to connect the classes together yet)
 
   // event lists
   const [eventList, setEventList] = useState<EventEntry[]>([]);
-  const filteredEvents = eventsBackend().allEvents.filter(event => event.spotifyId == spotifyId)
-  console.log('these are filtered events:', filteredEvents)
-  console.log('this is eventList', eventList)
+  const filteredEvents = eventsBackend().allEvents.filter(
+    (event) => event.spotifyId == spotifyId
+  );
+  console.log("these are filtered events:", filteredEvents);
+  console.log("this is eventList", eventList);
 
   // function for ADDING events to the database
   async function handleAddEvent() {
@@ -59,11 +62,7 @@ export default function EditEvent() {
   function handleClick(selectedOption: string) {
     setSelectedOption(selectedOption);
   }
-
-  // TODO: function for DELETING events from the database
-
-  // TODO: function for EDITING the fields in an event CURRENTLY IN the database
-
+  
   // partial inspiration for the menu styling credited to: https://tailwindcomponents.com/component/sidebar-by-material-tailwind
   return (
     <div className="grid grid-cols-[400px_minmax(200px,_1fr)_600px] gap-5 ">
@@ -79,14 +78,14 @@ export default function EditEvent() {
             className="grid place-items-center mr-3 w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
             onClick={() => handleClick("addEvent")}
           >
-            <div className="grid place-items-center mr-4">Add Event</div>
+            <div className="grid place-items-center mr-1">Add Event</div>
           </div>
           <div
             role="button"
             className="grid place-items-center mr-3 w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
             onClick={() => handleClick("modifyEvent")}
           >
-            <div className="grid place-items-center mr-4">Modify Event</div>
+            <div className="grid place-items-center mr-1">Modify Event</div>
           </div>
           <div>
             <EditEventButton
@@ -98,7 +97,7 @@ export default function EditEvent() {
         </nav>
       </div>
       <div className="max-h-screen overflow-scroll">
-        {selectedOption == "addEvent" && (
+        {(selectedOption == "addEvent" || selectedOption == "") && (
           <AddEvent
             artist={artist}
             setArtist={setArtist}
@@ -108,9 +107,9 @@ export default function EditEvent() {
             setVenue={setVenue}
             date={date}
             setDate={setDate}
-            fieldToChange= {fieldToChange}
+            fieldToChange={fieldToChange}
             setFieldToChange={setFieldToChange}
-            fieldValue= {fieldValue}
+            fieldValue={fieldValue}
             setFieldValue={setFieldValue}
             handleAddEvent={handleAddEvent}
             eventList={eventList}
@@ -129,9 +128,9 @@ export default function EditEvent() {
             setVenue={setVenue}
             date={date}
             setDate={setDate}
-            fieldToChange= {fieldToChange}
+            fieldToChange={fieldToChange}
             setFieldToChange={setFieldToChange}
-            fieldValue= {fieldValue}
+            fieldValue={fieldValue}
             setFieldValue={setFieldValue}
             handleAddEvent={handleAddEvent}
             eventList={eventList}
@@ -144,8 +143,7 @@ export default function EditEvent() {
       </div>
       {/* This is the map component. TODO FOR JOHNNY: fill this in. */}
       <div>
-        <WrappedMap
-        ></WrappedMap>
+        <WrappedMap></WrappedMap>
       </div>
     </div>
   );
