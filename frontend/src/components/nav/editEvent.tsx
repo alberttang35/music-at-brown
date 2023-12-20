@@ -35,7 +35,7 @@ export default function EditEvent() {
   // function for ADDING events to the database
   async function handleAddEvent() {
     if (artist !== "" && image !== "" && venue !== "" && date !== "") {
-      onSubmitEvent(artist, image, venue, date, location); // submit event to the database
+      onSubmitEvent(artist, image, venue, date); // submit event to the database
       setEventList([
         ...eventList,
         {
