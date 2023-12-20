@@ -6,7 +6,6 @@ import { EventEntry } from "../types/types";
 import { WrappedMap } from "./WrappedMap";
 
 export default function EditEvent() {
-
   // init params
   const [artist, setArtist] = useState("");
   const [image, setImage] = useState("");
@@ -16,8 +15,8 @@ export default function EditEvent() {
   const [fieldValue, setFieldValue] = useState("");
   const { onSubmitEvent } = eventsBackend(); // imported function for submitting events to backend, on backend
   const [selectedOption, setSelectedOption] = useState("");
-  const [spotifyId, setSpotifyId] = useState("nickelodekim"); // <- state for storing the spotify ID 
-  const [location, setLocation] = useState<number[]>([0,0]); // <- state for storing the location [latitude, longitude
+  const [spotifyId, setSpotifyId] = useState("nickelodekim"); // <- state for storing the spotify ID
+  const [location, setLocation] = useState<number[]>([0, 0]); // <- state for storing the location [latitude, longitude
 
   // set spotify Id to what is passed in from the login page (i don't really know how to connect the classes together yet)
 
@@ -30,13 +29,13 @@ export default function EditEvent() {
   console.log("this is eventList", eventList);
 
   function updateLocation(latitude: number, longitude: number) {
-    setLocation([latitude, longitude])
+    setLocation([latitude, longitude]);
   }
 
   // function for ADDING events to the database
   async function handleAddEvent() {
     if (artist !== "" && image !== "" && venue !== "" && date !== "") {
-      setSpotifyId(await onSubmitEvent(artist, image, venue, date)); // submit event to the database
+      onSubmitEvent(artist, image, venue, date, location); // submit event to the database
       setEventList([
         ...eventList,
         {
@@ -65,7 +64,7 @@ export default function EditEvent() {
   function handleClick(selectedOption: string) {
     setSelectedOption(selectedOption);
   }
-  
+
   // partial inspiration for the menu styling credited to: https://tailwindcomponents.com/component/sidebar-by-material-tailwind
   return (
     <div className="grid grid-cols-[300px_minmax(200px,_1fr)_500px] gap-1 ">
@@ -147,9 +146,8 @@ export default function EditEvent() {
       {/* This is the map component. TODO FOR JOHNNY: fill this in. */}
       <div>
         <WrappedMap
-          handleLocation = {(la,lo) => updateLocation(la,lo)} 
-        >
-        </WrappedMap>
+          handleLocation={(la, lo) => updateLocation(la, lo)}
+        ></WrappedMap>
       </div>
     </div>
   );

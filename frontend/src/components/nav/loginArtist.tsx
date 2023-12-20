@@ -10,6 +10,7 @@ export default function LoginArtist() {
   const [name, setName] = useState<string>("");
   const [genres, setGenres] = useState<string[]>([]);
   const { onSubmitArtist } = artistsBackend(); // imported function for submitting artists to backend, on backend
+  const { onSubmitSpotifyID} = artistsBackend(); // imported function for just setting the currentSpotifyId. It isn't even 
   const [image, setImage] = useState<string>("");
   const [bio, setBio] = useState<string>("");
 
@@ -58,11 +59,7 @@ export default function LoginArtist() {
           className="mt-4 grid place-items-center mr-3 w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
         />
         <div className="mt-7">
-<<<<<<< HEAD
-          <p> Provide your artist name</p>
-=======
           <p> Provide your Spotify ID </p>
->>>>>>> d2d3224973eaedcaea768da290f287da72a5601d
           <ControlledInput
             value={artistID}
             setValue={setArtistID}
@@ -90,7 +87,7 @@ export default function LoginArtist() {
             setValue={setBio}
             placeholder={"Input bio here"}
             ariaLabel={"Command input"}
-            className="border rounded-md p-2 focus:outline-none focus:border-blue-500"
+            className="text-sm border rounded-md p-2 focus:outline-none focus:border-blue-500"
             text={"text"}
           />
         </div>

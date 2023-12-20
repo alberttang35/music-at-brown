@@ -6,14 +6,9 @@ import { artistsBackend } from "../../../../backend/artistsBackend";
 
 export interface ArtistsAll {
   artists: Artist[];
-  //setArtists: Dispatch<SetStateAction<Artist[]>>;
 }
 
 export default function ArtistsAll({ artists }: ArtistsAll) {
-<<<<<<< HEAD
-  
-=======
->>>>>>> d2d3224973eaedcaea768da290f287da72a5601d
   const artistsData = artistsBackend().artists;
 
   return (

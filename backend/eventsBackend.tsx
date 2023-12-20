@@ -16,43 +16,16 @@ export function eventsBackend() {
     event1: string,
     venue1: string,
     date1: string,
-<<<<<<< HEAD
-  ): Promise<string> {
-    try {
-      // Query the Artists collection to get the spotifyId for the given artist1
-      const artistQuery = query(collection(db, "Artists"), where("name", "==", artist1));
-      const artistSnapshot = await getDocs(artistQuery);
-  
-      let spotifyId = ""; // Default value in case artist is not found
-      artistSnapshot.forEach((doc) => {
-        const artistData = doc.data();
-        if (artistData.spotifyId) {
-          spotifyId = artistData.spotifyId;
-        }
-      });
-  
-      // Add the event to the Events collection with the obtained spotifyId
-      await addDoc(collection(db, "Events"), {
-=======
-    locArray: number[] 
+    locArray: number[]
   ) {
     try {
-      console.log('adding event to database' + locArray)
       await addDoc(eventCollectionRef, {
->>>>>>> d2d3224973eaedcaea768da290f287da72a5601d
         artist: artist1,
         event: event1,
         venue: venue1,
         date: date1,
-<<<<<<< HEAD
-        spotifyId: spotifyId,
-=======
         location: locArray,
->>>>>>> d2d3224973eaedcaea768da290f287da72a5601d
       });
-  
-      // Return the spotifyId
-      return spotifyId;
     } catch (err) {
       console.log(err);
       // Return an appropriate value in case of an error (e.g., an empty string)
@@ -100,7 +73,6 @@ export function eventsBackend() {
       console.log(err);
     }
   }
-
   
   // Updates the events list to just whatever's in the database
   useEffect(() => {
@@ -130,11 +102,3 @@ export function eventsBackend() {
 
   return { allEvents, events, onSubmitEvent, deleteEvent , editEvent};
 }
-
-//   const getEventsById = async(id:string) => {
-//     // retrieve the events collection
-//     const data = await getDocs(eventCollectionRef);
-//     const filteredEventsForId = data.docs.map((doc) => ({
-//         ...doc.data().spotifyId === id ? doc.data() : undefined})
-//     )
-//   }

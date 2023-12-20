@@ -6,7 +6,7 @@ import { Artist } from "../frontend/src/components/types/types";
 export function artistsBackend() {
   const [artists, setArtists] = useState<Artist[]>([]);
   const [ids, setIds] = useState<string[]>([]);
-
+  const [spotifyId, setSpotifyId] = useState(""); 
   const artistCollectionRef = collection(db, "Artists");
 
   async function onSubmitArtist(
@@ -27,6 +27,12 @@ export function artistsBackend() {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  // should be able to store the current ID in the backend
+  function onSubmitSpotifyID(spotifyId: string) {
+    setSpotifyId(spotifyId); // all this does is literally just store the spotifyID nowhere, just sets it 
+    return spotifyId; 
   }
 
   useEffect(() => {
@@ -52,5 +58,5 @@ export function artistsBackend() {
     getArtists();
   }, []);
 
-  return { artists, onSubmitArtist };
+  return { artists, onSubmitArtist, onSubmitSpotifyID, spotifyId};
 }
