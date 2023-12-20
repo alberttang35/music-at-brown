@@ -10,6 +10,10 @@ export interface ArtistsAll {
 }
 
 export default function ArtistsAll({ artists }: ArtistsAll) {
+<<<<<<< HEAD
+  
+=======
+>>>>>>> d2d3224973eaedcaea768da290f287da72a5601d
   const artistsData = artistsBackend().artists;
 
   return (

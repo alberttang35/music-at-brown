@@ -58,7 +58,11 @@ export default function LoginArtist() {
           className="mt-4 grid place-items-center mr-3 w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
         />
         <div className="mt-7">
+<<<<<<< HEAD
+          <p> Provide your artist name</p>
+=======
           <p> Provide your Spotify ID </p>
+>>>>>>> d2d3224973eaedcaea768da290f287da72a5601d
           <ControlledInput
             value={artistID}
             setValue={setArtistID}
