@@ -6,7 +6,6 @@ import { eventsBackend } from "../../../../backend/eventsBackend";
 
 export interface EventsAll {
   events: EventEntry[];
-  //setEvents: Dispatch<SetStateAction<EventEntry[]>>;
 }
 
 export default function EventsAll({ events }: EventsAll) {
