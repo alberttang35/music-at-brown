@@ -1,6 +1,16 @@
-import { getDocs, collection, addDoc, doc, deleteDoc, query, where, getDoc, updateDoc } from "firebase/firestore";
-import {useEffect, useState} from "react";
-import {db} from "./firebase";
+import {
+  getDocs,
+  collection,
+  addDoc,
+  doc,
+  deleteDoc,
+  query,
+  where,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
+import { useEffect, useState } from "react";
+import { db } from "./firebase";
 import { EventEntry } from "../frontend/src/components/types/types";
 import { mockEvents1 } from "../frontend/src/components/mocks/mockEvents";
 
@@ -15,14 +25,16 @@ export function eventsBackend() {
     artist1: string,
     event1: string,
     venue1: string,
-    date1: string,
-<<<<<<< HEAD
+    date1: string
   ): Promise<string> {
     try {
       // Query the Artists collection to get the spotifyId for the given artist1
-      const artistQuery = query(collection(db, "Artists"), where("name", "==", artist1));
+      const artistQuery = query(
+        collection(db, "Artists"),
+        where("name", "==", artist1)
+      );
       const artistSnapshot = await getDocs(artistQuery);
-  
+
       let spotifyId = ""; // Default value in case artist is not found
       artistSnapshot.forEach((doc) => {
         const artistData = doc.data();
@@ -30,27 +42,16 @@ export function eventsBackend() {
           spotifyId = artistData.spotifyId;
         }
       });
-  
+
       // Add the event to the Events collection with the obtained spotifyId
       await addDoc(collection(db, "Events"), {
-=======
-    locArray: number[] 
-  ) {
-    try {
-      console.log('adding event to database' + locArray)
-      await addDoc(eventCollectionRef, {
->>>>>>> d2d3224973eaedcaea768da290f287da72a5601d
         artist: artist1,
         event: event1,
         venue: venue1,
         date: date1,
-<<<<<<< HEAD
         spotifyId: spotifyId,
-=======
-        location: locArray,
->>>>>>> d2d3224973eaedcaea768da290f287da72a5601d
       });
-  
+
       // Return the spotifyId
       return spotifyId;
     } catch (err) {
@@ -60,28 +61,41 @@ export function eventsBackend() {
     }
   }
 
-  // Should be able to delete items from the database 
-  async function deleteEvent(eventImage:string, eventArtist:string, eventVenue:string) {
+  // Should be able to delete items from the database
+  async function deleteEvent(
+    eventImage: string,
+    eventArtist: string,
+    eventVenue: string
+  ) {
     try {
-      const data = await getDocs(eventCollectionRef); 
-      const idData = data.docs.filter(doc => doc.data().venue === eventVenue && doc.data().image === eventImage && doc.data().artist === eventArtist); 
-      console.log(eventImage, eventArtist, eventVenue)
-      console.log('id data...', idData)
+      const data = await getDocs(eventCollectionRef);
+      const idData = data.docs.filter(
+        (doc) =>
+          doc.data().venue === eventVenue &&
+          doc.data().image === eventImage &&
+          doc.data().artist === eventArtist
+      );
+      console.log(eventImage, eventArtist, eventVenue);
+      console.log("id data...", idData);
       if (idData.length == 1) {
-        console.log('deleting event...')
+        console.log("deleting event...");
         const eventDoc = doc(db, "Events", idData[0].id);
         await deleteDoc(eventDoc);
       }
-    } catch(err) {
-      console.log(err); 
+    } catch (err) {
+      console.log(err);
     }
   }
 
-  async function editEvent(spotifyId: string, fieldToChange: string, fieldValue: string) {
+  async function editEvent(
+    spotifyId: string,
+    fieldToChange: string,
+    fieldValue: string
+  ) {
     try {
       const eventDocRef = doc(eventCollectionRef, spotifyId);
       const eventDocSnapshot = await getDoc(eventDocRef);
-  
+
       if (eventDocSnapshot.exists()) {
         const currentEventData = eventDocSnapshot.data();
         if (currentEventData.hasOwnProperty(fieldToChange)) {
@@ -89,9 +103,11 @@ export function eventsBackend() {
           await updateDoc(eventDocRef, {
             [fieldToChange]: fieldValue,
           });
-          console.log('Event edited successfully.');
+          console.log("Event edited successfully.");
         } else {
-          console.log(`Field '${fieldToChange}' does not exist in the event document.`);
+          console.log(
+            `Field '${fieldToChange}' does not exist in the event document.`
+          );
         }
       } else {
         console.log(`Event with spotifyId '${spotifyId}' does not exist.`);
@@ -101,7 +117,6 @@ export function eventsBackend() {
     }
   }
 
-  
   // Updates the events list to just whatever's in the database
   useEffect(() => {
     const getAllDatabaseEvents = async () => {
@@ -128,7 +143,7 @@ export function eventsBackend() {
   // Combine the mockEvents and the eventsData to display into the browser
   const allEvents: EventEntry[] = [...events, ...mockEvents1];
 
-  return { allEvents, events, onSubmitEvent, deleteEvent , editEvent};
+  return { allEvents, events, onSubmitEvent, deleteEvent, editEvent };
 }
 
 //   const getEventsById = async(id:string) => {
