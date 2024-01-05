@@ -13,6 +13,8 @@ const CustomRouter = () => {
 
   const [eventsAll, seteventsAll] = useState<EventEntry[]>([]);
 
+  const [spotifyId, setSpotifyId] = useState<string>("Input spotify ID here");
+
   return (
     <Router>
       <Routes>
@@ -23,7 +25,12 @@ const CustomRouter = () => {
           element={<ArtistsAll artists={artistsAll} />}
         />
         <Route path="/editEvent" element={<EditEvent />} />
-        <Route path="/loginArtist" element={<LoginArtist />} />
+        <Route
+          path="/loginArtist"
+          element={
+            <LoginArtist spotifyId={spotifyId} setSpotifyId={setSpotifyId} />
+          }
+        />
       </Routes>
     </Router>
   );

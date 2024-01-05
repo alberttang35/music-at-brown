@@ -1,9 +1,8 @@
 export type Artist = {
-  name: string;
-  links: string;
-  image: string;
   bio: string;
   genres: string[];
+  image: string;
+  name: string;
   spotifyId: string;
 };
 

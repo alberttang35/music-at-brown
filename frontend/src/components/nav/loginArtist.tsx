@@ -1,18 +1,41 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Login } from "../utilities/NavigationButton";
 import { accessToken } from "./userLogin";
 import { artistsBackend } from "../../../../backend/artistsBackend";
 import { ControlledInput } from "../utilities/controlledInput";
 
+interface LoginArtistProps {
+  spotifyId: string;
+  setSpotifyId: Dispatch<SetStateAction<string>>;
+}
+
 // Function that logs in the artist. Should just be a component that can tab back to the homepage and also has an input box for the spotify id
-export default function LoginArtist() {
-  const [artistID, setArtistID] = useState<string>("");
+export default function LoginArtist(props: LoginArtistProps) {
+  // const [artistID, setArtistID] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [genres, setGenres] = useState<string[]>([]);
   const { onSubmitArtist } = artistsBackend(); // imported function for submitting artists to backend, on backend
-  const { onSubmitSpotifyID} = artistsBackend(); // imported function for just setting the currentSpotifyId. It isn't even 
-  const [image, setImage] = useState<string>("");
-  const [bio, setBio] = useState<string>("");
+  const { onSubmitSpotifyID } = artistsBackend(); // imported function for just setting the currentSpotifyId. It isn't even
+  const { artists } = artistsBackend();
+  const [image, setImage] = useState<string>("Input image here");
+  const [bio, setBio] = useState<string>("Input bio here");
+
+  useEffect(() => {
+    console.log("useEffect called");
+    console.log(props.spotifyId);
+
+    if (props.spotifyId != "Input spotify ID here") {
+      console.log("here");
+      console.log(artists);
+      // for some reason, the filter is happening out of order? so it appears artists is empty
+      const filteredArtists = artists.filter(
+        (artist) => artist.spotifyId == props.spotifyId
+      );
+      console.log(filteredArtists);
+      setImage(filteredArtists[0].image);
+      setBio(filteredArtists[0].bio);
+    }
+  }, []);
 
   const updateFromSpotifyAPICall = (
     nameFromAPI: string,
@@ -34,21 +57,19 @@ export default function LoginArtist() {
   }
 
   function handleAddArtist() {
-    if (artistID !== "" && image !== "" && bio !== "") {
-      getArtistGenres(artistID);
-      console.log("this is the artists name and genres", name, genres);
-      onSubmitArtist(name, genres, image, bio, artistID); // submit artist to the database
+    if (props.spotifyId !== "" && image !== "" && bio !== "") {
+      getArtistGenres(props.spotifyId);
+      onSubmitArtist(name, genres, image, bio, props.spotifyId); // submit artist to the database
       // NOTE: just reset fields here, afterwards everything should in theory be logged in the database
-      setArtistID("");
+      // setArtistID("");
       setBio("");
       setImage("");
     } else {
       // there is some field that's unfilled, don't update the database
+      // should have a popup on the frontend to let user know
       console.log("a field is unfilled!");
     }
   }
-
-  console.log("this is the artists name and genres", name, genres);
 
   return (
     <div>
@@ -61,9 +82,9 @@ export default function LoginArtist() {
         <div className="mt-7">
           <p> Provide your Spotify ID </p>
           <ControlledInput
-            value={artistID}
-            setValue={setArtistID}
-            placeholder={"Input ID here"}
+            value={props.spotifyId}
+            setValue={props.setSpotifyId}
+            placeholder={props.spotifyId} // if spotifyId is "", then load default, otherwise load from database
             ariaLabel={"Command input"}
             className="border rounded-md p-2 focus:outline-none focus:border-blue-500"
             text={"text"}
@@ -74,7 +95,7 @@ export default function LoginArtist() {
           <ControlledInput
             value={image}
             setValue={setImage}
-            placeholder={"Input image here"}
+            placeholder={image}
             ariaLabel={"Command input"}
             className="border rounded-md p-2 focus:outline-none focus:border-blue-500"
             text={"text"}
@@ -85,7 +106,7 @@ export default function LoginArtist() {
           <ControlledInput
             value={bio}
             setValue={setBio}
-            placeholder={"Input bio here"}
+            placeholder={bio}
             ariaLabel={"Command input"}
             className="text-sm border rounded-md p-2 focus:outline-none focus:border-blue-500"
             text={"text"}

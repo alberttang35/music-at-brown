@@ -1,4 +1,4 @@
-import { Dispatch, Fragment, SetStateAction, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 import { mockWeekly1 } from "../mocks/mockWeeklyBreakdown";
 import { EventEntry } from "../types/types";
 import { Menu, Transition } from "@headlessui/react";
@@ -19,7 +19,14 @@ export interface artistLogin {
 // 3. artist bio, editable
 
 export default function ArtistLogin() {
+  const [spotifyId, setSpotifyId] = useState<string>("");
+
+  // useEffect(() => {
+  //   console.log("artistLogin useEffect");
+  // }, []);
+
   return (
+    // do some conditional rendering here
     <Menu as="div" className="relative inline-block text-left">
       <div>
         <Menu.Button
@@ -59,7 +66,7 @@ export default function ArtistLogin() {
               {({ active }) => (
                 <Login
                   to={"/loginArtist"}
-                  label={"Artist Login"}
+                  label={"Artist Login"} // add ability to change the logged in artist
                   className={
                     "flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-blue-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
                   }

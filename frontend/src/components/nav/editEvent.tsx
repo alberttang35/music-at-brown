@@ -5,6 +5,9 @@ import { AddEvent, EditableEventHistory } from "./sideBarComponents";
 import { EventEntry } from "../types/types";
 import { WrappedMap } from "./WrappedMap";
 
+// ISSUES: backend needs to log the spotifyId of the logged in artist when adding event entries
+// This may entail a more robust artist login system
+
 export default function EditEvent() {
   // init params
   const [artist, setArtist] = useState("");
@@ -15,14 +18,17 @@ export default function EditEvent() {
   const [fieldValue, setFieldValue] = useState("");
   const { onSubmitEvent } = eventsBackend(); // imported function for submitting events to backend, on backend
   const [selectedOption, setSelectedOption] = useState("");
-  const [spotifyId, setSpotifyId] = useState("nickelodekim"); // <- state for storing the spotify ID
+  const [spotifyId, setSpotifyId] = useState(""); // <- state for storing the spotify ID
+  // spotifyId for artist isnt being properly updated
   const [location, setLocation] = useState<number[]>([0, 0]); // <- state for storing the location [latitude, longitude
 
   // set spotify Id to what is passed in from the login page (i don't really know how to connect the classes together yet)
 
   // event lists
   const [eventList, setEventList] = useState<EventEntry[]>([]);
-  const filteredEvents = eventsBackend().allEvents.filter(
+  const allEvents = eventsBackend().allEvents;
+  const filteredEvents = allEvents.filter(
+    // i think this is a promise, so i need some async
     (event) => event.spotifyId == spotifyId
   );
   console.log("these are filtered events:", filteredEvents);
@@ -47,7 +53,6 @@ export default function EditEvent() {
           location: location,
         },
       ]); // add to the artist's event list with the new event
-      console.log(artist, image, venue, date, spotifyId); // check from console
       // reset fields
       setArtist("");
       setImage("");

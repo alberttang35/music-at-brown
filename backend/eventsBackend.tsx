@@ -116,6 +116,9 @@ export function eventsBackend() {
       console.log(err);
     }
   }
+
+  async function getEvents() {}
+
   // Updates the events list to just whatever's in the database
   useEffect(() => {
     const getAllDatabaseEvents = async () => {
@@ -126,21 +129,21 @@ export function eventsBackend() {
           return eventData;
         });
         setEvents(filteredData);
-        console.log(filteredData);
         const idData = data.docs.map((doc) => ({
           ...doc.data().spotifyId,
         }));
-        console.log(idData);
         setIds(idData);
       } catch (err) {
         console.error(err);
       }
     };
     getAllDatabaseEvents();
-  }, []);
+  }, []); // need a dependency, otherwise i dont think its updating when it should
 
   // Combine the mockEvents and the eventsData to display into the browser
   const allEvents: EventEntry[] = [...events, ...mockEvents1];
+  console.log("all events: ");
+  console.log(allEvents);
 
   return { allEvents, events, onSubmitEvent, deleteEvent, editEvent };
 }
