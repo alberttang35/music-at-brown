@@ -1,9 +1,9 @@
 import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
 import { mockWeekly1 } from "../mocks/mockWeeklyBreakdown";
-import { EventEntry } from "../types/types";
+import { EventEntry } from "../../types/types";
 import { Menu, Transition } from "@headlessui/react";
 import { NavLink } from "react-router-dom";
-import { EditEventButton, Login } from "../utilities/NavigationButton";
+import { EditEventButton, Login } from "../../utilities/NavigationButton";
 
 export interface artistLogin {
   weeklyBreakDownHistory: EventEntry[];
@@ -21,9 +21,9 @@ export interface artistLogin {
 export default function ArtistLogin() {
   const [spotifyId, setSpotifyId] = useState<string>("");
 
-  // useEffect(() => {
-  //   console.log("artistLogin useEffect");
-  // }, []);
+  useEffect(() => {
+    console.log("artistLogin useEffect");
+  }, []);
 
   return (
     // do some conditional rendering here
@@ -50,6 +50,11 @@ export default function ArtistLogin() {
       >
         <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
+            {/* {true ? (
+
+            ) : (
+              
+            )} */}
             {/* Button that redirects to editing events page */}
             <Menu.Item>
               {({ active }) => (

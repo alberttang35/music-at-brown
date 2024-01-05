@@ -1,9 +1,9 @@
 import { Fragment, useState } from "react";
-import { EditEventButton } from "../utilities/NavigationButton";
-import { eventsBackend } from "../../../../backend/eventsBackend";
-import { AddEvent, EditableEventHistory } from "./sideBarComponents";
-import { EventEntry } from "../types/types";
-import { WrappedMap } from "./WrappedMap";
+import { EditEventButton } from "../../utilities/NavigationButton";
+import { eventsBackend } from "../../../../../backend/eventsBackend";
+import { AddEvent, EditableEventHistory } from "../sideBarComponents";
+import { EventEntry } from "../../types/types";
+import { WrappedMap } from "../WrappedMap";
 
 // ISSUES: backend needs to log the spotifyId of the logged in artist when adding event entries
 // This may entail a more robust artist login system

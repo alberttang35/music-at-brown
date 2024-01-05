@@ -1,5 +1,5 @@
 import UserLogin from "./userLogin.jsx";
-import ArtistLogin from "./artistLogin.js";
+import ArtistLogin from "./artists/artistMenu.js";
 import { EventEntry } from "../types/types.js";
 import { Artist } from "../types/types.js";
 import { Dispatch, SetStateAction, useState } from "react";

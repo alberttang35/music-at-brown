@@ -5,8 +5,8 @@ import HOMEPAGE from "../homepage/homepage";
 import { Artist, EventEntry } from "../types/types";
 import EventsAll from "../homepage/eventsAll";
 import ArtistsAll from "../homepage/artistsAll";
-import EditEvent from "../nav/editEvent";
-import LoginArtist from "../nav/loginArtist";
+import EditEvent from "../nav/artists/editEvent";
+import LoginArtist from "../nav/artists/artistLogin";
 
 const CustomRouter = () => {
   const [artistsAll, setartistsAll] = useState<Artist[]>([]);
