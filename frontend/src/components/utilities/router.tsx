@@ -40,7 +40,10 @@ const CustomRouter = () => {
         <Route
           path="/loginArtist"
           element={
-            <LoginArtist spotifyId={spotifyId} setSpotifyId={setSpotifyId} />
+            <LoginArtist
+              currentUser={currentArtist}
+              setCurrentUser={setCurrentArtist}
+            />
           }
         />
         <Route

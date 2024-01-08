@@ -19,21 +19,26 @@ export default function artistReturn({
   const { artists } = artistsBackend();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log("Return use effect");
-    if (currentUser) {
-      console.log(currentUser);
-      navigate("/artistDashboard"); // maybe this clears the router?
-    }
-  }, [currentUser]);
+  //   useEffect(() => {
+  //     console.log("Return use effect");
+  //     if (currentUser) {
+  //       console.log(currentUser);
+  //       navigate("/artistDashboard");
+  //     }
+  //   }, [currentUser]);
 
   function getArtist() {
-    const user: Artist = artists.filter(
+    const filtered: Artist[] = artists.filter(
       (artist) => artist.spotifyId === spotifyId
-    )[0]; // TODO: consider if the user isn't found
-    setCurrentUser(user);
-    console.log("artist found");
-    console.log(user);
+    );
+    if (filtered.length == 0) {
+      console.log("Couldn't find artist with matching ID");
+    } else {
+      const user: Artist = filtered[0];
+      setCurrentUser(user);
+      navigate("/artistDashboard");
+    }
+
     // should route to dashboard
     // make sure this isn't redirecting before the user is set
 

@@ -4,19 +4,21 @@ import { accessToken } from "../userLogin";
 import { artistsBackend } from "../../../../../backend/artistsBackend";
 import { ControlledInput } from "../../utilities/controlledInput";
 import { useNavigate } from "react-router-dom";
+import { Artist } from "../../types/types";
 
 interface LoginArtistProps {
-  spotifyId: string;
-  setSpotifyId: Dispatch<SetStateAction<string>>;
+  currentUser: Artist | undefined;
+  setCurrentUser: Dispatch<SetStateAction<Artist | undefined>>;
 }
 
 //want to give the option for returning and new artists
 
 // Function that logs in the artist. Should just be a component that can tab back to the homepage and also has an input box for the spotify id
 export default function LoginArtist({
-  spotifyId,
-  setSpotifyId,
+  currentUser,
+  setCurrentUser,
 }: LoginArtistProps) {
+  const [spotifyId, setSpotifyId] = useState<string>("");
   const [name, setName] = useState<string>("");
   const [genres, setGenres] = useState<string[]>([]);
   const { onSubmitArtist } = artistsBackend(); // imported function for submitting artists to backend, on backend
@@ -24,24 +26,6 @@ export default function LoginArtist({
   const [image, setImage] = useState<string>("");
   const [bio, setBio] = useState<string>("");
   const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log("useEffect called");
-    console.log(artists);
-    console.log(spotifyId);
-
-    if (spotifyId != "") {
-      console.log("here");
-      // console.log(artists);
-      // for some reason, the filter is happening out of order? so it appears artists is empty
-      const filteredArtists = artists.filter(
-        (artist) => artist.spotifyId == spotifyId
-      );
-      console.log(filteredArtists);
-      setImage(filteredArtists[0].image);
-      setBio(filteredArtists[0].bio);
-    }
-  }, []);
 
   function updateFromSpotifyAPICall(
     nameFromAPI: string,
@@ -73,15 +57,19 @@ export default function LoginArtist({
 
       const response = await getArtistGenres(spotifyId);
 
-      console.log("adding artist");
-      // artist profile being submitted before values are received from spotify
       updateFromSpotifyAPICall(response.name, response.genres);
-      // TODO: should check that we're not adding a duplicate
       onSubmitArtist(response.name, response.genres, image, bio, spotifyId); // submit artist to the database
       // NOTE: just reset fields here, afterwards everything should in theory be logged in the database
       // setArtistID("");
       // setBio("");
       // setImage("");
+      setCurrentUser({
+        name: response.name,
+        genres: response.genres,
+        image: image,
+        bio: bio,
+        spotifyId: spotifyId,
+      });
 
       // should route to dashboard here
       navigate("/artistDashboard");

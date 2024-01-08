@@ -2,7 +2,7 @@ import { Fragment, useState } from "react";
 import { EditEventButton } from "../../utilities/NavigationButton";
 import { eventsBackend } from "../../../../../backend/eventsBackend";
 import { AddEvent, EditableEventHistory } from "../sideBarComponents";
-import { EventEntry } from "../../types/types";
+import { EventEntry, GeoLoc } from "../../types/types";
 import { WrappedMap } from "../WrappedMap";
 
 // ISSUES: backend needs to log the spotifyId of the logged in artist when adding event entries
@@ -20,7 +20,7 @@ export default function EditEvent() {
   const [selectedOption, setSelectedOption] = useState("");
   const [spotifyId, setSpotifyId] = useState(""); // <- state for storing the spotify ID
   // spotifyId for artist isnt being properly updated
-  const [location, setLocation] = useState<number[]>([0, 0]); // <- state for storing the location [latitude, longitude
+  const [location, setLocation] = useState<GeoLoc>(); // <- state for storing the location [latitude, longitude
 
   // set spotify Id to what is passed in from the login page (i don't really know how to connect the classes together yet)
 
@@ -31,17 +31,23 @@ export default function EditEvent() {
     // i think this is a promise, so i need some async
     (event) => event.spotifyId == spotifyId
   );
-  console.log("these are filtered events:", filteredEvents);
-  console.log("this is eventList", eventList);
+  // console.log("these are filtered events:", filteredEvents);
+  // console.log("this is eventList", eventList);
 
   function updateLocation(latitude: number, longitude: number) {
-    setLocation([latitude, longitude]);
+    setLocation({ lat: latitude, lon: longitude });
   }
 
   // function for ADDING events to the database
   async function handleAddEvent() {
-    if (artist !== "" && image !== "" && venue !== "" && date !== "") {
-      onSubmitEvent(artist, image, venue, date); // submit event to the database
+    if (
+      artist !== "" &&
+      image !== "" &&
+      venue !== "" &&
+      date !== "" &&
+      location !== undefined
+    ) {
+      onSubmitEvent(artist, image, venue, date, location); // submit event to the database
       setEventList([
         ...eventList,
         {
@@ -59,6 +65,7 @@ export default function EditEvent() {
       setVenue("");
       setDate("");
       setSpotifyId("");
+      setLocation(undefined);
     } else {
       // there is some field that's unfilled, don't update the database
       console.log("a field is unfilled!");

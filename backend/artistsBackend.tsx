@@ -1,4 +1,11 @@
-import { getDocs, collection, addDoc } from "firebase/firestore";
+import {
+  getDocs,
+  collection,
+  addDoc,
+  doc,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "./firebase";
 import { Artist } from "../frontend/src/components/types/types";
@@ -52,6 +59,36 @@ export function artistsBackend() {
       setIds(idData);
     } catch (err) {
       console.error(err);
+    }
+  }
+
+  async function editArtist(
+    spotifyId: string,
+    fieldToChange: string,
+    fieldValue: string
+  ) {
+    try {
+      const artistDocRef = doc(artistCollectionRef, spotifyId);
+      const artistDocSnapshot = await getDoc(artistDocRef);
+
+      if (artistDocSnapshot.exists()) {
+        const currentArtistData = artistDocSnapshot.data();
+        if (currentArtistData.hasOwnProperty(fieldToChange)) {
+          // Only update if the field exists in the current artist data
+          await updateDoc(artistDocRef, {
+            [fieldToChange]: fieldValue,
+          });
+          console.log("Artist edited successfully.");
+        } else {
+          console.log(
+            `Field '${fieldToChange}' does not exist in the artist document.`
+          );
+        }
+      } else {
+        console.log(`Artist with spotifyId '${spotifyId}' does not exist.`);
+      }
+    } catch (err) {
+      console.log(err);
     }
   }
 

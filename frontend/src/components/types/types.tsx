@@ -12,7 +12,7 @@ export type EventEntry = {
   venue: string;
   date: string;
   spotifyId: string;
-  location: number[];
+  location: GeoLoc;
 };
 
 export type GeoLoc = {

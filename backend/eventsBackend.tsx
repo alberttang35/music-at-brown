@@ -11,7 +11,7 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "./firebase";
-import { EventEntry } from "../frontend/src/components/types/types";
+import { EventEntry, GeoLoc } from "../frontend/src/components/types/types";
 import { mockEvents1 } from "../frontend/src/components/mocks/mockEvents";
 
 export function eventsBackend() {
@@ -25,7 +25,8 @@ export function eventsBackend() {
     artist1: string,
     event1: string,
     venue1: string,
-    date1: string
+    date1: string,
+    location: GeoLoc
   ): Promise<string> {
     try {
       // Query the Artists collection to get the spotifyId for the given artist1
@@ -50,6 +51,7 @@ export function eventsBackend() {
         venue: venue1,
         date: date1,
         spotifyId: spotifyId,
+        location: location,
       });
 
       // Return the spotifyId
@@ -93,7 +95,8 @@ export function eventsBackend() {
     fieldValue: string
   ) {
     try {
-      const eventDocRef = doc(eventCollectionRef, spotifyId);
+      const eventDocRef = doc(eventCollectionRef, spotifyId); // why is it looking by spotifyID
+      // I think there should be some sort of ID system for events (and artists) that won't change, so we can filter on that
       const eventDocSnapshot = await getDoc(eventDocRef);
 
       if (eventDocSnapshot.exists()) {
@@ -116,8 +119,6 @@ export function eventsBackend() {
       console.log(err);
     }
   }
-
-  async function getEvents() {}
 
   // Updates the events list to just whatever's in the database
   useEffect(() => {
