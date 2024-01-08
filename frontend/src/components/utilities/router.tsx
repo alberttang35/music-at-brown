@@ -7,18 +7,30 @@ import EventsAll from "../homepage/eventsAll";
 import ArtistsAll from "../homepage/artistsAll";
 import EditEvent from "../nav/artists/editEvent";
 import LoginArtist from "../nav/artists/artistLogin";
+import ArtistReturn from "../nav/artists/artistReturn";
+import ArtistDashboard from "../nav/artists/artistDashboard";
 
 const CustomRouter = () => {
   const [artistsAll, setartistsAll] = useState<Artist[]>([]);
 
   const [eventsAll, seteventsAll] = useState<EventEntry[]>([]);
 
-  const [spotifyId, setSpotifyId] = useState<string>("Input spotify ID here");
+  const [spotifyId, setSpotifyId] = useState<string>("");
+
+  const [currentArtist, setCurrentArtist] = useState<Artist>();
 
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HOMEPAGE />} />
+        <Route
+          path="/"
+          element={
+            <HOMEPAGE
+              currentArtist={currentArtist}
+              setCurrentArtist={setCurrentArtist}
+            />
+          }
+        />
         <Route path="/eventsAll" element={<EventsAll events={eventsAll} />} />
         <Route
           path="/artistsAll"
@@ -29,6 +41,24 @@ const CustomRouter = () => {
           path="/loginArtist"
           element={
             <LoginArtist spotifyId={spotifyId} setSpotifyId={setSpotifyId} />
+          }
+        />
+        <Route
+          path="/returningArtist"
+          element={
+            <ArtistReturn
+              currentUser={currentArtist}
+              setCurrentUser={setCurrentArtist}
+            />
+          }
+        />
+        <Route
+          path="/artistDashboard"
+          element={
+            <ArtistDashboard
+              currentArtist={currentArtist}
+              setCurrentArtist={setCurrentArtist}
+            />
           }
         />
       </Routes>

@@ -2,7 +2,7 @@ import WeeklyBreakdown from "./breakdown";
 import Artists from "./artists";
 import Events from "./events";
 import { Artist, EventEntry, GeoLoc } from "../types/types";
-import { SetStateAction, useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import NAV from "../nav/nav";
 import { eventsBackend } from "../../../../backend/eventsBackend";
 import { mockArtists1 } from "../mocks/mockArtists";
@@ -11,15 +11,14 @@ import { mockEvents1 } from "../mocks/mockEvents";
 import { mockWeekly1 } from "../mocks/mockWeeklyBreakdown";
 
 // do not need this homepage
-// export interface HOMEPAGE {
-//   WeeklyBreakDownHistory: EventEntry[];
-// }
+interface HOMEPAGEProps {
+  WeeklyBreakDownHistory: EventEntry[];
+  currentArtist: Artist | undefined;
+  setCurrentArtist: Dispatch<SetStateAction<Artist | undefined>>;
+}
 
 // function for homepage
-export default function HOMEPAGE() {
-  const [weeklyBreakDownHistory, setWeeklyBreakDownHistory] = useState<
-    EventEntry[]
-  >([]);
+export default function HOMEPAGE(props: HOMEPAGEProps) {
   const [userTopGenres, setUserTopGenres] = useState<string[]>([]);
   const [artists, setArtists] = useState<Artist[]>([]);
   const [events, setEvents] = useState<EventEntry[]>([]);
@@ -49,12 +48,11 @@ export default function HOMEPAGE() {
     // want to set dynamic sizing for the grid
     <div className="max-h-screen overflow-visible overscroll-auto">
       <NAV
-        weeklyBreakDownHistory={weeklyBreakDownHistory}
-        setWeeklyBreakDownHistory={setWeeklyBreakDownHistory}
         userTopGenres={userTopGenres}
         setUserTopGenres={setUserTopGenres}
+        currentArtist={props.currentArtist}
+        setCurrentArtist={props.setCurrentArtist}
       />
-      {/* <WeeklyBreakdown weeklyBreakDownHistory={weeklyBreakDownHistory} /> */}
       <Events events={events} />
       <Artists artists={artists} />
     </div>

@@ -16,14 +16,16 @@ export function artistsBackend() {
     bio: string,
     spotifyId: string
   ) {
+    const toAdd: Artist = {
+      name: name,
+      genres: genres,
+      image: image,
+      bio: bio,
+      spotifyId: spotifyId,
+    };
+    setArtists([...artists, toAdd]);
     try {
-      await addDoc(artistCollectionRef, {
-        name: name,
-        image: image,
-        bio: bio,
-        spotifyId: spotifyId,
-        genres: genres,
-      });
+      await addDoc(artistCollectionRef, toAdd);
     } catch (err) {
       console.log(err);
     }
@@ -35,28 +37,29 @@ export function artistsBackend() {
     return spotifyId;
   }
 
+  async function getArtists() {
+    try {
+      const data = await getDocs(artistCollectionRef);
+      const filteredData = data.docs.map((doc) => {
+        const artistData = doc.data() as Artist;
+        return artistData;
+      });
+      console.log(filteredData);
+      setArtists(filteredData);
+      const idData = data.docs.map((doc) => ({
+        ...doc.data().spotifyId,
+      }));
+      setIds(idData);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   useEffect(() => {
-    const getArtists = async () => {
-      try {
-        const data = await getDocs(artistCollectionRef);
-        const filteredData = data.docs.map((doc) => {
-          const artistData = doc.data() as Artist;
-          return artistData;
-        });
-        console.log(filteredData);
-        setArtists(filteredData);
-        const idData = data.docs.map((doc) => ({
-          ...doc.data().spotifyId,
-        }));
-        setIds(idData);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+    console.log("backend useEffect");
+    getArtists().then(() => console.log(artists));
+    // console.log(artists); // appears that artists is empty even though filteredData (line 46) isnt
+  }, [spotifyId]); // should only do this after an artist is added
 
-    getArtists();
-    console.log(artists);
-  }, []);
-
-  return { artists, onSubmitArtist, onSubmitSpotifyID, spotifyId };
+  return { artists, onSubmitArtist, onSubmitSpotifyID, getArtists, spotifyId };
 }

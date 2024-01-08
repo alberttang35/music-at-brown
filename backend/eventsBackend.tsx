@@ -75,8 +75,8 @@ export function eventsBackend() {
           doc.data().image === eventImage &&
           doc.data().artist === eventArtist
       );
-      console.log(eventImage, eventArtist, eventVenue);
-      console.log("id data...", idData);
+      // console.log(eventImage, eventArtist, eventVenue);
+      // console.log("id data...", idData);
       if (idData.length == 1) {
         console.log("deleting event...");
         const eventDoc = doc(db, "Events", idData[0].id);
@@ -142,8 +142,8 @@ export function eventsBackend() {
 
   // Combine the mockEvents and the eventsData to display into the browser
   const allEvents: EventEntry[] = [...events, ...mockEvents1];
-  console.log("all events: ");
-  console.log(allEvents);
+  // console.log("all events: ");
+  // console.log(allEvents);
 
   return { allEvents, events, onSubmitEvent, deleteEvent, editEvent };
 }

@@ -3,6 +3,7 @@ import { Login } from "../../utilities/NavigationButton";
 import { accessToken } from "../userLogin";
 import { artistsBackend } from "../../../../../backend/artistsBackend";
 import { ControlledInput } from "../../utilities/controlledInput";
+import { useNavigate } from "react-router-dom";
 
 interface LoginArtistProps {
   spotifyId: string;
@@ -12,26 +13,29 @@ interface LoginArtistProps {
 //want to give the option for returning and new artists
 
 // Function that logs in the artist. Should just be a component that can tab back to the homepage and also has an input box for the spotify id
-export default function LoginArtist(props: LoginArtistProps) {
-  // const [artistID, setArtistID] = useState<string>("");
+export default function LoginArtist({
+  spotifyId,
+  setSpotifyId,
+}: LoginArtistProps) {
   const [name, setName] = useState<string>("");
   const [genres, setGenres] = useState<string[]>([]);
   const { onSubmitArtist } = artistsBackend(); // imported function for submitting artists to backend, on backend
-  // const { onSubmitSpotifyID } = artistsBackend(); // imported function for just setting the currentSpotifyId. It isn't even
   const { artists } = artistsBackend();
-  const [image, setImage] = useState<string>("Input image here");
-  const [bio, setBio] = useState<string>("Input bio here");
+  const [image, setImage] = useState<string>("");
+  const [bio, setBio] = useState<string>("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     console.log("useEffect called");
-    console.log(props.spotifyId);
+    console.log(artists);
+    console.log(spotifyId);
 
-    if (props.spotifyId != "Input spotify ID here") {
+    if (spotifyId != "") {
       console.log("here");
-      console.log(artists);
+      // console.log(artists);
       // for some reason, the filter is happening out of order? so it appears artists is empty
       const filteredArtists = artists.filter(
-        (artist) => artist.spotifyId == props.spotifyId
+        (artist) => artist.spotifyId == spotifyId
       );
       console.log(filteredArtists);
       setImage(filteredArtists[0].image);
@@ -59,23 +63,28 @@ export default function LoginArtist(props: LoginArtistProps) {
   }
 
   async function handleAddArtist() {
-    if (props.spotifyId !== "" && image !== "" && bio !== "") {
-      const response = await getArtistGenres(props.spotifyId);
+    if (spotifyId !== "" && image !== "" && bio !== "") {
+      if (
+        artists.filter((artist) => artist.spotifyId === spotifyId).length > 0
+      ) {
+        console.log("An account already exists for this artist");
+        return;
+      }
+
+      const response = await getArtistGenres(spotifyId);
 
       console.log("adding artist");
       // artist profile being submitted before values are received from spotify
       updateFromSpotifyAPICall(response.name, response.genres);
-      onSubmitArtist(
-        response.name,
-        response.genres,
-        image,
-        bio,
-        props.spotifyId
-      ); // submit artist to the database
+      // TODO: should check that we're not adding a duplicate
+      onSubmitArtist(response.name, response.genres, image, bio, spotifyId); // submit artist to the database
       // NOTE: just reset fields here, afterwards everything should in theory be logged in the database
       // setArtistID("");
       // setBio("");
       // setImage("");
+
+      // should route to dashboard here
+      navigate("/artistDashboard");
     } else {
       // there is some field that's unfilled, don't update the database
       // should have a popup on the frontend to let user know
@@ -94,9 +103,9 @@ export default function LoginArtist(props: LoginArtistProps) {
         <div className="mt-7">
           <p> Provide your Spotify ID </p>
           <ControlledInput
-            value={props.spotifyId}
-            setValue={props.setSpotifyId}
-            placeholder={props.spotifyId} // if spotifyId is "", then load default, otherwise load from database
+            value={spotifyId}
+            setValue={setSpotifyId}
+            placeholder={"Input artist Spotify ID"} // if spotifyId is "", then load default, otherwise load from database
             ariaLabel={"Command input"}
             className="border rounded-md p-2 focus:outline-none focus:border-blue-500"
             text={"text"}
@@ -107,7 +116,7 @@ export default function LoginArtist(props: LoginArtistProps) {
           <ControlledInput
             value={image}
             setValue={setImage}
-            placeholder={image}
+            placeholder={"Input image"}
             ariaLabel={"Command input"}
             className="border rounded-md p-2 focus:outline-none focus:border-blue-500"
             text={"text"}
@@ -118,7 +127,7 @@ export default function LoginArtist(props: LoginArtistProps) {
           <ControlledInput
             value={bio}
             setValue={setBio}
-            placeholder={bio}
+            placeholder={"Input biography"}
             ariaLabel={"Command input"}
             className="text-sm border rounded-md p-2 focus:outline-none focus:border-blue-500"
             text={"text"}

@@ -50,6 +50,7 @@ export default function UserLogin({ userTopGenres, setUserTopGenres }) {
       userTopGenres();
     },
   };
+  const buttonText = currentToken.access_token ? "User Logout" : "User Login";
 
   // On page load, try to fetch auth code from current browser search URL
   const args = new URLSearchParams(window.location.search);
@@ -253,35 +254,19 @@ export default function UserLogin({ userTopGenres, setUserTopGenres }) {
       >
         <Menu.Items className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
           <div className="py-1">
-            {currentToken.access_token ? (
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    type="submit"
-                    onClick={async () => handleClick()}
-                    className={
-                      "flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
-                    }
-                  >
-                    User Logout
-                  </button>
-                )}
-              </Menu.Item>
-            ) : (
-              <Menu.Item>
-                {({ active }) => (
-                  <button
-                    type="submit"
-                    onClick={async () => handleClick()}
-                    className={
-                      "flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
-                    }
-                  >
-                    User Login
-                  </button>
-                )}
-              </Menu.Item>
-            )}
+            <Menu.Item>
+              {({ active }) => (
+                <button
+                  type="submit"
+                  onClick={async () => handleClick()}
+                  className={
+                    "flex items-center w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
+                  }
+                >
+                  {buttonText}
+                </button>
+              )}
+            </Menu.Item>
           </div>
         </Menu.Items>
       </Transition>
