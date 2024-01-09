@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Login } from "../../utilities/NavigationButton";
-import { accessToken } from "../userLogin";
+import { accessToken } from "../users/userLogin";
 import { artistsBackend } from "../../../../../backend/artistsBackend";
 import { ControlledInput } from "../../utilities/controlledInput";
 import { Artist } from "../../types/types";
@@ -18,14 +18,6 @@ export default function artistReturn({
   const [spotifyId, setSpotifyId] = useState<string>("");
   const { artists } = artistsBackend();
   const navigate = useNavigate();
-
-  //   useEffect(() => {
-  //     console.log("Return use effect");
-  //     if (currentUser) {
-  //       console.log(currentUser);
-  //       navigate("/artistDashboard");
-  //     }
-  //   }, [currentUser]);
 
   function getArtist() {
     const filtered: Artist[] = artists.filter(

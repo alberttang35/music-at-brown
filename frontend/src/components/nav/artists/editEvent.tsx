@@ -1,16 +1,24 @@
-import { Fragment, useState } from "react";
+import { Dispatch, Fragment, SetStateAction, useState } from "react";
 import { EditEventButton } from "../../utilities/NavigationButton";
 import { eventsBackend } from "../../../../../backend/eventsBackend";
 import { AddEvent, EditableEventHistory } from "../sideBarComponents";
-import { EventEntry, GeoLoc } from "../../types/types";
+import { Artist, EventEntry, GeoLoc } from "../../types/types";
 import { WrappedMap } from "../WrappedMap";
 
 // ISSUES: backend needs to log the spotifyId of the logged in artist when adding event entries
 // This may entail a more robust artist login system
 
-export default function EditEvent() {
+interface EditEventProps {
+  currentArtist: Artist;
+  setCurrentArtist: Dispatch<SetStateAction<Artist>>;
+}
+
+export default function EditEvent({
+  currentArtist,
+  setCurrentArtist,
+}: EditEventProps) {
   // init params
-  const [artist, setArtist] = useState("");
+  // const [artist, setArtist] = useState("");
   const [image, setImage] = useState("");
   const [venue, setVenue] = useState("");
   const [date, setDate] = useState("");
@@ -19,8 +27,7 @@ export default function EditEvent() {
   const { onSubmitEvent } = eventsBackend(); // imported function for submitting events to backend, on backend
   const [selectedOption, setSelectedOption] = useState("");
   const [spotifyId, setSpotifyId] = useState(""); // <- state for storing the spotify ID
-  // spotifyId for artist isnt being properly updated
-  const [location, setLocation] = useState<GeoLoc>(); // <- state for storing the location [latitude, longitude
+  const [location, setLocation] = useState<GeoLoc>(); // <- state for storing the location
 
   // set spotify Id to what is passed in from the login page (i don't really know how to connect the classes together yet)
 
@@ -29,10 +36,8 @@ export default function EditEvent() {
   const allEvents = eventsBackend().allEvents;
   const filteredEvents = allEvents.filter(
     // i think this is a promise, so i need some async
-    (event) => event.spotifyId == spotifyId
+    (event) => event.artistId == spotifyId
   );
-  // console.log("these are filtered events:", filteredEvents);
-  // console.log("this is eventList", eventList);
 
   function updateLocation(latitude: number, longitude: number) {
     setLocation({ lat: latitude, lon: longitude });
@@ -41,26 +46,25 @@ export default function EditEvent() {
   // function for ADDING events to the database
   async function handleAddEvent() {
     if (
-      artist !== "" &&
+      currentArtist.spotifyId !== "" &&
       image !== "" &&
       venue !== "" &&
       date !== "" &&
       location !== undefined
     ) {
-      onSubmitEvent(artist, image, venue, date, location); // submit event to the database
+      onSubmitEvent(currentArtist, image, venue, date, location); // submit event to the database
       setEventList([
         ...eventList,
         {
-          artist: artist,
+          artistId: currentArtist.spotifyId,
           image: image,
           venue: venue,
           date: date,
-          spotifyId: spotifyId,
           location: location,
         },
       ]); // add to the artist's event list with the new event
       // reset fields
-      setArtist("");
+      // setArtist("");
       setImage("");
       setVenue("");
       setDate("");
@@ -113,8 +117,8 @@ export default function EditEvent() {
       <div className="max-h-screen overflow-scroll">
         {(selectedOption == "addEvent" || selectedOption == "") && (
           <AddEvent
-            artist={artist}
-            setArtist={setArtist}
+            artist={currentArtist.spotifyId}
+            // setArtist={setArtist}
             image={image}
             setImage={setImage}
             venue={venue}
@@ -134,8 +138,8 @@ export default function EditEvent() {
         )}
         {selectedOption == "modifyEvent" && (
           <EditableEventHistory
-            artist={artist}
-            setArtist={setArtist}
+            artist={currentArtist.spotifyId}
+            setArtist={setCurrentArtist}
             image={image}
             setImage={setImage}
             venue={venue}

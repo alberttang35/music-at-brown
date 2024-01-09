@@ -1,21 +1,29 @@
 export type Artist = {
   bio: string;
-  genres: string[];
   image: string;
   name: string;
   spotifyId: string;
+  genres: string[];
 };
 
 export type EventEntry = {
-  artist: string;
+  artistId: string;
   image: string;
   venue: string;
   date: string;
-  spotifyId: string;
+  // spotifyId: string;
   location: GeoLoc;
 };
 
 export type GeoLoc = {
   lat: number;
   lon: number;
+};
+
+export type User = {
+  name: string;
+  image: string;
+  userId: string;
+  genres: string[];
+  targetEvents: string[]; // some sort of array representing events this user is interested in
 };

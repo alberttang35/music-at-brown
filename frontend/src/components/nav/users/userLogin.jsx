@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { usersBackend } from "../../../../../backend/usersBackend";
 // import "./userLogin.css";
 
 export const accessToken = localStorage;
@@ -14,13 +15,14 @@ export const accessToken = localStorage;
 export default function UserLogin({ userTopGenres, setUserTopGenres }) {
   const clientId = "2168cb3e26e643c7b91076ee7a797081"; // your clientId
   const redirectUrl = "http://localhost:5173"; // your redirect URL - must be localhost URL and/or HTTPS
-
   const authorizationEndpoint = "https://accounts.spotify.com/authorize";
   const tokenEndpoint = "https://accounts.spotify.com/api/token";
   const scope = "user-top-read user-read-private user-read-email";
   const [iconURL, setIconURL] = useState(
     "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
   );
+  const { onSubmitUser } = usersBackend();
+  const { users } = usersBackend();
 
   // Data structure that manages the current active token, caching it in localStorage
   const currentToken = {
@@ -46,8 +48,7 @@ export default function UserLogin({ userTopGenres, setUserTopGenres }) {
       const now = new Date();
       const expiry = new Date(now.getTime() + expires_in * 1000);
       localStorage.setItem("expires", expiry);
-      getUserData().then((r) => setIconURL(r.images[0].url)); // works, but slight delay, what to do
-      userTopGenres();
+      // getUser(); // sets image URL and top genres, as well as database if necessary
     },
   };
   const buttonText = currentToken.access_token ? "User Logout" : "User Login";
@@ -75,9 +76,8 @@ export default function UserLogin({ userTopGenres, setUserTopGenres }) {
 
   // If we have a token, we're logged in, so fetch user data and render logged in template
   if (currentToken.access_token) {
-    getUserData().then((r) => setIconURL(r.images[0].url));
-    // renderTemplate("main", "logged-in-template", userData);
-    // renderTemplate("oauth", "oauth-template", currentToken);
+    // getUserData().then((r) => setIconURL(r.images[0].url)); // this prob isn't a good spot, because i think it continuously runs
+    // but i can't seem to find another way to make it work
   }
 
   // // Otherwise we're not logged in, so render the login template
@@ -181,8 +181,9 @@ export default function UserLogin({ userTopGenres, setUserTopGenres }) {
     response.items.forEach((item) => {
       usersTopGenres = [...usersTopGenres, ...item.genres];
     });
-    console.log("setting user's top genres");
-    setUserTopGenres(usersTopGenres);
+    // console.log("setting user's top genres");
+    return usersTopGenres;
+    // setUserTopGenres(usersTopGenres);
   }
 
   async function getArtistGenres(id) {
@@ -212,18 +213,42 @@ export default function UserLogin({ userTopGenres, setUserTopGenres }) {
     }
   }
 
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
+  // function classNames(...classes) {
+  //   return classes.filter(Boolean).join(" ");
+  // }
+
+  async function getUser() {
+    const userData = await getUserData();
+    setIconURL(userData.images[0].url);
+    const filteredData = users.filter((user) => user.userId == userData.id);
+    const topGenres = await userTopGenres();
+    setUserTopGenres(topGenres);
+    // console.log(filteredData.length);
+    if (users.filter((user) => user.userId === userData.id).length > 0) {
+      // is there any way to assume its a returning user at first?
+      console.log("returning user");
+    } else {
+      console.log("adding new user");
+      onSubmitUser(
+        userData.display_name,
+        userData.images[0].url,
+        userData.id,
+        topGenres,
+        []
+      );
+    }
   }
 
-  // useEffect(() => {
-  //   // console.log("getting here");
-  //   // console.log(currentToken.access_token);
-  //   // I think it should be a useEffect, but I can't get this to work
-  //   if (currentToken.access_token) {
-  //     console.log("hi");
-  //   }
-  // }, [currentToken]);
+  // TODO: add automatic logging out once token is expired
+  useEffect(() => {
+    // console.log("getting here");
+    // console.log(currentToken.access_token);
+    // I think it should be a useEffect, but I can't get this to work
+    if (currentToken.access_token) {
+      console.log("hi");
+      getUser();
+    }
+  }, [users]);
 
   // async function refreshTokenClick() {
   //   const token = await refreshToken();

@@ -11,7 +11,11 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "./firebase";
-import { EventEntry, GeoLoc } from "../frontend/src/components/types/types";
+import {
+  Artist,
+  EventEntry,
+  GeoLoc,
+} from "../frontend/src/components/types/types";
 import { mockEvents1 } from "../frontend/src/components/mocks/mockEvents";
 
 export function eventsBackend() {
@@ -22,7 +26,7 @@ export function eventsBackend() {
 
   // handles event submission
   async function onSubmitEvent(
-    artist1: string,
+    artist: Artist,
     event1: string,
     venue1: string,
     date1: string,
@@ -30,32 +34,32 @@ export function eventsBackend() {
   ): Promise<string> {
     try {
       // Query the Artists collection to get the spotifyId for the given artist1
-      const artistQuery = query(
-        collection(db, "Artists"),
-        where("name", "==", artist1)
-      );
-      const artistSnapshot = await getDocs(artistQuery);
+      // const artistQuery = query(
+      //   collection(db, "Artists"),
+      //   where("spotifyId", "==", artistId)
+      // );
+      // const artistSnapshot = await getDocs(artistQuery);
 
-      let spotifyId = ""; // Default value in case artist is not found
-      artistSnapshot.forEach((doc) => {
-        const artistData = doc.data();
-        if (artistData.spotifyId) {
-          spotifyId = artistData.spotifyId;
-        }
-      });
+      // let spotifyId = ""; // Default value in case artist is not found
+      // artistSnapshot.forEach((doc) => {
+      //   const artistData = doc.data();
+      //   if (artistData.spotifyId) {
+      //     spotifyId = artistData.spotifyId;
+      //   }
+      // });
 
       // Add the event to the Events collection with the obtained spotifyId
       await addDoc(collection(db, "Events"), {
-        artist: artist1,
+        artistId: artist.spotifyId,
+        artistName: artist.name,
         event: event1,
         venue: venue1,
         date: date1,
-        spotifyId: spotifyId,
         location: location,
       });
 
       // Return the spotifyId
-      return spotifyId;
+      return artist.spotifyId;
     } catch (err) {
       console.log(err);
       // Return an appropriate value in case of an error (e.g., an empty string)

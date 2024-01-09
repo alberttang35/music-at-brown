@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Login } from "../../utilities/NavigationButton";
-import { accessToken } from "../userLogin";
+import { accessToken } from "../users/userLogin";
 import { artistsBackend } from "../../../../../backend/artistsBackend";
 import { ControlledInput } from "../../utilities/controlledInput";
 import { useNavigate } from "react-router-dom";

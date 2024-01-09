@@ -9,6 +9,8 @@ import EditEvent from "../nav/artists/editEvent";
 import LoginArtist from "../nav/artists/artistLogin";
 import ArtistReturn from "../nav/artists/artistReturn";
 import ArtistDashboard from "../nav/artists/artistDashboard";
+import UploadAndDisplayImage from "../nav/artists/UploadImage";
+import ArtistProfile from "../homepage/artistProfile";
 
 const CustomRouter = () => {
   const [artistsAll, setartistsAll] = useState<Artist[]>([]);
@@ -36,7 +38,15 @@ const CustomRouter = () => {
           path="/artistsAll"
           element={<ArtistsAll artists={artistsAll} />}
         />
-        <Route path="/editEvent" element={<EditEvent />} />
+        <Route
+          path="/editEvent"
+          element={
+            <EditEvent
+              currentArtist={currentArtist}
+              setCurrentArtist={setCurrentArtist}
+            />
+          }
+        />
         <Route
           path="/loginArtist"
           element={
@@ -64,6 +74,9 @@ const CustomRouter = () => {
             />
           }
         />
+        <Route path="/artist/:id" element={<ArtistProfile />} />
+        {/* <Route path="event/:id" element={<EventProfile />} /> */}
+        <Route path="/test" element={<UploadAndDisplayImage />} />
       </Routes>
     </Router>
   );

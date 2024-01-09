@@ -94,7 +94,7 @@ export function artistsBackend() {
 
   useEffect(() => {
     console.log("backend useEffect");
-    getArtists().then(() => console.log(artists));
+    getArtists();
     // console.log(artists); // appears that artists is empty even though filteredData (line 46) isnt
   }, [spotifyId]); // should only do this after an artist is added
 

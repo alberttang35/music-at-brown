@@ -1,4 +1,4 @@
-import UserLogin from "./userLogin.jsx";
+import UserLogin from "./users/userLogin.jsx";
 import ArtistMenu from "./artists/artistMenu.js";
 import { EventEntry } from "../types/types.js";
 import { Artist } from "../types/types.js";

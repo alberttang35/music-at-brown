@@ -5,8 +5,8 @@ import { eventsBackend } from "../../../../backend/eventsBackend";
 
 // necessary params for sidebar display
 export interface SideBarComponents {
-  artist: string;
-  setArtist: Dispatch<SetStateAction<string>>;
+  // artist: string;
+  // setArtist: Dispatch<SetStateAction<string>>;
   image: string;
   setImage: Dispatch<SetStateAction<string>>;
   venue: string;
@@ -26,8 +26,8 @@ export interface SideBarComponents {
 
 // display for adding an event
 export function AddEvent({
-  artist,
-  setArtist,
+  // artist,
+  // setArtist,
   image,
   setImage,
   venue,
@@ -38,7 +38,7 @@ export function AddEvent({
 }: SideBarComponents) {
   return (
     <div className="EditEvent">
-      <div className="mt-10">
+      {/* <div className="mt-10">
         <p> What is your artist name? </p>
         <ControlledInput
           value={artist}
@@ -48,7 +48,7 @@ export function AddEvent({
           className="mt-2 border rounded-md p-2 focus:outline-none focus:border-blue-500"
           text={"text"}
         />
-      </div>
+      </div> */}
       <div className="mt-7">
         <p> Optionally provide an image for your event for public display </p>
         <ControlledInput
@@ -106,8 +106,8 @@ export function EditableEventHistory({
 }: SideBarComponents) {
   console.log(spotifyId);
 
-  const [popUp, setPopUp] = useState(-1); // manage whether popup should be shown or not  
-  console.log(popUp)
+  const [popUp, setPopUp] = useState(-1); // manage whether popup should be shown or not
+  console.log(popUp);
 
   const [eventsToDisplay, setEventsToDisplay] = useState([
     ...eventList,
@@ -144,11 +144,7 @@ export function EditableEventHistory({
     console.log("Editing an event right now...");
 
     // Call the backend to update the event
-    await editEvent(
-      eventsToDisplay[index].spotifyId,
-      fieldToChange,
-      fieldValue
-    );
+    await editEvent(eventsToDisplay[index].artistId, fieldToChange, fieldValue);
 
     // Update the display on the frontend
     const updatedList = [...eventsToDisplay];
@@ -190,7 +186,7 @@ export function EditableEventHistory({
                     "mt-1 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   }
                   onClick={() =>
-                    deleteItem(index, event.image, event.artist, event.venue)
+                    deleteItem(index, event.image, event.artistId, event.venue)
                   }
                 >
                   Delete Event

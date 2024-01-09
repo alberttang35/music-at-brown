@@ -9,12 +9,11 @@ export interface EventsAll {
 }
 
 export default function EventsAll({ events }: EventsAll) {
-  
   // Custom events data from the backend
   const allEvents = eventsBackend().allEvents;
 
   return (
-    <div className="EventsAll">
+    <div className="max-h-screen overflow-visible overscroll-auto">
       <NavigationButton to="/" label="Go To Homepage" />
       <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-7">
         {allEvents.map((event, index) => (

@@ -28,8 +28,6 @@ export default function HOMEPAGE(props: HOMEPAGEProps) {
   const [userLoc, setUserLoc] = useState<GeoLoc>();
 
   useEffect(() => {
-    // console.log("running algorithms");
-    // console.log(userTopGenres);
     orderArtists(artists, setArtists, userTopGenres);
 
     window.navigator.geolocation.getCurrentPosition(function (pos) {
