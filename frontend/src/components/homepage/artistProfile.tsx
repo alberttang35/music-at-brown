@@ -19,6 +19,10 @@ export default function ArtistProfile() {
 
   // get the artist from the backend, and display their information
 
+  function getLink() {
+    return "https://open.spotify.com/artist/" + current.spotifyId;
+  }
+
   return (
     <div>
       <Login
@@ -31,15 +35,21 @@ export default function ArtistProfile() {
       {/* on first load, the image isnt being shown properly */}
       {current ? (
         // is this the best i can do in terms of loading? maybe a loading screen
-        <img
-          className="rounded-full"
-          src={current.image}
-          width="100px"
-          height="100px"
-        ></img>
+        <div>
+          <img
+            className="rounded-full"
+            src={current.image}
+            width="100px"
+            height="100px"
+          ></img>
+          <a href={getLink()} target="_blank">
+            Visit on Spotify
+          </a>
+        </div>
       ) : (
         <></>
       )}
+
       {filteredEvents.map((event, index) => (
         <li
           key={index}

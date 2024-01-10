@@ -1,7 +1,7 @@
 import WeeklyBreakdown from "./breakdown";
 import Artists from "./artists";
 import Events from "./events";
-import { Artist, EventEntry, GeoLoc } from "../types/types";
+import { Artist, EventEntry, GeoLoc, User } from "../types/types";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import NAV from "../nav/nav";
 import { eventsBackend } from "../../../../backend/eventsBackend";
@@ -12,14 +12,20 @@ import { mockWeekly1 } from "../mocks/mockWeeklyBreakdown";
 
 // do not need this homepage
 interface HOMEPAGEProps {
-  WeeklyBreakDownHistory: EventEntry[];
+  // WeeklyBreakDownHistory: EventEntry[];
   currentArtist: Artist | undefined;
   setCurrentArtist: Dispatch<SetStateAction<Artist | undefined>>;
+  currentUser: User | undefined;
+  setCurrentUser: Dispatch<SetStateAction<User | undefined>>;
 }
 
 // function for homepage
-export default function HOMEPAGE(props: HOMEPAGEProps) {
-  const [userTopGenres, setUserTopGenres] = useState<string[]>([]);
+export default function HOMEPAGE({
+  currentArtist,
+  setCurrentArtist,
+  currentUser,
+  setCurrentUser,
+}: HOMEPAGEProps) {
   const [artists, setArtists] = useState<Artist[]>([]);
   const [events, setEvents] = useState<EventEntry[]>([]);
 
@@ -28,28 +34,31 @@ export default function HOMEPAGE(props: HOMEPAGEProps) {
   const [userLoc, setUserLoc] = useState<GeoLoc>();
 
   useEffect(() => {
-    orderArtists(artists, setArtists, userTopGenres);
+    if (typeof currentUser !== "undefined") {
+      console.log(currentUser);
+      orderArtists(artists, setArtists, currentUser.genres);
 
-    window.navigator.geolocation.getCurrentPosition(function (pos) {
-      var lat = pos.coords.latitude;
-      var lon = pos.coords.longitude;
-      const location = {
-        lat: lat,
-        lon: lon,
-      };
-      setUserLoc(location);
-    });
-    orderEvents(events, setEvents, userTopGenres, userLoc);
-  }, [userTopGenres]);
+      window.navigator.geolocation.getCurrentPosition(function (pos) {
+        var lat = pos.coords.latitude;
+        var lon = pos.coords.longitude;
+        const location = {
+          lat: lat,
+          lon: lon,
+        };
+        setUserLoc(location);
+      });
+      orderEvents(events, setEvents, currentUser.genres, userLoc);
+    }
+  }, [currentUser]);
 
   return (
     // want to set dynamic sizing for the grid
     <div className="max-h-screen overflow-visible overscroll-auto">
       <NAV
-        userTopGenres={userTopGenres}
-        setUserTopGenres={setUserTopGenres}
-        currentArtist={props.currentArtist}
-        setCurrentArtist={props.setCurrentArtist}
+        currentUser={currentUser}
+        setCurrentUser={setCurrentUser}
+        currentArtist={currentArtist}
+        setCurrentArtist={setCurrentArtist}
       />
       <Events events={events} />
       <Artists artists={artists} />

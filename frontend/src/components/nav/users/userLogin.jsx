@@ -12,7 +12,7 @@ import { usersBackend } from "../../../../../backend/usersBackend";
 
 export const accessToken = localStorage;
 
-export default function UserLogin({ userTopGenres, setUserTopGenres }) {
+export default function UserLogin({ currentUser, setCurrentUser }) {
   const clientId = "2168cb3e26e643c7b91076ee7a797081"; // your clientId
   const redirectUrl = "http://localhost:5173"; // your redirect URL - must be localhost URL and/or HTTPS
   const authorizationEndpoint = "https://accounts.spotify.com/authorize";
@@ -218,24 +218,36 @@ export default function UserLogin({ userTopGenres, setUserTopGenres }) {
   // }
 
   async function getUser() {
-    const userData = await getUserData();
-    setIconURL(userData.images[0].url);
-    const filteredData = users.filter((user) => user.userId == userData.id);
-    const topGenres = await userTopGenres();
-    setUserTopGenres(topGenres);
-    // console.log(filteredData.length);
-    if (users.filter((user) => user.userId === userData.id).length > 0) {
-      // is there any way to assume its a returning user at first?
-      console.log("returning user");
-    } else {
-      console.log("adding new user");
-      onSubmitUser(
-        userData.display_name,
-        userData.images[0].url,
-        userData.id,
-        topGenres,
-        []
-      );
+    if (typeof currentUser == "undefined") {
+      const userData = await getUserData();
+      setIconURL(userData.images[0].url);
+      const filteredData = users.filter((user) => user.userId == userData.id);
+      const topGenres = await userTopGenres();
+      // setUserTopGenres(topGenres);
+      // console.log(filteredData.length);
+      if (users.filter((user) => user.userId === userData.id).length > 0) {
+        // is there any way to assume its a returning user at first?
+        console.log("returning user");
+        setCurrentUser(filteredData[0]);
+      } else {
+        console.log("adding new user");
+        const toAdd = {
+          name: userData.display_name,
+          image: userData.images[0].url,
+          userId: userData.id,
+          genres: topGenres,
+          targetEvents: [],
+        };
+        // Uncomment below when a fix is found to duplicate entries
+        // onSubmitUser(
+        //   userData.display_name,
+        //   userData.images[0].url,
+        //   userData.id,
+        //   topGenres,
+        //   []
+        // );
+        setCurrentUser(toAdd);
+      }
     }
   }
 
@@ -246,9 +258,10 @@ export default function UserLogin({ userTopGenres, setUserTopGenres }) {
     // I think it should be a useEffect, but I can't get this to work
     if (currentToken.access_token) {
       console.log("hi");
-      getUser();
+      getUser(); // getUser is still inconsistently adding new users when it shouldnt
+      // try to think of different dependencies which would call getUser only once on login
     }
-  }, [users]);
+  }, [currentToken.access_token]);
 
   // async function refreshTokenClick() {
   //   const token = await refreshToken();

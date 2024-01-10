@@ -18,10 +18,6 @@ export default function Artists({ artists }: Artists) {
   const artistsData = artistsBackend().artists;
   const navigate = useNavigate();
 
-  function getLink(artist: Artist) {
-    return "https://open.spotify.com/artist/" + artist.spotifyId;
-  }
-
   return (
     <div className="Artists">
       <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-6">
@@ -46,9 +42,6 @@ export default function Artists({ artists }: Artists) {
                   {artist.name}
                 </p>
                 <p className="text-sm text-gray-500">{artist.bio}</p>
-                <a href={getLink(artist)} target="_blank">
-                  Visit on Spotify
-                </a>
               </div>
             </li>
           </div>

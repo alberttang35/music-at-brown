@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HOMEPAGE from "../homepage/homepage";
-import { Artist, EventEntry } from "../types/types";
+import { Artist, EventEntry, User } from "../types/types";
 import EventsAll from "../homepage/eventsAll";
 import ArtistsAll from "../homepage/artistsAll";
 import EditEvent from "../nav/artists/editEvent";
@@ -11,15 +11,16 @@ import ArtistReturn from "../nav/artists/artistReturn";
 import ArtistDashboard from "../nav/artists/artistDashboard";
 import UploadAndDisplayImage from "../nav/artists/UploadImage";
 import ArtistProfile from "../homepage/artistProfile";
+import EventProfile from "../homepage/eventProfile";
 
 const CustomRouter = () => {
   const [artistsAll, setartistsAll] = useState<Artist[]>([]);
 
   const [eventsAll, seteventsAll] = useState<EventEntry[]>([]);
 
-  const [spotifyId, setSpotifyId] = useState<string>("");
-
   const [currentArtist, setCurrentArtist] = useState<Artist>();
+
+  const [currentUser, setCurrentUser] = useState<User>();
 
   return (
     <Router>
@@ -30,6 +31,8 @@ const CustomRouter = () => {
             <HOMEPAGE
               currentArtist={currentArtist}
               setCurrentArtist={setCurrentArtist}
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
             />
           }
         />
@@ -75,7 +78,15 @@ const CustomRouter = () => {
           }
         />
         <Route path="/artist/:id" element={<ArtistProfile />} />
-        {/* <Route path="event/:id" element={<EventProfile />} /> */}
+        <Route
+          path="event/:id"
+          element={
+            <EventProfile
+              currentUser={currentUser}
+              setCurrentUser={setCurrentUser}
+            />
+          }
+        />
         <Route path="/test" element={<UploadAndDisplayImage />} />
       </Routes>
     </Router>
