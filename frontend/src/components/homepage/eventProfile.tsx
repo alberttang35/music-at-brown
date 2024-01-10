@@ -24,27 +24,45 @@ export default function EventProfile({
     (artist) => artist.spotifyId == id
   );
   const currentEvent: EventEntry = filteredEvents[0];
+  //   const likedText: string = currentUser?.targetEvents.includes(
+  //     currentEvent.docId
+  //   )
+  //     ? "You liked this event"
+  //     : "Like this event";
   const navigate = useNavigate();
   //   console.log(artists.length);
 
   // get the artist from the backend, and display their information
 
-  //   function getLink() {
-  //     return "https://open.spotify.com/artist/" + currentEvent.spotifyId;
-  //   }
-
   function likeEvent() {
     if (typeof currentUser !== "undefined") {
-      const toAdd: string[] = [...currentUser.targetEvents, currentEvent.docId];
-      const newUser: User = {
-        name: currentUser.name,
-        image: currentUser.image,
-        userId: currentUser.userId,
-        genres: currentUser.genres,
-        targetEvents: toAdd,
-      };
-      console.log("setting user");
-      setCurrentUser(newUser);
+      if (currentUser.targetEvents.includes(currentEvent.docId)) {
+        const updatedEvents: string[] = currentUser.targetEvents.filter(
+          (event) => event !== currentEvent.docId
+        );
+        const newUser: User = {
+          name: currentUser.name,
+          image: currentUser.image,
+          userId: currentUser.userId,
+          genres: currentUser.genres,
+          targetEvents: updatedEvents,
+        };
+        setCurrentUser(newUser);
+      } else {
+        const toAdd: string[] = [
+          ...currentUser.targetEvents,
+          currentEvent.docId,
+        ];
+        const newUser: User = {
+          name: currentUser.name,
+          image: currentUser.image,
+          userId: currentUser.userId,
+          genres: currentUser.genres,
+          targetEvents: toAdd,
+        };
+        console.log("setting user");
+        setCurrentUser(newUser);
+      }
     }
   }
 
@@ -68,7 +86,11 @@ export default function EventProfile({
             height="100px"
           ></img>
           <p>{currentEvent.docId}</p>
-          <button onClick={likeEvent}>Like this event</button>
+          {currentUser?.targetEvents.includes(currentEvent.docId) ? (
+            <button onClick={likeEvent}>Unlike this event</button>
+          ) : (
+            <button onClick={likeEvent}>Like this event</button>
+          )}
         </div>
       ) : (
         <></>

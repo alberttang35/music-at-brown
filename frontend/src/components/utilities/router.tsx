@@ -20,7 +20,16 @@ const CustomRouter = () => {
 
   const [currentArtist, setCurrentArtist] = useState<Artist>();
 
-  const [currentUser, setCurrentUser] = useState<User>();
+  // const defaultUser: User = {
+  //   name: "",
+  //   image: "",
+  //   userId: "",
+  //   genres: [],
+  //   targetEvents: [],
+  // };
+  // using a defaultUser might resolve some issues with undefined type signatures, but I think when dealing with db,
+  // some undefined types are unavoidable -> might make more sense to just deal with undefined everywhere
+  const [currentUser, setCurrentUser] = useState<User>(); //defaultUser
 
   return (
     <Router>
