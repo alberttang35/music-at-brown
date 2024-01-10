@@ -35,10 +35,7 @@ export default function EventProfile({
 
   function likeEvent() {
     if (typeof currentUser !== "undefined") {
-      const toAdd: string[] = [
-        ...currentUser.targetEvents,
-        currentEvent.artistId,
-      ];
+      const toAdd: string[] = [...currentUser.targetEvents, currentEvent.docId];
       const newUser: User = {
         name: currentUser.name,
         image: currentUser.image,
@@ -70,6 +67,7 @@ export default function EventProfile({
             width="100px"
             height="100px"
           ></img>
+          <p>{currentEvent.docId}</p>
           <button onClick={likeEvent}>Like this event</button>
         </div>
       ) : (

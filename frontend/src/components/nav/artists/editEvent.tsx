@@ -52,7 +52,13 @@ export default function EditEvent({
       date !== "" &&
       location !== undefined
     ) {
-      onSubmitEvent(currentArtist, image, venue, date, location); // submit event to the database
+      const docId = await onSubmitEvent(
+        currentArtist,
+        image,
+        venue,
+        date,
+        location
+      ); // submit event to the database
       setEventList([
         ...eventList,
         {
@@ -60,6 +66,7 @@ export default function EditEvent({
           image: image,
           venue: venue,
           date: date,
+          docId: docId,
           location: location,
         },
       ]); // add to the artist's event list with the new event
@@ -117,7 +124,7 @@ export default function EditEvent({
       <div className="max-h-screen overflow-scroll">
         {(selectedOption == "addEvent" || selectedOption == "") && (
           <AddEvent
-            artist={currentArtist.spotifyId}
+            // artist={currentArtist.spotifyId}
             // setArtist={setArtist}
             image={image}
             setImage={setImage}
@@ -138,8 +145,8 @@ export default function EditEvent({
         )}
         {selectedOption == "modifyEvent" && (
           <EditableEventHistory
-            artist={currentArtist.spotifyId}
-            setArtist={setCurrentArtist}
+            // artist={currentArtist.spotifyId}
+            // setArtist={setCurrentArtist}
             image={image}
             setImage={setImage}
             venue={venue}

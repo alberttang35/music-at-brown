@@ -5,6 +5,7 @@ import {
   doc,
   getDoc,
   updateDoc,
+  setDoc,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "./firebase";
@@ -32,7 +33,8 @@ export function usersBackend() {
     };
     setUsers([...users, toAdd]);
     try {
-      await addDoc(userCollectionRef, toAdd);
+      await setDoc(doc(db, "Users", userId), toAdd);
+      // await addDoc(userCollectionRef, toAdd);
     } catch (err) {
       console.log(err);
     }
@@ -63,16 +65,19 @@ export function usersBackend() {
   }
 
   async function editUser(
-    spotifyId: string,
+    userId: string,
     fieldToChange: string,
     fieldValue: string
   ) {
     try {
-      const userDocRef = doc(userCollectionRef, spotifyId);
+      // console.log(userCollectionRef);
+      const userDocRef = doc(userCollectionRef, userId);
       const userDocSnapshot = await getDoc(userDocRef);
 
       if (userDocSnapshot.exists()) {
         const currentUserData = userDocSnapshot.data();
+        console.log(userDocSnapshot);
+        console.log(currentUserData);
         if (currentUserData.hasOwnProperty(fieldToChange)) {
           // Only update if the field exists in the current artist data
           await updateDoc(userDocRef, {
@@ -85,7 +90,7 @@ export function usersBackend() {
           );
         }
       } else {
-        console.log(`User with spotifyId '${spotifyId}' does not exist.`);
+        console.log(`User with userId '${userId}' does not exist.`);
       }
     } catch (err) {
       console.log(err);

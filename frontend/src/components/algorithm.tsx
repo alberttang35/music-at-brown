@@ -36,9 +36,9 @@ export async function orderEvents(
   const scoredEvents = await Promise.all(
     events.map(async (event) => {
       // get top genres of artist
-      
-      let artistName = event.artist;
-      
+
+      let artistName = event.artistId;
+
       // Reference to a collection
       const artistsCollectionRef = collection(db, "Artists");
 
@@ -75,11 +75,11 @@ export async function orderEvents(
   setEvents(scoredEvents);
 }
 
-function getDistance(point1: GeoLoc, point2: number[]) {
+function getDistance(point1: GeoLoc, point2: GeoLoc) {
   const lat1 = point1.lat;
   const lon1 = point1.lon;
-  const lat2 = point2[0];
-  const lon2 = point2[1];
+  const lat2 = point2.lat;
+  const lon2 = point2.lon;
 
   var R = 6371; // Radius of the earth in km
   var dLat = toRad(lat2 - lat1); // Javascript functions in radians

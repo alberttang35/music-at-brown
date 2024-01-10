@@ -120,12 +120,12 @@ export function EditableEventHistory({
   console.log("these are filtered events by id", eventsToDisplay);
 
   // delete the item
-  const deleteItem = (
+  function deleteItem(
     index: number,
     eventImage: string,
     eventArtist: string,
     eventVenue: string
-  ) => {
+  ) {
     console.log("im deleting an event right now...");
     deleteEvent(eventImage, eventArtist, eventVenue); // call to the backend
     // update for display on the frontend
@@ -134,13 +134,13 @@ export function EditableEventHistory({
       ...eventsToDisplay.slice(index + 1),
     ]; // everything before and after the index
     setEventsToDisplay(updatedList);
-  };
+  }
 
-  const editItem = async (
+  async function editItem(
     index: number,
     fieldToChange: string,
     fieldValue: string
-  ) => {
+  ) {
     console.log("Editing an event right now...");
 
     // Call the backend to update the event
@@ -154,7 +154,7 @@ export function EditableEventHistory({
     };
 
     setEventsToDisplay(updatedList);
-  };
+  }
 
   // map through the list of events added, then display them in REPL format in a side window.
   return (
@@ -173,7 +173,7 @@ export function EditableEventHistory({
               />
               <div className="grid place-items-center ml-3 h-10 w-45">
                 <p className="text-sm font-medium text-gray-900">
-                  {"artist: " + event.artist}
+                  {"artist: " + event.artistId}
                 </p>
                 <p className="text-sm font-medium text-gray-900">
                   {"venue: " + event.venue}

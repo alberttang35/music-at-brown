@@ -11,7 +11,7 @@ export type EventEntry = {
   image: string;
   venue: string;
   date: string;
-  // spotifyId: string;
+  docId: string;
   location: GeoLoc;
 };
 

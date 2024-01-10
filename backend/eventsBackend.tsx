@@ -49,7 +49,7 @@ export function eventsBackend() {
       // });
 
       // Add the event to the Events collection with the obtained spotifyId
-      await addDoc(collection(db, "Events"), {
+      const docRef = await addDoc(collection(db, "Events"), {
         artistId: artist.spotifyId,
         artistName: artist.name,
         event: event1,
@@ -59,7 +59,7 @@ export function eventsBackend() {
       });
 
       // Return the spotifyId
-      return artist.spotifyId;
+      return docRef.id;
     } catch (err) {
       console.log(err);
       // Return an appropriate value in case of an error (e.g., an empty string)
@@ -94,12 +94,12 @@ export function eventsBackend() {
   }
 
   async function editEvent(
-    spotifyId: string,
+    docId: string,
     fieldToChange: string,
     fieldValue: string
   ) {
     try {
-      const eventDocRef = doc(eventCollectionRef, spotifyId); // why is it looking by spotifyID
+      const eventDocRef = doc(eventCollectionRef, docId); // why is it looking by spotifyID
       // I think there should be some sort of ID system for events (and artists) that won't change, so we can filter on that
       const eventDocSnapshot = await getDoc(eventDocRef);
 
@@ -117,31 +117,32 @@ export function eventsBackend() {
           );
         }
       } else {
-        console.log(`Event with spotifyId '${spotifyId}' does not exist.`);
+        console.log(`Event with spotifyId '${docId}' does not exist.`);
       }
     } catch (err) {
       console.log(err);
     }
   }
 
+  async function getAllDatabaseEvents() {
+    try {
+      const data = await getDocs(eventCollectionRef);
+      const filteredData = data.docs.map((doc) => {
+        const eventData = doc.data() as EventEntry;
+        return { ...eventData, docId: doc.id };
+      });
+      setEvents(filteredData);
+      const idData = data.docs.map((doc) => ({
+        ...doc.data().spotifyId,
+      }));
+      setIds(idData);
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   // Updates the events list to just whatever's in the database
   useEffect(() => {
-    const getAllDatabaseEvents = async () => {
-      try {
-        const data = await getDocs(eventCollectionRef);
-        const filteredData = data.docs.map((doc) => {
-          const eventData = doc.data() as EventEntry;
-          return eventData;
-        });
-        setEvents(filteredData);
-        const idData = data.docs.map((doc) => ({
-          ...doc.data().spotifyId,
-        }));
-        setIds(idData);
-      } catch (err) {
-        console.error(err);
-      }
-    };
     getAllDatabaseEvents();
   }, []); // need a dependency, otherwise i dont think its updating when it should
 

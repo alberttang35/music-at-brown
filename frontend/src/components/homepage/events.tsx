@@ -36,9 +36,10 @@ export default function Events({ events }: Events) {
                 alt=""
               />
               <div className="ml-3 h-fit w-45">
-                <p className="text-sm font-medium text-gray-900">
-                  {event.artist}
-                </p>
+                {/* <p className="text-sm font-medium text-gray-900">
+                  {event.artistId}
+                </p> */}
+                {/* instead of showing the artistId, make a function which gets the artist info from db to show name */}
                 <p className="text-sm font-medium text-gray-900">
                   {event.venue}
                 </p>

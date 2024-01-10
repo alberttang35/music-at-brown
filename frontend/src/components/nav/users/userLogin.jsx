@@ -13,15 +13,16 @@ import { usersBackend } from "../../../../../backend/usersBackend";
 export const accessToken = localStorage;
 
 export default function UserLogin({ currentUser, setCurrentUser }) {
+  const defaultAvatar =
+    "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg";
   const clientId = "2168cb3e26e643c7b91076ee7a797081"; // your clientId
   const redirectUrl = "http://localhost:5173"; // your redirect URL - must be localhost URL and/or HTTPS
   const authorizationEndpoint = "https://accounts.spotify.com/authorize";
   const tokenEndpoint = "https://accounts.spotify.com/api/token";
   const scope = "user-top-read user-read-private user-read-email";
-  const [iconURL, setIconURL] = useState(
-    "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg"
-  );
+  const [iconURL, setIconURL] = useState(defaultAvatar);
   const { onSubmitUser } = usersBackend();
+  const { editUser } = usersBackend();
   const { users } = usersBackend();
 
   // Data structure that manages the current active token, caching it in localStorage
@@ -202,7 +203,11 @@ export default function UserLogin({ currentUser, setCurrentUser }) {
 
   async function logoutClick() {
     localStorage.clear();
-    window.location.href = redirectUrl;
+    // update the backend record
+    setIconURL(defaultAvatar);
+    editUser(currentUser.userId, "targetEvents", currentUser.targetEvents);
+    setCurrentUser();
+    // window.location.href = redirectUrl;
   }
 
   async function handleClick() {
@@ -238,16 +243,18 @@ export default function UserLogin({ currentUser, setCurrentUser }) {
           genres: topGenres,
           targetEvents: [],
         };
-        // Uncomment below when a fix is found to duplicate entries
-        // onSubmitUser(
-        //   userData.display_name,
-        //   userData.images[0].url,
-        //   userData.id,
-        //   topGenres,
-        //   []
-        // );
+        // Still a bit buggy, upon browser refresh while logged in, duplicate users were submitted to db
+        onSubmitUser(
+          userData.display_name,
+          userData.images[0].url,
+          userData.id,
+          topGenres,
+          []
+        );
         setCurrentUser(toAdd);
       }
+    } else {
+      setIconURL(currentUser.image);
     }
   }
 
