@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Artist, EventEntry, User } from "../types/types";
 import { Login, NavigationButton } from "../utilities/NavigationButton";
 import { useNavigate, useParams } from "react-router-dom";
@@ -17,20 +17,21 @@ export default function EventProfile({
   let { id } = useParams();
   const { artists } = artistsBackend();
   const { events } = eventsBackend();
+  const [currentArtist, setCurrentArtist] = useState<Artist>();
   const filteredEvents: EventEntry[] = events.filter(
-    (event) => event.artistId == id
-  );
-  const filteredArtists: Artist[] = artists.filter(
-    (artist) => artist.spotifyId == id
+    (event) => event.docId == id
   );
   const currentEvent: EventEntry = filteredEvents[0];
-  //   const likedText: string = currentUser?.targetEvents.includes(
-  //     currentEvent.docId
-  //   )
-  //     ? "You liked this event"
-  //     : "Like this event";
   const navigate = useNavigate();
-  //   console.log(artists.length);
+
+  useEffect(() => {
+    if (typeof currentEvent !== "undefined") {
+      const filteredArtists: Artist[] = artists.filter(
+        (artist) => artist.spotifyId == currentEvent.artistId
+      );
+      setCurrentArtist(filteredArtists[0]);
+    }
+  }, [currentEvent]);
 
   // get the artist from the backend, and display their information
 
@@ -77,41 +78,47 @@ export default function EventProfile({
       <p> Event Profile</p>
       {/* on first load, the image isnt being shown properly */}
       {currentEvent ? (
-        // is this the best i can do in terms of loading? maybe a loading screen
+        // is this the best i can do in terms of loading? maybe add a loading screen
         <div>
           <img
-            className="rounded-full"
+            className="rounded-full margin-left-auto margin-right-auto width-50"
             src={currentEvent.image}
             width="100px"
             height="100px"
           ></img>
-          <p>{currentEvent.docId}</p>
           {currentUser?.targetEvents.includes(currentEvent.docId) ? (
             <button onClick={likeEvent}>Unlike this event</button>
           ) : (
             <button onClick={likeEvent}>Like this event</button>
           )}
+          <p>{currentEvent.venue}</p>
         </div>
       ) : (
         <></>
       )}
-
-      {filteredEvents.map((event, index) => (
-        <li
-          key={index}
+      {currentArtist ? (
+        <div
           className="h-45 w-45 shadow-xl rounded-xl"
           onClick={() => {
             // TODO: maybe have a hover, and then click
-            navigate("/artist/" + event.artistId);
+            navigate("/artist/" + currentArtist.spotifyId);
           }}
         >
-          <img className="h-10 w-10 rounded-full" src={event.image} alt="" />
+          <img
+            className="h-10 w-10 rounded-full"
+            src={currentArtist.image}
+            alt=""
+          />
           <div className="ml-3">
-            <p className="text-sm font-medium text-gray-900">{event.venue}</p>
-            <p className="text-sm font-medium text-gray-900">{event.date}</p>
+            <p className="text-sm font-medium text-gray-900">
+              {currentArtist.name}
+            </p>
+            <p className="text-sm text-gray-500">{currentArtist.bio}</p>
           </div>
-        </li>
-      ))}
+        </div>
+      ) : (
+        <></>
+      )}
     </div>
   );
 }

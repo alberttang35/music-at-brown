@@ -26,18 +26,19 @@ export default function Artists({ artists }: Artists) {
             {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
             <li
               key={index}
-              className="h-45 w-45 shadow-xl rounded-xl"
+              // className="Artist-card"
+              className="pt-2.5 h-45 w-45 rounded-xl bg-slate-300" // shadow-xl
               onClick={() => {
                 // TODO: maybe have a hover, and then click
                 navigate("/artist/" + artist.spotifyId);
               }}
             >
               <img
-                className="h-10 w-10 rounded-full"
+                className="object-cover h-20 w-20 rounded-full mr-auto ml-auto" // try to get padding above = padding on sides
                 src={artist.image}
                 alt=""
               />
-              <div className="ml-3">
+              <div className="h-16 ">
                 <p className="text-sm font-medium text-gray-900">
                   {artist.name}
                 </p>

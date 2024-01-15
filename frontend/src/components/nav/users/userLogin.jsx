@@ -81,11 +81,6 @@ export default function UserLogin({ currentUser, setCurrentUser }) {
     // but i can't seem to find another way to make it work
   }
 
-  // // Otherwise we're not logged in, so render the login template
-  // if (!currentToken.access_token) {
-  //   renderTemplate("main", "login");
-  // }
-
   async function redirectToSpotifyAuthorize() {
     const possible =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -207,7 +202,6 @@ export default function UserLogin({ currentUser, setCurrentUser }) {
     setIconURL(defaultAvatar);
     editUser(currentUser.userId, "targetEvents", currentUser.targetEvents);
     setCurrentUser();
-    // window.location.href = redirectUrl;
   }
 
   async function handleClick() {
@@ -218,10 +212,6 @@ export default function UserLogin({ currentUser, setCurrentUser }) {
     }
   }
 
-  // function classNames(...classes) {
-  //   return classes.filter(Boolean).join(" ");
-  // }
-
   async function getUser() {
     if (typeof currentUser == "undefined") {
       const userData = await getUserData();
@@ -229,7 +219,6 @@ export default function UserLogin({ currentUser, setCurrentUser }) {
       const filteredData = users.filter((user) => user.userId == userData.id);
       const topGenres = await userTopGenres();
       // setUserTopGenres(topGenres);
-      // console.log(filteredData.length);
       if (users.filter((user) => user.userId === userData.id).length > 0) {
         // is there any way to assume its a returning user at first?
         console.log("returning user");
@@ -244,6 +233,7 @@ export default function UserLogin({ currentUser, setCurrentUser }) {
           targetEvents: [],
         };
         // Still a bit buggy, upon browser refresh while logged in, duplicate users were submitted to db
+        // also when restarting the localhost while logged in
         onSubmitUser(
           userData.display_name,
           userData.images[0].url,

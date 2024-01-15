@@ -68,19 +68,10 @@ export function eventsBackend() {
   }
 
   // Should be able to delete items from the database
-  async function deleteEvent(
-    eventImage: string,
-    eventArtist: string,
-    eventVenue: string
-  ) {
+  async function deleteEvent(docId: string) {
     try {
       const data = await getDocs(eventCollectionRef);
-      const idData = data.docs.filter(
-        (doc) =>
-          doc.data().venue === eventVenue &&
-          doc.data().image === eventImage &&
-          doc.data().artist === eventArtist
-      );
+      const idData = data.docs.filter((doc) => doc.id === docId);
       // console.log(eventImage, eventArtist, eventVenue);
       // console.log("id data...", idData);
       if (idData.length == 1) {

@@ -120,14 +120,9 @@ export function EditableEventHistory({
   console.log("these are filtered events by id", eventsToDisplay);
 
   // delete the item
-  function deleteItem(
-    index: number,
-    eventImage: string,
-    eventArtist: string,
-    eventVenue: string
-  ) {
+  function deleteItem(index: number, docId: string) {
     console.log("im deleting an event right now...");
-    deleteEvent(eventImage, eventArtist, eventVenue); // call to the backend
+    deleteEvent(docId); // call to the backend
     // update for display on the frontend
     const updatedList = [
       ...eventsToDisplay.slice(0, index),
@@ -144,7 +139,7 @@ export function EditableEventHistory({
     console.log("Editing an event right now...");
 
     // Call the backend to update the event
-    await editEvent(eventsToDisplay[index].artistId, fieldToChange, fieldValue);
+    await editEvent(eventsToDisplay[index].docId, fieldToChange, fieldValue);
 
     // Update the display on the frontend
     const updatedList = [...eventsToDisplay];
@@ -185,9 +180,7 @@ export function EditableEventHistory({
                   className={
                     "mt-1 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                   }
-                  onClick={() =>
-                    deleteItem(index, event.image, event.artistId, event.venue)
-                  }
+                  onClick={() => deleteItem(index, event.docId)}
                 >
                   Delete Event
                 </button>

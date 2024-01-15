@@ -43,29 +43,40 @@ export default function ArtistProfile() {
             height="100px"
           ></img>
           <a href={getLink()} target="_blank">
-            Visit on Spotify
+            <button
+              className="transition duration-500 transform px-6 py-2 m-4 inline
+               bg-teal-400 hover:bg-indigo-400
+               border-2 border-red-500 hover:border-yellow-500
+               hover:text-white
+               hover:opacity-50
+               hover:shadow-md
+               hover:scale-125"
+            >
+              Visit on Spotify
+            </button>
           </a>
         </div>
       ) : (
         <></>
       )}
-
-      {filteredEvents.map((event, index) => (
-        <li
-          key={index}
-          className="h-45 w-45 shadow-xl rounded-xl"
-          onClick={() => {
-            // TODO: maybe have a hover, and then click
-            navigate("/artist/" + event.artistId);
-          }}
-        >
-          <img className="h-10 w-10 rounded-full" src={event.image} alt="" />
-          <div className="ml-3">
-            <p className="text-sm font-medium text-gray-900">{event.venue}</p>
-            <p className="text-sm font-medium text-gray-900">{event.date}</p>
-          </div>
-        </li>
-      ))}
+      <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-6">
+        {filteredEvents.map((event, index) => (
+          <li
+            key={index}
+            className="h-45 w-45 shadow-xl rounded-xl"
+            onClick={() => {
+              // TODO: maybe have a hover, and then click
+              navigate("/event/" + event.docId);
+            }}
+          >
+            <img className="h-10 w-10 rounded-full" src={event.image} alt="" />
+            <div className="ml-3">
+              <p className="text-sm font-medium text-gray-900">{event.venue}</p>
+              <p className="text-sm font-medium text-gray-900">{event.date}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

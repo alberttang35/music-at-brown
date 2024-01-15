@@ -27,7 +27,7 @@ export default function Events({ events }: Events) {
               className="h-fit w-45 shadow-xl rounded-xl"
               onClick={() => {
                 // TODO: maybe have a hover, and then click
-                navigate("/event/" + event.artistId);
+                navigate("/event/" + event.docId);
               }}
             >
               <img

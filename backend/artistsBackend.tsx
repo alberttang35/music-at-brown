@@ -38,12 +38,6 @@ export function artistsBackend() {
     }
   }
 
-  // should be able to store the current ID in the backend
-  function onSubmitSpotifyID(spotifyId: string) {
-    setSpotifyId(spotifyId); // all this does is literally just store the spotifyID nowhere, just sets it
-    return spotifyId;
-  }
-
   async function getArtists() {
     try {
       const data = await getDocs(artistCollectionRef);
@@ -98,5 +92,5 @@ export function artistsBackend() {
     // console.log(artists); // appears that artists is empty even though filteredData (line 46) isnt
   }, [spotifyId]); // should only do this after an artist is added
 
-  return { artists, onSubmitArtist, onSubmitSpotifyID, getArtists, spotifyId };
+  return { artists, onSubmitArtist, getArtists, spotifyId };
 }
