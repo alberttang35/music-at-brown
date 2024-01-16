@@ -28,9 +28,8 @@ export default function Events({ events }: Events) {
             {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
             <li
               key={index}
-              className="h-40 shadow-xl rounded-xl bg-slate-200"
+              className="h-40 shadow-xl rounded-xl bg-slate-100 transition ease-in-out hover:bg-slate-50 cursor-pointer"
               onClick={() => {
-                // TODO: maybe have a hover, and then click
                 navigate("/event/" + event.docId);
               }}
             >
@@ -39,7 +38,7 @@ export default function Events({ events }: Events) {
                 src={event.image}
                 alt=""
               />
-              <div className="h-fit">
+              <div className="pt-1 h-fit">
                 {/* <p className="text-sm font-medium text-gray-900">
                   {event.artistId}
                 </p> */}

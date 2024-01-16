@@ -32,7 +32,7 @@ export default function Artists({ artists }: Artists) {
               {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
               <li
                 key={index}
-                className="pt-3 h-fit rounded-xl bg-slate-200" // shadow-xl
+                className="pt-3 h-fit rounded-xl bg-slate-100 transition ease-in-out hover:bg-slate-50 cursor-pointer" // shadow-xl
                 onClick={() => {
                   // TODO: maybe have a hover, and then click
                   navigate("/artist/" + artist.spotifyId);
@@ -43,7 +43,7 @@ export default function Artists({ artists }: Artists) {
                   src={artist.image}
                   alt={artist.name}
                 />
-                <div className="h-20 grid grid-cols-1">
+                <div className="pt-1 h-20 grid grid-cols-1">
                   <p className="text-sm font-medium text-gray-900 justify-self-center place-self-start pt-1">
                     {artist.name}
                   </p>

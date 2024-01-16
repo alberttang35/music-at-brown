@@ -31,24 +31,6 @@ export const mockEvents1: EventEntry[] = [
     location: { lat: 41.826524376501766, lon: -71.40254733571722 },
   },
   {
-    artist: "Post Malone",
-    venue: "HITC",
-    image:
-      "https://i.guim.co.uk/img/media/77d56571e0e02c5da16ee6c15dc9926103df8717/0_0_6720_4032/master/6720.jpg?width=465&dpr=1&s=none",
-    date: "1/2/2024",
-    spotifyId: "",
-    location: { lat: 41.826524376501766, lon: -71.40254733571722 },
-  },
-  {
-    artist: "Post Malone",
-    venue: "HITC",
-    image:
-      "https://i.guim.co.uk/img/media/77d56571e0e02c5da16ee6c15dc9926103df8717/0_0_6720_4032/master/6720.jpg?width=465&dpr=1&s=none",
-    date: "1/2/2024",
-    spotifyId: "",
-    location: { lat: 41.826524376501766, lon: -71.40254733571722 },
-  },
-  {
     artist: "Taylor Swift",
     venue: "GovBall",
     image:

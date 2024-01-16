@@ -97,24 +97,28 @@ export default function EventProfile({
         <></>
       )}
       {currentArtist ? (
-        <div
-          className="h-45 w-45 shadow-xl rounded-xl"
-          onClick={() => {
-            // TODO: maybe have a hover, and then click
-            navigate("/artist/" + currentArtist.spotifyId);
-          }}
-        >
-          <img
-            className="h-10 w-10 rounded-full"
-            src={currentArtist.image}
-            alt=""
-          />
-          <div className="ml-3">
-            <p className="text-sm font-medium text-gray-900">
-              {currentArtist.name}
-            </p>
-            <p className="text-sm text-gray-500">{currentArtist.bio}</p>
-          </div>
+        <div className="px-10 grid grid-cols-6">
+          <ul
+            className="pt-3 shadow-xl rounded-xl bg-slate-200 transition ease-in-out hover:bg-slate-100 cursor-pointer"
+            onClick={() => {
+              // TODO: maybe have a hover, and then click
+              navigate("/artist/" + currentArtist.spotifyId);
+            }}
+          >
+            <img
+              className="object-cover h-28 w-28 rounded-full mr-auto ml-auto"
+              src={currentArtist.image}
+              alt=""
+            />
+            <div className="h-20 grid grid-cols-1">
+              <p className="text-sm font-medium text-gray-900 justify-self-center place-self-start pt-1">
+                {currentArtist.name}
+              </p>
+              <p className="text-sm text-gray-500 justify-self-center place-self-end pb-2.5">
+                {currentArtist.bio}
+              </p>
+            </div>
+          </ul>
         </div>
       ) : (
         <></>

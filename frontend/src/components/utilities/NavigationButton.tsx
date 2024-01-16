@@ -21,9 +21,8 @@ export interface LoginArtistButton {
 // Button for show all
 export const NavigationButton = ({ to, label }: NavigationButton) => {
   return (
-    <NavLink className="col-start-6" to={to}>
+    <NavLink className="col-start-6 place-self-end" to={to}>
       <button className="text-sm align-center pointer-events-auto hover:underline">
-        {/* Condense button so that the pointer only updates when hovering over text */}
         {label}
       </button>
     </NavLink>

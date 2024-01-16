@@ -22,9 +22,8 @@ export default function ArtistsAll({ artists }: ArtistsAll) {
             {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
             <li
               key={index}
-              className="pt-3 h-fit shadow-xl rounded-xl bg-slate-200"
+              className="pt-3 h-fit shadow-xl rounded-xl bg-slate-100 transition ease-in-out hover:bg-slate-50 cursor-pointer"
               onClick={() => {
-                // TODO: maybe have a hover, and then click
                 navigate("/artist/" + artist.spotifyId);
               }}
             >
