@@ -20,35 +20,44 @@ export default function Artists({ artists }: Artists) {
 
   return (
     <div className="Artists">
-      <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-6">
-        {artistsData.map((artist, index) => (
-          <div key={index}>
-            {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
-            <li
-              key={index}
-              // className="Artist-card"
-              className="pt-2.5 h-45 w-45 rounded-xl bg-slate-300" // shadow-xl
-              onClick={() => {
-                // TODO: maybe have a hover, and then click
-                navigate("/artist/" + artist.spotifyId);
-              }}
-            >
-              <img
-                className="object-cover h-20 w-20 rounded-full mr-auto ml-auto" // try to get padding above = padding on sides
-                src={artist.image}
-                alt=""
-              />
-              <div className="h-16 ">
-                <p className="text-sm font-medium text-gray-900">
-                  {artist.name}
-                </p>
-                <p className="text-sm text-gray-500">{artist.bio}</p>
-              </div>
-            </li>
-          </div>
-        ))}
+      <div className="px-10 mx-auto grid grid-cols-6">
+        <p className="text-sm font-medium">Recommended Artists</p>
+        <NavigationButton to="/artistsAll" label="Show All" />
+      </div>
+      <ul className="px-10 py-2 mx-auto grid gap-2 grid grid-cols-6">
+        {/* Maybe have the number of grid columns adjust according to the zoom */}
+        {artistsData.map((artist, index) =>
+          index < 6 ? (
+            <div key={index}>
+              {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
+              <li
+                key={index}
+                className="pt-3 h-fit rounded-xl bg-slate-200" // shadow-xl
+                onClick={() => {
+                  // TODO: maybe have a hover, and then click
+                  navigate("/artist/" + artist.spotifyId);
+                }}
+              >
+                <img
+                  className="object-cover h-28 w-28 rounded-full mr-auto ml-auto"
+                  src={artist.image}
+                  alt={artist.name}
+                />
+                <div className="h-20 grid grid-cols-1">
+                  <p className="text-sm font-medium text-gray-900 justify-self-center place-self-start pt-1">
+                    {artist.name}
+                  </p>
+                  <p className="text-sm text-gray-500 justify-self-center place-self-end pb-2.5">
+                    {artist.bio}
+                  </p>
+                </div>
+              </li>
+            </div>
+          ) : (
+            <></>
+          )
+        )}
       </ul>
-      <NavigationButton to="/artistsAll" label="Show All" />
     </div>
   );
 }

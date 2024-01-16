@@ -3,6 +3,7 @@ import { Artist } from "../types/types";
 import { NavigationButton } from "../utilities/NavigationButton";
 import { mockArtists1 } from "../mocks/mockArtists";
 import { artistsBackend } from "../../../../backend/artistsBackend";
+import { useNavigate } from "react-router-dom";
 
 export interface ArtistsAll {
   artists: Artist[];
@@ -10,28 +11,35 @@ export interface ArtistsAll {
 
 export default function ArtistsAll({ artists }: ArtistsAll) {
   const artistsData = artistsBackend().artists;
+  const navigate = useNavigate();
 
   return (
     <div className="ArtistsAll">
       <NavigationButton to="/" label="Go To Homepage" />
-      <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-7">
+      <ul className="p-10 mx-auto grid gap-2 grid-cols-6">
         {artistsData.map((artist, index) => (
           <div key={index}>
             {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
-            <li key={index} className="h-45 w-45 shadow-xl rounded-xl">
+            <li
+              key={index}
+              className="pt-3 h-fit shadow-xl rounded-xl bg-slate-200"
+              onClick={() => {
+                // TODO: maybe have a hover, and then click
+                navigate("/artist/" + artist.spotifyId);
+              }}
+            >
               <img
-                className="h-10 w-10 rounded-full"
+                className="object-cover h-28 w-28 rounded-full mr-auto ml-auto"
                 src={artist.image}
                 alt=""
               />
-              <div className="ml-3">
-                <p className="text-sm font-medium text-gray-900">
+              <div className="h-20 grid grid-cols-1">
+                <p className="text-sm font-medium text-gray-900 justify-self-center place-self-start pt-1">
                   {artist.name}
                 </p>
-                <p className="text-sm font-medium text-gray-900">
-                  {artist.links}
+                <p className="text-sm text-gray-500 justify-self-center place-self-end pb-2.5">
+                  {artist.bio}
                 </p>
-                <p className="text-sm text-gray-500">{artist.bio}</p>
               </div>
             </li>
           </div>

@@ -17,14 +17,18 @@ export default function Events({ events }: Events) {
   const eventsData = eventsBackend().events;
   const navigate = useNavigate();
   return (
-    <div className="events">
-      <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-6">
+    <div className="events py-6">
+      <div className="px-10 mx-auto grid grid-cols-6">
+        <p className="text-sm font-medium">Recommended Events</p>
+        <NavigationButton to="/eventsAll" label="Show All" />
+      </div>
+      <ul className="px-10 py-2 mx-auto grid gap-2 grid-cols-6">
         {eventsData.map((event, index) => (
           <div key={index}>
             {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
             <li
               key={index}
-              className="h-fit w-45 shadow-xl rounded-xl"
+              className="h-40 shadow-xl rounded-xl bg-slate-200"
               onClick={() => {
                 // TODO: maybe have a hover, and then click
                 navigate("/event/" + event.docId);
@@ -35,7 +39,7 @@ export default function Events({ events }: Events) {
                 src={event.image}
                 alt=""
               />
-              <div className="ml-3 h-fit w-45">
+              <div className="h-fit">
                 {/* <p className="text-sm font-medium text-gray-900">
                   {event.artistId}
                 </p> */}
@@ -49,7 +53,7 @@ export default function Events({ events }: Events) {
           </div>
         ))}
       </ul>
-      <NavigationButton to="/eventsAll" label="Show All" />
+      {/* <NavigationButton to="/eventsAll" label="Show All" /> */}
     </div>
   );
 }
