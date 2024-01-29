@@ -1,9 +1,3 @@
-# term-project-hkmin-jelias7-nhkim-atang44 README
-
-## Project Overview
-
-### Project Name
-
 **Music@Brown**
 
 ### Project Description
@@ -12,7 +6,15 @@ Music@Brown is a dynamic web application tailored for music enthusiasts to gain 
 
 ### Current Development and Maintenance
 
-This project came to be from a final project, and is currently being maintained by Albert Tang
+This project came to be from a final project for the class CS0320: Introduction to Software Engineering, and has since been maintained and developed by Albert Tang. Feel free to look at the [original repo](https://github.com/cs0320-f23/term-project-hkmin-jelias7-nhkim-atang44) to see our progress upon completing the course.
+
+### Recently Developed Features
+
+- Support for lasting user profiles, storing events a user has shown interest in and taking those data points into account when recommending artists and events to them
+- Support for lasting Artist profiles, including logging into existing artist users and editing the profiles of artists
+- Front-facing Event and Artist profile pages, where users can see more information on the event and find related or similar events
+
+## Below is largely from the README of the team repo
 
 ### Team Members and Contributions
 
@@ -23,7 +25,7 @@ This project came to be from a final project, and is currently being maintained 
 
 **Total Estimated Time:** Approximately 100 hours.
 
-**Repository Link:** [Music@Brown GitHub](https://github.com/cs0320-f23/term-project-hkmin-jelias7-nhkim-atang44)
+**Repository Link:** [Music@Brown GitHub](https://github.com/alberttang35/music-at-brown)
 
 ## Design Choices
 
@@ -41,7 +43,6 @@ The application's architecture is divided into two primary segments:
 
 - Node.js is chosen for its scalability and compatibility with Firebase.
 - Firebase Firestore is used for real-time database operations.
-- Firebase Authentication handles secure user login and authentication processes.
 
 ### Data Flow and Component Structure
 
@@ -67,14 +68,16 @@ The application adopts a modular component structure, facilitating maintainabili
 
 ### Known Bugs and Reproduction Steps
 
-1. **Sorting may reset after going to a new page:**
-   - **Reproduction Steps:** login with spotify, go to different parts of the website
-   - **Effect:** sorting may be reset
-   - **Status:** Not fixed yet but should be fixed by modifying some state variable
+1. **Backend entry for users occassionaly duplicates:**
+   - **Reproduction Steps:** login with spotify, refresh from the homepage
+   - **Effect:** Potential issues with keeping track of user's liked events
+   - **Status:** Fix ongoing
 
 ## Testing: N/A
 
 ## Building and Running the Program
 
-- **Build Instructions:** Use `npm install` to compile the project and install the necessary dependencies (run the command in both the frontend and back end folders)
+Clone the repo
+
+- **Build Instructions:** Run `npm install` to compile the project and install the necessary dependencies (run the command in both the frontend and back end folders)
 - **Running Locally:** Start the application using `npm run dev`. Ensure environment variables for Firebase and Spotify API are set.

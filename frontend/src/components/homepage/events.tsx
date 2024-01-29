@@ -28,7 +28,7 @@ export default function Events({ events }: Events) {
             {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
             <li
               key={index}
-              className="h-40 shadow-xl rounded-xl bg-slate-100 transition ease-in-out hover:bg-slate-50 cursor-pointer"
+              className="h-fit shadow-xl rounded-xl bg-slate-100 transition ease-in-out hover:bg-slate-50 cursor-pointer"
               onClick={() => {
                 navigate("/event/" + event.docId);
               }}
@@ -38,12 +38,12 @@ export default function Events({ events }: Events) {
                 src={event.image}
                 alt=""
               />
-              <div className="pt-1 h-fit">
+              <div className="pt-1 h-fit grid grid-cols-1">
                 {/* <p className="text-sm font-medium text-gray-900">
                   {event.artistId}
                 </p> */}
                 {/* instead of showing the artistId, make a function which gets the artist info from db to show name */}
-                <p className="text-sm font-medium text-gray-900">
+                <p className="text-sm font-medium text-gray-900 justify-self-center place-self-start pt-1">
                   {event.venue}
                 </p>
                 <p className="text-sm text-gray-500">{event.date}</p>
