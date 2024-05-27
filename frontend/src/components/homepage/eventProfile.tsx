@@ -69,10 +69,10 @@ export default function EventProfile({
 
   return (
     <div>
-      <Login
+      <NavigationButton
         to="/"
         label="Homepage"
-        className="mt-4 grid place-items-center mr-3 w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
+        // className="mt-4 grid place-items-center mr-3 w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
       />
 
       <p> Event Profile</p>
@@ -81,10 +81,10 @@ export default function EventProfile({
         // is this the best i can do in terms of loading? maybe add a loading screen
         <div>
           <img
-            className="rounded-full margin-left-auto margin-right-auto width-50"
+            className="rounded-full ml-auto mr-auto w-max"
             src={currentEvent.image}
-            width="100px"
-            height="100px"
+            width="100"
+            height="100"
           ></img>
           {currentUser?.targetEvents.includes(currentEvent.docId) ? (
             <button onClick={likeEvent}>Unlike this event</button>
@@ -114,15 +114,15 @@ export default function EventProfile({
               <p className="text-sm font-medium text-gray-900 justify-self-center place-self-start pt-1">
                 {currentArtist.name}
               </p>
-              <p className="text-sm text-gray-500 justify-self-center place-self-end pb-2.5">
-                {currentArtist.bio}
-              </p>
             </div>
           </ul>
         </div>
       ) : (
         <></>
       )}
+      <div className="px-10 mx-auto grid grid-cols-6">
+        <p className="text-lg font-medium">Similar Events</p>
+      </div>
     </div>
   );
 }

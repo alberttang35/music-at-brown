@@ -16,7 +16,7 @@ export default function EventsAll({ events }: EventsAll) {
 
   return (
     <div className="max-h-screen overflow-visible overscroll-auto">
-      <NavigationButton to="/" label="Go To Homepage" />
+      <NavigationButton to="/" label="Homepage" />
       <ul className="p-10 mx-auto grid gap-2 grid-cols-6">
         {allEvents.map((event, index) => (
           <div key={index}>

@@ -25,10 +25,10 @@ export default function ArtistProfile() {
 
   return (
     <div>
-      <Login
+      <NavigationButton
         to="/"
         label="Homepage"
-        className="mt-4 grid place-items-center mr-3 w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
+        // className="mt-4 grid place-items-center mr-3 w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
       />
 
       {/* on first load, the image isnt being shown properly */}
@@ -43,15 +43,13 @@ export default function ArtistProfile() {
           ></img>
           <a href={getLink()} target="_blank">
             <button
-              className="transition duration-500 transform px-6 py-2 m-4 inline
-               hover:text-white
-               hover:opacity-50
-               hover:shadow-md
-               hover:scale-125"
+              className="transform px-6 py-2 m-4 inline
+               hover:underline"
             >
               Visit on Spotify
             </button>
           </a>
+          <p>{current.bio}</p>
         </div>
       ) : (
         <></>

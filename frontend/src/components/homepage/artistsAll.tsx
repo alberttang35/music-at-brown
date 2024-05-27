@@ -15,7 +15,7 @@ export default function ArtistsAll({ artists }: ArtistsAll) {
 
   return (
     <div className="ArtistsAll">
-      <NavigationButton to="/" label="Go To Homepage" />
+      <NavigationButton to="/" label="Homepage" />
       <ul className="p-10 mx-auto grid gap-2 grid-cols-6">
         {artistsData.map((artist, index) => (
           <div key={index}>
