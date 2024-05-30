@@ -1,13 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { Displayable } from "../types/Displayable";
 import { Artist, Event } from "../types/types";
+import { NavigationButton } from "../utilities/NavigationButton";
 
 interface SublistProps {
   header: string;
   toMap: Artist[] | Event[];
+  redirect?: string;
 }
 
-export default function Sublist({ header, toMap }: SublistProps) {
+export default function Sublist({ header, toMap, redirect }: SublistProps) {
   const navigate = useNavigate();
 
   function isArtistArr(arr: Artist[] | Event[]): arr is Artist[] {
@@ -21,11 +23,9 @@ export default function Sublist({ header, toMap }: SublistProps) {
     <>
       <div className="px-10 mx-auto grid grid-cols-6">
         <p className="text-lg font-medium text-left">{header}</p>
+        {redirect ? <NavigationButton to={redirect} label="Show All" /> : <></>}
       </div>
-      <ul className="divide-y divide-gray-200 pt-2 px-10 mx-auto grid gap-2 grid-cols-6">
-        {/* {toMap.map((elt, index) => elt.display())}
-         */}
-        {/* this doesn't solve the issue of too many classname definitions */}
+      <ul className="divide-y divide-gray-200 pt-2 px-10 mx-auto grid gap-2 lg:grid-cols-6 md:grid-cols-4 sm:grid-cols-3 2xl:grid-cols-8 pb-2">
         {isArtistArr(toMap)
           ? toMap.map((artist, index) => (
               <>
@@ -41,11 +41,11 @@ export default function Sublist({ header, toMap }: SublistProps) {
                     src={artist.image}
                     alt={artist.name}
                   />
-                  <div className="pt-1 h-20 grid grid-cols-1">
+                  <div className="pt-1 h-16 grid grid-cols-1">
                     <p className="text-sm font-medium text-gray-900 justify-self-center place-self-start pt-1">
                       {artist.name}
                     </p>
-                    <p className="text-sm text-gray-500 justify-self-center place-self-end pb-2.5">
+                    <p className="text-sm text-gray-500 justify-self-center place-self-end pb-3">
                       {artist.bio}
                     </p>
                   </div>
@@ -61,7 +61,7 @@ export default function Sublist({ header, toMap }: SublistProps) {
                 }}
               >
                 <img
-                  className="aspect-video w-45 object-cover object-center rounded-t-xl"
+                  className="aspect-video w-fit h-40 object-cover object-center rounded-t-xl"
                   src={event.image}
                   alt=""
                 />

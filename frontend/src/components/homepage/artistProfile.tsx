@@ -7,6 +7,8 @@ import { artistsBackend } from "../../../../backend/artistsBackend";
 import { eventsBackend } from "../../../../backend/eventsBackend";
 import SubList from "../subcomponents/sublist";
 
+// TODO: scrolling broken, don't know why
+
 export default function ArtistProfile() {
   let { id } = useParams();
   const { allArtists } = artistsBackend();
@@ -18,7 +20,7 @@ export default function ArtistProfile() {
     (artist) => artist.spotifyId == id
   );
   const current: Artist = filtered[0];
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // get the artist from the backend, and display their information
 
@@ -54,7 +56,7 @@ export default function ArtistProfile() {
         <></>
       )}
       <SubList header="Events" toMap={filteredEvents}></SubList>
-      <div className="px-10 mx-auto grid grid-cols-6">
+      {/* <div className="px-10 mx-auto grid grid-cols-6">
         <p className="text-lg font-medium text-left">Events</p>
       </div>
       <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-6">
@@ -78,7 +80,7 @@ export default function ArtistProfile() {
             </div>
           </li>
         ))}
-      </ul>
+      </ul> */}
     </>
   );
 }

@@ -19,7 +19,7 @@ export default function NAV({
   setCurrentArtist,
 }: navProps) {
   return (
-    <div className="flex mr-20 flex-row-reverse">
+    <div className="flex mr-20 flex-row-reverse pt-2">
       <ArtistMenu
         currentArtist={currentArtist}
         setCurrentArtist={setCurrentArtist}
