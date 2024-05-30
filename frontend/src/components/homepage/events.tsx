@@ -2,19 +2,17 @@
 // - should have some sort of state storing the currently uploaded profiles etc.
 // - have a backend api call to fetch most RECENT entries from the database. mock for now
 
-import { Dispatch, SetStateAction } from "react";
-import { EventEntry } from "../types/types";
+import { Event } from "../types/types";
 import { NavigationButton } from "../utilities/NavigationButton";
-import { mockEvents1 } from "../mocks/mockEvents";
-import { eventsBackend } from "../../../../backend/eventsBackend";
 import { useNavigate } from "react-router-dom";
 
 export interface Events {
-  events: EventEntry[];
+  events: Event[];
 }
 
+// TODO: host images on firebase where possible, this might require changing a lot
+
 export default function Events({ events }: Events) {
-  const eventsData = eventsBackend().events;
   const navigate = useNavigate();
   return (
     <div className="events py-6">
@@ -22,8 +20,8 @@ export default function Events({ events }: Events) {
         <p className="text-sm font-medium">Recommended Events</p>
         <NavigationButton to="/eventsAll" label="Show All" />
       </div>
-      <ul className="px-10 py-2 mx-auto grid gap-2 grid-cols-6">
-        {eventsData.map((event, index) => (
+      <ul className="flex px-10 py-2 mx-auto grid gap-2 grid-cols-6">
+        {events.map((event, index) => (
           <div key={index}>
             {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
             <li

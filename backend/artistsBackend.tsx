@@ -9,9 +9,10 @@ import {
 import { useEffect, useState } from "react";
 import { db } from "./firebase";
 import { Artist } from "../frontend/src/components/types/types";
+import { ArtistEntry } from "../frontend/src/components/types/ArtistEntry";
 
 export function artistsBackend() {
-  const [artists, setArtists] = useState<Artist[]>([]);
+  const [allArtists, setAllArtists] = useState<Artist[]>([]);
   const [ids, setIds] = useState<string[]>([]);
   const [spotifyId, setSpotifyId] = useState("");
   const artistCollectionRef = collection(db, "Artists");
@@ -30,7 +31,7 @@ export function artistsBackend() {
       bio: bio,
       spotifyId: spotifyId,
     };
-    setArtists([...artists, toAdd]);
+    setAllArtists([...allArtists, toAdd]);
     try {
       await addDoc(artistCollectionRef, toAdd);
     } catch (err) {
@@ -46,7 +47,7 @@ export function artistsBackend() {
         return artistData;
       });
       console.log(filteredData);
-      setArtists(filteredData);
+      setAllArtists(filteredData);
       const idData = data.docs.map((doc) => ({
         ...doc.data().spotifyId,
       }));
@@ -92,5 +93,5 @@ export function artistsBackend() {
     // console.log(artists); // appears that artists is empty even though filteredData (line 46) isnt
   }, [spotifyId]); // should only do this after an artist is added
 
-  return { artists, onSubmitArtist, getArtists, spotifyId };
+  return { allArtists, onSubmitArtist, getArtists, spotifyId };
 }

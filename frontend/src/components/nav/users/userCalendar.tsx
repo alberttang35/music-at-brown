@@ -6,5 +6,5 @@ interface UserCalendarProps {
 
 export default function UserCalendar({ currentUser }: UserCalendarProps) {
   // look at currentUser.targetEvents when populating their calendar
-  return <div></div>;
+  return <></>;
 }

@@ -11,15 +11,12 @@ import {
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { db } from "./firebase";
-import {
-  Artist,
-  EventEntry,
-  GeoLoc,
-} from "../frontend/src/components/types/types";
+import { Artist, Event, GeoLoc } from "../frontend/src/components/types/types";
 import { mockEvents1 } from "../frontend/src/components/mocks/mockEvents";
+import { EventEntry } from "../frontend/src/components/types/EventEntry";
 
 export function eventsBackend() {
-  const [events, setEvents] = useState<EventEntry[]>([]);
+  const [events, setEvents] = useState<Event[]>([]);
   const [ids, setIds] = useState<string[]>([]);
   const eventCollectionRef = collection(db, "Events"); // ref to the events
   const artistCollectionRef = collection(db, "Artists");
@@ -119,7 +116,7 @@ export function eventsBackend() {
     try {
       const data = await getDocs(eventCollectionRef);
       const filteredData = data.docs.map((doc) => {
-        const eventData = doc.data() as EventEntry;
+        const eventData = doc.data() as Event;
         return { ...eventData, docId: doc.id };
       });
       setEvents(filteredData);
@@ -138,7 +135,10 @@ export function eventsBackend() {
   }, []); // need a dependency, otherwise i dont think its updating when it should
 
   // Combine the mockEvents and the eventsData to display into the browser
-  const allEvents: EventEntry[] = [...events, ...mockEvents1];
+
+  // const allEvents: Event[] = [...events, ...mockEvents1];
+  const allEvents: Event[] = events;
+
   // console.log("all events: ");
   // console.log(allEvents);
 

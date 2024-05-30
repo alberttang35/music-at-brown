@@ -25,6 +25,7 @@ export async function orderEvents(
   topGenres: string[],
   userPos: GeoLoc | undefined
 ) {
+  console.log("ordering events");
   const genreWeight = 0.8; // Higher weight for genre score
   const locationWeight = 0.2; // Lower weight for location score
 
@@ -103,6 +104,7 @@ function toRad(x: number) {
 // Separated artist scoring logic into a separate function
 function calculateArtistScore(artistGenres: string[], topGenres: string[]) {
   // Calculate the score based on the user's top genres and artist's genres
+  console.log("Calculating artist score");
   const genreSet = new Set(topGenres);
   let similar = 0;
   artistGenres.forEach((genre) => {

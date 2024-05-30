@@ -18,7 +18,8 @@ import Router from "./components/utilities/router";
 const App = () => {
   return (
     <div className="App">
-      <h1>Music@Brown</h1>
+      {/* the header makes size calculations wrong wrt scrolling, going to remove for now */}
+      {/* <h1>Music@Brown</h1> */}
       <Router />
     </div>
   );

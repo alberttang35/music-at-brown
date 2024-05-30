@@ -40,12 +40,6 @@ export function usersBackend() {
     }
   }
 
-  // should be able to store the current ID in the backend
-  //   function onSubmitSpotifyID(spotifyId: string) {
-  //     setSpotifyId(spotifyId); // all this does is literally just store the spotifyID nowhere, just sets it
-  //     return spotifyId;
-  //   }
-
   async function getUsers() {
     try {
       const data = await getDocs(userCollectionRef);

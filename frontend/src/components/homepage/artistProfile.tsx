@@ -1,21 +1,24 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import { Artist, EventEntry } from "../types/types";
+import { Artist, Event } from "../types/types";
+import { EventEntry } from "../types/EventEntry";
 import { Login, NavigationButton } from "../utilities/NavigationButton";
 import { useNavigate, useParams } from "react-router-dom";
 import { artistsBackend } from "../../../../backend/artistsBackend";
 import { eventsBackend } from "../../../../backend/eventsBackend";
+import SubList from "../subcomponents/sublist";
 
 export default function ArtistProfile() {
   let { id } = useParams();
-  const { artists } = artistsBackend();
+  const { allArtists } = artistsBackend();
   const { events } = eventsBackend();
-  const filteredEvents: EventEntry[] = events.filter(
+  const filteredEvents: Event[] = events.filter(
     (event) => event.artistId == id
   );
-  const filtered: Artist[] = artists.filter((artist) => artist.spotifyId == id);
+  const filtered: Artist[] = allArtists.filter(
+    (artist) => artist.spotifyId == id
+  );
   const current: Artist = filtered[0];
   const navigate = useNavigate();
-  console.log(artists.length);
 
   // get the artist from the backend, and display their information
 
@@ -24,12 +27,8 @@ export default function ArtistProfile() {
   }
 
   return (
-    <div>
-      <NavigationButton
-        to="/"
-        label="Homepage"
-        // className="mt-4 grid place-items-center mr-3 w-full p-3 rounded-lg text-start leading-tight transition-all hover:bg-blue-50 hover:bg-opacity-80 focus:bg-blue-50 focus:bg-opacity-80 active:bg-gray-50 active:bg-opacity-80 hover:text-blue-900 focus:text-blue-900 active:text-blue-900 outline-none"
-      />
+    <>
+      <NavigationButton to="/" label="Homepage" />
 
       {/* on first load, the image isnt being shown properly */}
       {current ? (
@@ -54,14 +53,15 @@ export default function ArtistProfile() {
       ) : (
         <></>
       )}
+      <SubList header="Events" toMap={filteredEvents}></SubList>
       <div className="px-10 mx-auto grid grid-cols-6">
-        <p className="text-lg font-medium">Events</p>
+        <p className="text-lg font-medium text-left">Events</p>
       </div>
       <ul className="divide-y divide-gray-200 p-10 mx-auto grid gap-2 grid-cols-6">
         {filteredEvents.map((event, index) => (
           <li
             key={index}
-            className="h-40 shadow-xl rounded-xl bg-slate-200 transition ease-in-out hover:bg-slate-100 cursor-pointer"
+            className="h-fit shadow-xl rounded-xl bg-slate-200 transition ease-in-out hover:bg-slate-100 cursor-pointer"
             onClick={() => {
               // TODO: maybe have a hover, and then click
               navigate("/event/" + event.docId);
@@ -79,6 +79,6 @@ export default function ArtistProfile() {
           </li>
         ))}
       </ul>
-    </div>
+    </>
   );
 }

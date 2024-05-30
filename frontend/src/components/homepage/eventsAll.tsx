@@ -1,12 +1,13 @@
 import { Dispatch, SetStateAction, useState } from "react";
-import { EventEntry } from "../types/types";
+import { Event } from "../types/types";
 import { NavigationButton } from "../utilities/NavigationButton";
 import { mockEvents1 } from "../mocks/mockEvents";
 import { eventsBackend } from "../../../../backend/eventsBackend";
 import { useNavigate } from "react-router-dom";
+// import { Eve } from "../types/EventEntry";
 
 export interface EventsAll {
-  events: EventEntry[];
+  events: Event[];
 }
 
 export default function EventsAll({ events }: EventsAll) {
@@ -36,6 +37,7 @@ export default function EventsAll({ events }: EventsAll) {
               />
               <div className="h-fit">
                 <p className="text-sm font-medium text-gray-900">
+                  {/* this could be artistId, but that wouldnt be helpful */}
                   {event.artist}
                 </p>
                 <p className="text-sm font-medium text-gray-900">

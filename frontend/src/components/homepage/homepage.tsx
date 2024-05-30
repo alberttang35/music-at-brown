@@ -1,7 +1,7 @@
 import WeeklyBreakdown from "./breakdown";
 import Artists from "./artists";
 import Events from "./events";
-import { Artist, EventEntry, GeoLoc, User } from "../types/types";
+import { Artist, Event, GeoLoc, User } from "../types/types";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import NAV from "../nav/nav";
 import { eventsBackend } from "../../../../backend/eventsBackend";
@@ -9,6 +9,7 @@ import { mockArtists1 } from "../mocks/mockArtists";
 import { orderArtists, orderEvents } from "../algorithm";
 import { mockEvents1 } from "../mocks/mockEvents";
 import { mockWeekly1 } from "../mocks/mockWeeklyBreakdown";
+import { artistsBackend } from "../../../../backend/artistsBackend";
 
 // do not need this homepage
 interface HOMEPAGEProps {
@@ -27,13 +28,23 @@ export default function HOMEPAGE({
   setCurrentUser,
 }: HOMEPAGEProps) {
   const [artists, setArtists] = useState<Artist[]>([]);
-  const [events, setEvents] = useState<EventEntry[]>([]);
+  const [events, setEvents] = useState<Event[]>(eventsBackend().events);
+  const { allArtists } = artistsBackend();
+  const { allEvents } = eventsBackend();
 
   // const [allEvents, setAllEvents] = useState(eventsBackend().allEvents); // higher level component, used for correspondence between editEvent and EventsList
 
   const [userLoc, setUserLoc] = useState<GeoLoc>();
 
   useEffect(() => {
+    setArtists(allArtists);
+    setEvents(allEvents);
+    console.log(allEvents);
+  }, [allArtists]);
+
+  useEffect(() => {
+    console.log(artists);
+    console.log(events);
     if (typeof currentUser !== "undefined") {
       console.log(currentUser);
       orderArtists(artists, setArtists, currentUser.genres);

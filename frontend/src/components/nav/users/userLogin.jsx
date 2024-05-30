@@ -13,6 +13,7 @@ import { usersBackend } from "../../../../../backend/usersBackend";
 export const accessToken = localStorage;
 
 export default function UserLogin({ currentUser, setCurrentUser }) {
+  // instead use a locally stored asset
   const defaultAvatar =
     "https://www.shutterstock.com/image-vector/default-avatar-profile-icon-social-600nw-1677509740.jpg";
   const clientId = "2168cb3e26e643c7b91076ee7a797081"; // your clientId

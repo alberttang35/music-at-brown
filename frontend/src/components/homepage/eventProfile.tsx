@@ -1,9 +1,11 @@
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Artist, EventEntry, User } from "../types/types";
+import { Artist, Event, User } from "../types/types";
 import { Login, NavigationButton } from "../utilities/NavigationButton";
 import { useNavigate, useParams } from "react-router-dom";
 import { artistsBackend } from "../../../../backend/artistsBackend";
 import { eventsBackend } from "../../../../backend/eventsBackend";
+import { EventEntry } from "../types/EventEntry";
+import Sublist from "../subcomponents/sublist";
 
 interface eventProfileProps {
   currentUser: User | undefined;
@@ -15,18 +17,16 @@ export default function EventProfile({
   setCurrentUser,
 }: eventProfileProps) {
   let { id } = useParams();
-  const { artists } = artistsBackend();
+  const { allArtists } = artistsBackend();
   const { events } = eventsBackend();
   const [currentArtist, setCurrentArtist] = useState<Artist>();
-  const filteredEvents: EventEntry[] = events.filter(
-    (event) => event.docId == id
-  );
-  const currentEvent: EventEntry = filteredEvents[0];
+  const filteredEvents: Event[] = events.filter((event) => event.docId == id);
+  const currentEvent: Event = filteredEvents[0];
   const navigate = useNavigate();
 
   useEffect(() => {
     if (typeof currentEvent !== "undefined") {
-      const filteredArtists: Artist[] = artists.filter(
+      const filteredArtists: Artist[] = allArtists.filter(
         (artist) => artist.spotifyId == currentEvent.artistId
       );
       setCurrentArtist(filteredArtists[0]);
@@ -86,7 +86,7 @@ export default function EventProfile({
             width="100"
             height="100"
           ></img>
-          {currentUser?.targetEvents.includes(currentEvent.docId) ? (
+          {currentUser?.targetEvents.includes(currentEvent.docId) ? ( // at some point not a text button but an icon would prob be good
             <button onClick={likeEvent}>Unlike this event</button>
           ) : (
             <button onClick={likeEvent}>Like this event</button>
@@ -97,31 +97,32 @@ export default function EventProfile({
         <></>
       )}
       {currentArtist ? (
-        <div className="px-10 grid grid-cols-6">
-          <ul
-            className="pt-3 shadow-xl rounded-xl bg-slate-200 transition ease-in-out hover:bg-slate-100 cursor-pointer"
-            onClick={() => {
-              // TODO: maybe have a hover, and then click
-              navigate("/artist/" + currentArtist.spotifyId);
-            }}
-          >
-            <img
-              className="object-cover h-28 w-28 rounded-full mr-auto ml-auto"
-              src={currentArtist.image}
-              alt=""
-            />
-            <div className="h-20 grid grid-cols-1">
-              <p className="text-sm font-medium text-gray-900 justify-self-center place-self-start pt-1">
-                {currentArtist.name}
-              </p>
-            </div>
-          </ul>
-        </div>
+        <Sublist header="Artist" toMap={[currentArtist]}></Sublist>
       ) : (
+        // <div className="px-10 grid grid-cols-8">
+        //   <ul
+        //     className="pt-3 shadow-xl rounded-xl bg-slate-200 transition ease-in-out hover:bg-slate-100 cursor-pointer"
+        //     onClick={() => {
+        //       // TODO: maybe have a hover, and then click
+        //       navigate("/artist/" + currentArtist.spotifyId);
+        //     }}
+        //   >
+        //     <img
+        //       className="object-cover h-28 w-28 rounded-full mr-auto ml-auto"
+        //       src={currentArtist.image}
+        //       alt=""
+        //     />
+        //     <div className="h-fit grid grid-cols-1">
+        //       <p className="text-sm font-medium text-gray-900 justify-self-center place-self-start pt-1 pb-1">
+        //         {currentArtist.name}
+        //       </p>
+        //     </div>
+        //   </ul>
+        // </div>
         <></>
       )}
       <div className="px-10 mx-auto grid grid-cols-6">
-        <p className="text-lg font-medium">Similar Events</p>
+        <p className="text-lg font-medium pt-2">Similar Events aaaaaaaaaaa</p>
       </div>
     </div>
   );

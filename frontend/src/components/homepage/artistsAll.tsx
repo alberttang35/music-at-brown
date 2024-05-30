@@ -10,7 +10,7 @@ export interface ArtistsAll {
 }
 
 export default function ArtistsAll({ artists }: ArtistsAll) {
-  const artistsData = artistsBackend().artists;
+  const artistsData = artistsBackend().allArtists;
   const navigate = useNavigate();
 
   return (

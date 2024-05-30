@@ -6,18 +6,16 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { Artist } from "../types/types";
 import { NavigationButton } from "../utilities/NavigationButton";
 import { mockArtists1 } from "../mocks/mockArtists";
-import { artistsBackend } from "../../../../backend/artistsBackend";
 import { useNavigate } from "react-router-dom";
 
 export interface Artists {
   artists: Artist[];
-  // setArtists: Dispatch<SetStateAction<Artist[]>>;
 }
 
 export default function Artists({ artists }: Artists) {
-  const artistsData = artistsBackend().artists;
   const navigate = useNavigate();
 
+  // console.log(artists);
   return (
     <div className="Artists">
       <div className="px-10 mx-auto grid grid-cols-6">
@@ -26,7 +24,7 @@ export default function Artists({ artists }: Artists) {
       </div>
       <ul className="px-10 py-2 mx-auto grid gap-2 grid grid-cols-6">
         {/* Maybe have the number of grid columns adjust according to the zoom */}
-        {artistsData.map((artist, index) =>
+        {artists.map((artist, index) =>
           index < 6 ? (
             <div key={index}>
               {/* Create a profile image, corresponding description. Just make key the index for convenience*/}
